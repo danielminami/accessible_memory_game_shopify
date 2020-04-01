@@ -37,12 +37,14 @@ public class MainFragment extends CustomFragment {
         super.onActivityCreated(savedInstanceState);
         mViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
         ButterKnife.bind(getActivity());
+        /*
         button_start_game.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
             }
         });
+        */
         // TODO: Add class navigation as seem in the example (where???)
     }
 
