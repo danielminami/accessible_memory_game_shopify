@@ -8,6 +8,9 @@ import okhttp3.Response;
 public class LogInterceptor implements Interceptor {
     @Override
     public Response intercept(Chain chain) throws IOException {
+
+        //TODO: Recreate this logger Interceptor
+
         return null;
     }
 }

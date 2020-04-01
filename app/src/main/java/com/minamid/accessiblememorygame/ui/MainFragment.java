@@ -43,7 +43,7 @@ public class MainFragment extends CustomFragment {
 
             }
         });
-        // TODO: Use the ViewModel
+        // TODO: Add class navigation as seem in the example (where???)
     }
 
 }

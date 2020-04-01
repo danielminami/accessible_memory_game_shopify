@@ -42,6 +42,8 @@ public class GameFragment extends CustomFragment {
         mViewModel = ViewModelProviders.of(this).get(GameViewModel.class);
         ButterKnife.bind(getActivity());
         Arrays.asList(card11, card12, card13, card14);
+
+        //TODO: Add navigation, backbutton, and apply layout style.
     }
 
 }

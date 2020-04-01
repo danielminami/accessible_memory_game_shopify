@@ -28,7 +28,9 @@ public class GameViewModel extends ViewModel {
     }
 
     private void fetchCardImages() {
-        //load live data in the service call back
+        //TODO: Create service call and service call back
+
+        //TODO: load live data in the service call back
     };
 
 }
