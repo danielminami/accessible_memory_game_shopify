@@ -33,14 +33,15 @@ public class GameFragment extends CustomFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.game_fragment, container, false);
+        View view = inflater.inflate(R.layout.game_fragment, container, false);
+        ButterKnife.bind(this, view);
+        return view;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = ViewModelProviders.of(this).get(GameViewModel.class);
-        ButterKnife.bind(getActivity());
         Arrays.asList(card11, card12, card13, card14);
 
         //TODO: Add navigation, backbutton, and apply layout style.

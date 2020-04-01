@@ -4,7 +4,6 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,23 +28,27 @@ public class MainFragment extends CustomFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.main_fragment, container, false);
+        View view = inflater.inflate(R.layout.main_fragment, container, false);
+        ButterKnife.bind(this, view);
+        return view;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
-        ButterKnife.bind(getActivity());
-        /*
+
+
         button_start_game.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                navigateTo(GameFragment.newInstance(), true);
             }
         });
-        */
+
         // TODO: Add class navigation as seem in the example (where???)
     }
+
+
 
 }
