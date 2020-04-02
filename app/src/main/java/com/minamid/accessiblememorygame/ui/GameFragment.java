@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import com.minamid.accessiblememorygame.R;
 import com.minamid.accessiblememorygame.base.CustomFragment;
 import com.minamid.accessiblememorygame.model.MemoryCard;
+import com.minamid.accessiblememorygame.service.ImageService;
 
 import java.util.Arrays;
 
@@ -42,7 +43,7 @@ public class GameFragment extends CustomFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = ViewModelProviders.of(this).get(GameViewModel.class);
-        Arrays.asList(card11, card12, card13, card14);
+        mViewModel.setBoard(Arrays.asList(card11, card12, card13, card14), new ImageService());
 
         //TODO: Add navigation, backbutton, and apply layout style.
     }

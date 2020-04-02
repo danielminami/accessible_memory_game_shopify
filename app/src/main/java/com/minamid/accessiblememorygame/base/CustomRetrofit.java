@@ -22,7 +22,7 @@ public class CustomRetrofit {
         //TODO: Create the custom Retrofit Class with interceptor
         Retrofit.Builder builder = new Retrofit.Builder()
                 .client(okHttpClient)
-                .baseUrl(Config.getInstance().getUrl())
+                .baseUrl(Config.getInstance().url)
                 .addConverterFactory(GsonConverterFactory.create());
 
         return retrofit = builder.build();

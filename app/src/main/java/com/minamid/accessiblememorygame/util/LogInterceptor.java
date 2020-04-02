@@ -13,10 +13,10 @@ public class LogInterceptor implements Interceptor {
     public Response intercept(Chain chain) throws IOException {
 
         Request request = chain.request();
-        Log.d("REQUEST", "--> " + request.body().toString());
+        //Log.d("REQUEST", "--> " + request.body().toString());
 
         Response response = chain.proceed(request);
-        Log.d("RESPONSE", "<-- " + response.code() + " " + response.body().string());
+        //Log.d("RESPONSE", "<-- " + response.code() + " " + response.body().string());
 
         return response;
     }
