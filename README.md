@@ -1,2 +1,2 @@
-# accessible-memory-game
+# Accessible Memory Game
 Accessible Memory Game
