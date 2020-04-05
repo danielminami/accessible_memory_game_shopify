@@ -3,6 +3,7 @@ package com.minamid.accessiblememorygame.ui;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.util.Log;
+import android.view.View;
 
 import com.minamid.accessiblememorygame.model.Board;
 import com.minamid.accessiblememorygame.model.ImageResponse;
@@ -14,13 +15,26 @@ import java.util.List;
 
 public class GameViewModel extends ViewModel {
 
-    ImageService imageService;
-    MutableLiveData<Board> board = new MutableLiveData<>();
+    private ImageService imageService;
+    private MutableLiveData<Board> boardMutableLiveData;
 
-    public void setBoard(List<MemoryCard> cardList, ImageService imageService) {
+    public MutableLiveData<Board> getBoardMutableLiveData() {
+        if (boardMutableLiveData == null) {
+            boardMutableLiveData = new MutableLiveData<>();
+        }
+        return boardMutableLiveData;
+    }
+
+    public void setBoard(Board board, ImageService imageService) {
+        getBoardMutableLiveData().setValue(board);
         this.imageService = imageService;
-        setPositions(cardList);
+        setPositions(board);
         fetchCardImages();
+    }
+
+    public void onClick(View v) {
+        MemoryCard memoryCard = (MemoryCard) v;
+        Log.d("onClick", "Card " + memoryCard.getRowPosition() + " " +  memoryCard.getColPosition());
     }
 
     private void setPositions(List<MemoryCard> cardList) {
@@ -28,8 +42,8 @@ public class GameViewModel extends ViewModel {
         for (MemoryCard card : cardList) {
             card.setRowPosition(i);
             card.setColPosition(j);
-            i = i == 2 ? 1 : ++i;
-            j = j == 2 ? 1 : ++j;
+            i = j == 4 ? ++i : i;
+            j = j == 4 ? 1 : ++j;
         }
     }
 
@@ -39,6 +53,12 @@ public class GameViewModel extends ViewModel {
             @Override
             public void onSuccess(ImageResponse imageResponse) {
                 Log.d("stop", " here");
+                Board board = getBoardMutableLiveData().getValue();
+                for (int i = 0; i < board.size(); i ++) {
+                    board.get(i).setId(i);
+                    board.get(i).setSrc(imageResponse.getCardsList().get(i).getImage().getSrc());
+                }
+                getBoardMutableLiveData().setValue(board);
                 //Unlock screen
             }
 

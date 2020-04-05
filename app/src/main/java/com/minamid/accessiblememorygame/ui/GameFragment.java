@@ -4,13 +4,14 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.minamid.accessiblememorygame.R;
 import com.minamid.accessiblememorygame.base.CustomFragment;
+import com.minamid.accessiblememorygame.model.Board;
 import com.minamid.accessiblememorygame.model.MemoryCard;
 import com.minamid.accessiblememorygame.service.ImageService;
 
@@ -25,6 +26,19 @@ public class GameFragment extends CustomFragment {
     @BindView(R.id.card12) MemoryCard card12;
     @BindView(R.id.card13) MemoryCard card13;
     @BindView(R.id.card14) MemoryCard card14;
+    @BindView(R.id.card21) MemoryCard card21;
+    @BindView(R.id.card22) MemoryCard card22;
+    @BindView(R.id.card23) MemoryCard card23;
+    @BindView(R.id.card24) MemoryCard card24;
+    @BindView(R.id.card31) MemoryCard card31;
+    @BindView(R.id.card32) MemoryCard card32;
+    @BindView(R.id.card33) MemoryCard card33;
+    @BindView(R.id.card34) MemoryCard card34;
+    @BindView(R.id.card41) MemoryCard card41;
+    @BindView(R.id.card42) MemoryCard card42;
+    @BindView(R.id.card43) MemoryCard card43;
+    @BindView(R.id.card44) MemoryCard card44;
+
     private GameViewModel mViewModel;
 
     public static GameFragment newInstance() {
@@ -43,9 +57,42 @@ public class GameFragment extends CustomFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = ViewModelProviders.of(this).get(GameViewModel.class);
-        mViewModel.setBoard(Arrays.asList(card11, card12, card13, card14), new ImageService());
+
+        final android.arch.lifecycle.Observer<Board> boardObserver = new android.arch.lifecycle.Observer<Board>() {
+            @Override
+            public void onChanged(@Nullable Board board) {
+                //TODO: Implement Observable
+                Log.d("onChanged", "Called");
+            }
+        };
+        mViewModel.getBoardMutableLiveData().observe(this, boardObserver);
+        Board board = new Board();
+        board.addAll(Arrays.asList(
+                card11, card12, card13, card14,
+                card21, card22, card23, card24,
+                card31, card32, card33, card34,
+                card41, card42, card43, card44));
+
+        mViewModel.setBoard(board, new ImageService());
+
+        for (MemoryCard memoryCard : board) {
+            memoryCard.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mViewModel.onClick(v);
+                }
+            });
+        }
 
         //TODO: Add navigation, backbutton, and apply layout style.
+    }
+
+    private void updateUI(Board board) {
+        //TODO: implement method body
+    }
+
+    private void bindImage(MemoryCard... memoryCard) {
+        //TODO: implement this method
     }
 
 }

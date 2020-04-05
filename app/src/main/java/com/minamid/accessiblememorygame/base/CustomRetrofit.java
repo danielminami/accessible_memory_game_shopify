@@ -19,7 +19,6 @@ public class CustomRetrofit {
                 .addInterceptor(logInterceptor)
                 .build();
 
-        //TODO: Create the custom Retrofit Class with interceptor
         Retrofit.Builder builder = new Retrofit.Builder()
                 .client(okHttpClient)
                 .baseUrl(Config.getInstance().url)
