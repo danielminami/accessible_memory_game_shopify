@@ -16,12 +16,12 @@ public class CustomRetrofit {
         LogInterceptor logInterceptor = new LogInterceptor();
 
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .addInterceptor(logInterceptor)
+                //.addInterceptor(logInterceptor)
                 .build();
 
         Retrofit.Builder builder = new Retrofit.Builder()
                 .client(okHttpClient)
-                .baseUrl(Config.getInstance().url)
+                .baseUrl(Config.getInstance().URL)
                 .addConverterFactory(GsonConverterFactory.create());
 
         return retrofit = builder.build();

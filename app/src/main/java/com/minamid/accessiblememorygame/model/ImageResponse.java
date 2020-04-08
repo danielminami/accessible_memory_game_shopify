@@ -2,15 +2,16 @@ package com.minamid.accessiblememorygame.model;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
-
 public class ImageResponse {
 
-    @SerializedName("products")
-    private List<Cards> cardsList;
+    @SerializedName("data")
+    private Album album;
 
-    public List<Cards> getCardsList() {
-        return cardsList;
+    public Album getAlbum() {
+        return album;
     }
 
+    public void setAlbum(Album album) {
+        this.album = album;
+    }
 }

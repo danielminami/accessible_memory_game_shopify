@@ -1,5 +1,6 @@
 package com.minamid.accessiblememorygame.ui;
 
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -58,14 +59,7 @@ public class GameFragment extends CustomFragment {
         super.onActivityCreated(savedInstanceState);
         mViewModel = ViewModelProviders.of(this).get(GameViewModel.class);
 
-        final android.arch.lifecycle.Observer<Board> boardObserver = new android.arch.lifecycle.Observer<Board>() {
-            @Override
-            public void onChanged(@Nullable Board board) {
-                //TODO: Implement Observable
-                Log.d("onChanged", "Called");
-            }
-        };
-        mViewModel.getBoardMutableLiveData().observe(this, boardObserver);
+
         Board board = new Board();
         board.addAll(Arrays.asList(
                 card11, card12, card13, card14,
@@ -84,11 +78,47 @@ public class GameFragment extends CustomFragment {
             });
         }
 
+        setObservers();
+
         //TODO: Add navigation, backbutton, and apply layout style.
     }
 
     private void updateUI(Board board) {
         //TODO: implement method body
+    }
+
+    private void setObservers() {
+        mViewModel.getCard11LiveData().observe(this, new Observer<MemoryCard>() {
+            @Override
+            public void onChanged(@Nullable MemoryCard memoryCard) {
+                bindImage(memoryCard);
+                Log.d("onChanged", "YAY");
+            }
+        });
+
+        mViewModel.getCard12LiveData().observe(this, new Observer<MemoryCard>() {
+            @Override
+            public void onChanged(@Nullable MemoryCard memoryCard) {
+                bindImage(memoryCard);
+                Log.d("onChanged", "YAY");
+            }
+        });
+
+        mViewModel.getCard13LiveData().observe(this, new Observer<MemoryCard>() {
+            @Override
+            public void onChanged(@Nullable MemoryCard memoryCard) {
+                bindImage(memoryCard);
+                Log.d("onChanged", "YAY");
+            }
+        });
+
+        mViewModel.getCard14LiveData().observe(this, new Observer<MemoryCard>() {
+            @Override
+            public void onChanged(@Nullable MemoryCard memoryCard) {
+                bindImage(memoryCard);
+                Log.d("onChanged", "YAY");
+            }
+        });
     }
 
     private void bindImage(MemoryCard... memoryCard) {

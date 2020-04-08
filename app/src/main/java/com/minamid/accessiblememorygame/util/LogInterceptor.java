@@ -13,12 +13,11 @@ public class LogInterceptor implements Interceptor {
     public Response intercept(Chain chain) throws IOException {
 
         Request request = chain.request();
-        if (request.body() != null) {
-            Log.d("REQUEST", String.format("--> %s", request.url()));
-        }
+        Log.d("REQUEST", String.format("--> %s", request.url()));
 
         Response response = chain.proceed(request);
         if (response.body() != null) {
+            //while (response.body().contentLength() )
             Log.d("RESPONSE", String.format("<-- %d %s", response.code(), response.body().string()));
         }
 

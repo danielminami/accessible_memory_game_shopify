@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.minamid.accessiblememorygame.base.CustomRetrofit;
 import com.minamid.accessiblememorygame.model.ImageResponse;
+import com.minamid.accessiblememorygame.util.Config;
 import com.minamid.accessiblememorygame.util.ResponseStatusCode;
 
 import retrofit2.Call;
@@ -28,7 +29,7 @@ public class ImageService {
     }
 
     public void fetchImageList(final FetchImageCallBack callBack) {
-        Call<ImageResponse> call = api.fetchImageList();
+        Call<ImageResponse> call = api.fetchImageList(Config.CLIENT_ID);
         call.enqueue(new Callback<ImageResponse>() {
             @Override
             public void onResponse(Call<ImageResponse> call, Response<ImageResponse> response) {

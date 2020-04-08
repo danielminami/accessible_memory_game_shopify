@@ -5,7 +5,7 @@ import android.util.AttributeSet;
 
 public class MemoryCard extends android.support.v7.widget.AppCompatImageView {
 
-    private int id;
+    private String imageId;
     private String src;
     private String description;
     private boolean isRevealed;
@@ -26,14 +26,12 @@ public class MemoryCard extends android.support.v7.widget.AppCompatImageView {
         super(context, attrs, defStyleAttr);
     }
 
-    @Override
-    public int getId() {
-        return id;
+    public String getImageId() {
+        return imageId;
     }
 
-    @Override
-    public void setId(int id) {
-        this.id = id;
+    public void setImageId(String imageId) {
+        this.imageId = imageId;
     }
 
     public String getSrc() {
