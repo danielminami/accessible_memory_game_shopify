@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bumptech.glide.Glide;
 import com.minamid.accessiblememorygame.R;
 import com.minamid.accessiblememorygame.base.CustomFragment;
 import com.minamid.accessiblememorygame.model.Board;
@@ -119,10 +120,111 @@ public class GameFragment extends CustomFragment {
                 Log.d("onChanged", "YAY");
             }
         });
+
+        mViewModel.getCard21LiveData().observe(this, new Observer<MemoryCard>() {
+            @Override
+            public void onChanged(@Nullable MemoryCard memoryCard) {
+                bindImage(memoryCard);
+                Log.d("onChanged", "YAY");
+            }
+        });
+
+        mViewModel.getCard22LiveData().observe(this, new Observer<MemoryCard>() {
+            @Override
+            public void onChanged(@Nullable MemoryCard memoryCard) {
+                bindImage(memoryCard);
+                Log.d("onChanged", "YAY");
+            }
+        });
+
+        mViewModel.getCard23LiveData().observe(this, new Observer<MemoryCard>() {
+            @Override
+            public void onChanged(@Nullable MemoryCard memoryCard) {
+                bindImage(memoryCard);
+                Log.d("onChanged", "YAY");
+            }
+        });
+
+        mViewModel.getCard24LiveData().observe(this, new Observer<MemoryCard>() {
+            @Override
+            public void onChanged(@Nullable MemoryCard memoryCard) {
+                bindImage(memoryCard);
+                Log.d("onChanged", "YAY");
+            }
+        });
+
+        mViewModel.getCard31LiveData().observe(this, new Observer<MemoryCard>() {
+            @Override
+            public void onChanged(@Nullable MemoryCard memoryCard) {
+                bindImage(memoryCard);
+                Log.d("onChanged", "YAY");
+            }
+        });
+
+        mViewModel.getCard32LiveData().observe(this, new Observer<MemoryCard>() {
+            @Override
+            public void onChanged(@Nullable MemoryCard memoryCard) {
+                bindImage(memoryCard);
+                Log.d("onChanged", "YAY");
+            }
+        });
+
+        mViewModel.getCard33LiveData().observe(this, new Observer<MemoryCard>() {
+            @Override
+            public void onChanged(@Nullable MemoryCard memoryCard) {
+                bindImage(memoryCard);
+                Log.d("onChanged", "YAY");
+            }
+        });
+
+        mViewModel.getCard34LiveData().observe(this, new Observer<MemoryCard>() {
+            @Override
+            public void onChanged(@Nullable MemoryCard memoryCard) {
+                bindImage(memoryCard);
+                Log.d("onChanged", "YAY");
+            }
+        });
+
+        mViewModel.getCard41LiveData().observe(this, new Observer<MemoryCard>() {
+            @Override
+            public void onChanged(@Nullable MemoryCard memoryCard) {
+                bindImage(memoryCard);
+                Log.d("onChanged", "YAY");
+            }
+        });
+
+        mViewModel.getCard42LiveData().observe(this, new Observer<MemoryCard>() {
+            @Override
+            public void onChanged(@Nullable MemoryCard memoryCard) {
+                bindImage(memoryCard);
+                Log.d("onChanged", "YAY");
+            }
+        });
+
+        mViewModel.getCard43LiveData().observe(this, new Observer<MemoryCard>() {
+            @Override
+            public void onChanged(@Nullable MemoryCard memoryCard) {
+                bindImage(memoryCard);
+                Log.d("onChanged", "YAY");
+            }
+        });
+
+        mViewModel.getCard44LiveData().observe(this, new Observer<MemoryCard>() {
+            @Override
+            public void onChanged(@Nullable MemoryCard memoryCard) {
+                bindImage(memoryCard);
+                Log.d("onChanged", "YAY");
+            }
+        });
+
     }
 
     private void bindImage(MemoryCard... memoryCard) {
-        //TODO: implement this method
+        for (MemoryCard card : memoryCard) {
+            Glide.with(getContext())
+                    .load(card.getSrc())
+                    .into(card);
+        }
     }
 
 }

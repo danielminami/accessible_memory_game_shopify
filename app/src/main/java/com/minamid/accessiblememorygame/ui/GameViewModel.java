@@ -18,22 +18,22 @@ public class GameViewModel extends ViewModel {
 
     private ImageService imageService;
     private List<MutableLiveData<MemoryCard>> cardListLiveData;
-    private MutableLiveData<MemoryCard> card11LiveData;
-    private MutableLiveData<MemoryCard> card12LiveData;
-    private MutableLiveData<MemoryCard> card13LiveData;
-    private MutableLiveData<MemoryCard> card14LiveData;
-    private MutableLiveData<MemoryCard> card21LiveData;
-    private MutableLiveData<MemoryCard> card22LiveData;
-    private MutableLiveData<MemoryCard> card23LiveData;
-    private MutableLiveData<MemoryCard> card24LiveData;
-    private MutableLiveData<MemoryCard> card311iveData;
-    private MutableLiveData<MemoryCard> card32LiveData;
-    private MutableLiveData<MemoryCard> card33LiveData;
-    private MutableLiveData<MemoryCard> card34LiveData;
-    private MutableLiveData<MemoryCard> card41LiveData;
-    private MutableLiveData<MemoryCard> card42LiveData;
-    private MutableLiveData<MemoryCard> card43LiveData;
-    private MutableLiveData<MemoryCard> card44LiveData;
+    private MutableLiveData<MemoryCard> card11LiveData = new MutableLiveData<>();
+    private MutableLiveData<MemoryCard> card12LiveData = new MutableLiveData<>();
+    private MutableLiveData<MemoryCard> card13LiveData = new MutableLiveData<>();
+    private MutableLiveData<MemoryCard> card14LiveData = new MutableLiveData<>();
+    private MutableLiveData<MemoryCard> card21LiveData = new MutableLiveData<>();
+    private MutableLiveData<MemoryCard> card22LiveData = new MutableLiveData<>();
+    private MutableLiveData<MemoryCard> card23LiveData = new MutableLiveData<>();
+    private MutableLiveData<MemoryCard> card24LiveData = new MutableLiveData<>();
+    private MutableLiveData<MemoryCard> card31LiveData = new MutableLiveData<>();
+    private MutableLiveData<MemoryCard> card32LiveData = new MutableLiveData<>();
+    private MutableLiveData<MemoryCard> card33LiveData = new MutableLiveData<>();
+    private MutableLiveData<MemoryCard> card34LiveData = new MutableLiveData<>();
+    private MutableLiveData<MemoryCard> card41LiveData = new MutableLiveData<>();
+    private MutableLiveData<MemoryCard> card42LiveData = new MutableLiveData<>();
+    private MutableLiveData<MemoryCard> card43LiveData = new MutableLiveData<>();
+    private MutableLiveData<MemoryCard> card44LiveData = new MutableLiveData<>();
 
     public MutableLiveData<MemoryCard> getCard11LiveData() {
         if (card11LiveData == null) {
@@ -63,16 +63,106 @@ public class GameViewModel extends ViewModel {
         return card14LiveData;
     }
 
+    public MutableLiveData<MemoryCard> getCard21LiveData() {
+        if (card21LiveData == null) {
+            card21LiveData = new MutableLiveData<>();
+        }
+        return card21LiveData;
+    }
 
+    public MutableLiveData<MemoryCard> getCard22LiveData() {
+        if (card22LiveData == null) {
+            card22LiveData = new MutableLiveData<>();
+        }
+        return card22LiveData;
+    }
+
+    public MutableLiveData<MemoryCard> getCard23LiveData() {
+        if (card23LiveData == null) {
+            card23LiveData = new MutableLiveData<>();
+        }
+        return card23LiveData;
+    }
+
+    public MutableLiveData<MemoryCard> getCard24LiveData() {
+        if (card24LiveData == null) {
+            card24LiveData = new MutableLiveData<>();
+        }
+        return card24LiveData;
+    }
+
+    public MutableLiveData<MemoryCard> getCard31LiveData() {
+        if (card31LiveData == null) {
+            card31LiveData = new MutableLiveData<>();
+        }
+        return card31LiveData;
+    }
+
+    public MutableLiveData<MemoryCard> getCard32LiveData() {
+        if (card32LiveData == null) {
+            card32LiveData = new MutableLiveData<>();
+        }
+        return card32LiveData;
+    }
+
+    public MutableLiveData<MemoryCard> getCard33LiveData() {
+        if (card33LiveData == null) {
+            card33LiveData = new MutableLiveData<>();
+        }
+        return card33LiveData;
+    }
+
+    public MutableLiveData<MemoryCard> getCard34LiveData() {
+        if (card34LiveData == null) {
+            card34LiveData = new MutableLiveData<>();
+        }
+        return card34LiveData;
+    }
+
+    public MutableLiveData<MemoryCard> getCard41LiveData() {
+        if (card41LiveData == null) {
+            card41LiveData = new MutableLiveData<>();
+        }
+        return card41LiveData;
+    }
+
+    public MutableLiveData<MemoryCard> getCard42LiveData() {
+        if (card42LiveData == null) {
+            card42LiveData = new MutableLiveData<>();
+        }
+        return card42LiveData;
+    }
+
+    public MutableLiveData<MemoryCard> getCard43LiveData() {
+        if (card43LiveData == null) {
+            card43LiveData = new MutableLiveData<>();
+        }
+        return card43LiveData;
+    }
+
+    public MutableLiveData<MemoryCard> getCard44LiveData() {
+        if (card44LiveData == null) {
+            card44LiveData = new MutableLiveData<>();
+        }
+        return card44LiveData;
+    }
+    
     public void setBoard(Board board, ImageService imageService) {
         this.imageService = imageService;
         setPositions(board);
         cardListLiveData = Arrays.asList(
                 card11LiveData, card12LiveData, card13LiveData, card14LiveData,
                 card21LiveData, card22LiveData, card23LiveData, card24LiveData,
-                card311iveData, card32LiveData, card33LiveData, card34LiveData,
+                card31LiveData, card32LiveData, card33LiveData, card34LiveData,
                 card41LiveData, card42LiveData, card43LiveData, card44LiveData);
+        setLiveData(board, cardListLiveData);
         fetchCardImages();
+    }
+
+    public void setLiveData(Board board, List<MutableLiveData<MemoryCard>> boardLiveData) {
+        for (int i=0; i < board.size() && i < boardLiveData.size(); i++) {
+            boardLiveData.get(i).setValue(board.get(i));
+        }
     }
 
     public void onClick(View v) {
