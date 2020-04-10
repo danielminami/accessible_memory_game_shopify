@@ -1,5 +1,6 @@
 package com.minamid.accessiblememorygame.ui;
 
+import android.app.AlertDialog;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
@@ -60,6 +61,7 @@ public class GameFragment extends CustomFragment {
         super.onActivityCreated(savedInstanceState);
         mViewModel = ViewModelProviders.of(this).get(GameViewModel.class);
 
+        // TODO: block screen until service call returns
 
         Board board = new Board();
         board.addAll(Arrays.asList(
@@ -217,6 +219,29 @@ public class GameFragment extends CustomFragment {
             }
         });
 
+        mViewModel.getIsWinnerLiveData().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(@Nullable Boolean aBoolean) {
+                if (aBoolean) {
+                    String message = String.format("You Win with XX movements!");
+                    AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
+                    alert.setTitle("Good Job!");
+                    alert.setMessage(message);
+                    alert.setPositiveButton("Return to Lobby",null);
+                    alert.show();
+                }
+                Log.d("onChanged", "Winner Observer: " + aBoolean.toString());
+            }
+        });
+
+        mViewModel.getIsScreenLock().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(@Nullable Boolean aBoolean) {
+                // TODO: Unlock Screen Here
+                Log.d("onChanged", "ScreenLock Observer: " + aBoolean.toString());
+            }
+        });
+
     }
 
     private void bindImage(MemoryCard... memoryCard) {
@@ -226,23 +251,23 @@ public class GameFragment extends CustomFragment {
                 if (!card.isFound()) {
                     if (card.isRevealed()) {
                         Glide.with(getContext())
-                                .load(R.drawable.ic_question_mark)
-                                .into(card);
-                        card.setContentDescription(getString(R.string.card_faced_down,
-                                card.getRowPosition(),
-                                card.getColPosition()));
-                    } else {
-                        Glide.with(getContext())
                                 .load(card.getSrc())
                                 .into(card);
                         card.setContentDescription(getString(R.string.card_revealed,
                                 card.getRowPosition(),
                                 card.getColPosition(),
                                 card.getDescription()));
+                    } else {
+                        Glide.with(getContext())
+                                .load(R.drawable.ic_question_mark)
+                                .into(card);
+                        card.setContentDescription(getString(R.string.card_faced_down,
+                                card.getRowPosition(),
+                                card.getColPosition()));
                     }
                 } else {
                     Glide.with(getContext())
-                            .load(R.drawable.ic_launcher_background)
+                            .load(R.drawable.ic_match)
                             .into(card);
                     card.setContentDescription(getString(R.string.card_found,
                             card.getRowPosition(),

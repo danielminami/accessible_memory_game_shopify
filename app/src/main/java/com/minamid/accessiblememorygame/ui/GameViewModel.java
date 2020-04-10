@@ -2,6 +2,7 @@ package com.minamid.accessiblememorygame.ui;
 
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 
@@ -10,6 +11,7 @@ import com.minamid.accessiblememorygame.model.Image;
 import com.minamid.accessiblememorygame.model.ImageResponse;
 import com.minamid.accessiblememorygame.model.MemoryCard;
 import com.minamid.accessiblememorygame.service.ImageService;
+import com.minamid.accessiblememorygame.util.Config;
 import com.minamid.accessiblememorygame.util.ResponseStatusCode;
 
 import java.util.Arrays;
@@ -19,7 +21,10 @@ import java.util.List;
 public class GameViewModel extends ViewModel {
 
     private ImageService imageService;
+    private MutableLiveData<Boolean> isWinnerLiveData = new MutableLiveData<>();
     private List<MutableLiveData<MemoryCard>> cardListLiveData;
+    private MutableLiveData<Boolean> isScreenLock = new MutableLiveData<>();
+    private MemoryCard previousCardRevealed;
     private MutableLiveData<MemoryCard> card11LiveData = new MutableLiveData<>();
     private MutableLiveData<MemoryCard> card12LiveData = new MutableLiveData<>();
     private MutableLiveData<MemoryCard> card13LiveData = new MutableLiveData<>();
@@ -148,9 +153,25 @@ public class GameViewModel extends ViewModel {
         }
         return card44LiveData;
     }
-    
+
+    public MutableLiveData<Boolean> getIsWinnerLiveData() {
+        if (isWinnerLiveData == null) {
+            isWinnerLiveData = new MutableLiveData<>();
+        }
+        return isWinnerLiveData;
+    }
+
+    public MutableLiveData<Boolean> getIsScreenLock() {
+        if (isScreenLock == null) {
+            isScreenLock = new MutableLiveData<>();
+        }
+        return isScreenLock;
+    }
+
     public void setBoard(Board board, ImageService imageService) {
         this.imageService = imageService;
+        this.isScreenLock.setValue(true);
+        this.isWinnerLiveData.setValue(false);
         setPositions(board);
         cardListLiveData = Arrays.asList(
                 card11LiveData, card12LiveData, card13LiveData, card14LiveData,
@@ -168,21 +189,51 @@ public class GameViewModel extends ViewModel {
     }
 
     public void onClick(View v) {
-        MemoryCard memoryCard = (MemoryCard) v;
+        final MemoryCard memoryCard = (MemoryCard) v;
 
-        boolean skipClick;
+        if (memoryCard.isFound() || memoryCard.isRevealed()) {
+            return;
+        } else {
+            memoryCard.setRevealed(true);
+        }
 
-        // Getting user click and to check whether this cell was already clicked
-        // memoryCard.isRevealed();
+        boolean isMatch = false;
+
+        if (previousCardRevealed != null) {
+            isMatch = previousCardRevealed.getImageId().equals(memoryCard.getImageId());
+            if (isMatch) {
+                previousCardRevealed.setFound(true);
+                memoryCard.setFound(true);
+                memoryCard.setRevealed(true);
+                updateObservable(previousCardRevealed, memoryCard);
+                if (checkIsWinner()) {
+                    updateObservableEnableClick(false);
+                    isWinnerLiveData.setValue(true);
+                    return;
+                }
+                updateObservable(memoryCard, previousCardRevealed);
+                previousCardRevealed = null;
+            } else {
+                memoryCard.setRevealed(true);
+                updateObservableEnableClick(false);
+                new Handler().postDelayed(new Runnable() {
+                    public void run() {
+                        previousCardRevealed.setRevealed(false);
+                        memoryCard.setRevealed(false);
+                        updateObservable(memoryCard, previousCardRevealed);
+                        previousCardRevealed = null;
+                        updateObservableEnableClick(true);
+                    }
+                }, 3000);
+
+            }
+        } else {
+            previousCardRevealed = memoryCard;
+            updateObservable(memoryCard);
+        }
 
         Log.d("onClick", "Card " + memoryCard.getRowPosition() + " " +  memoryCard.getColPosition());
-        if (!memoryCard.isRevealed()) {
-            memoryCard.setRevealed(true);
-        } else {
-            memoryCard.setRevealed(false);
-        }
-        updateObservable(memoryCard);
-        //card11LiveData.setValue(memoryCard);
+
     }
 
     private void setPositions(List<MemoryCard> cardList) {
@@ -205,9 +256,22 @@ public class GameViewModel extends ViewModel {
                     cardListLiveData.get(i).getValue().setImageId(imageList.get(i).getImageId());
                     cardListLiveData.get(i).getValue().setDescription(imageList.get(i).getDescription());
                     cardListLiveData.get(i).getValue().setSrc(imageList.get(i).getLink());
+                    cardListLiveData.get(i).getValue().setRevealed(true);
                     cardListLiveData.get(i).getValue().setFound(false);
                     cardListLiveData.get(i).setValue(cardListLiveData.get(i).getValue());
                 }
+                isScreenLock.setValue(false);
+                updateObservableEnableClick(false);
+
+                // TODO: Announce the game start
+
+                new Handler().postDelayed(new Runnable() {
+                    public void run() {
+                        // TODO: Announce all cards are turned face down
+                        updateObservableEnableClick(true);
+                        turnAllCardsFacedDown();
+                    }
+                }, Config.timeBoardRevealed * 100);
             }
 
             @Override
@@ -215,10 +279,6 @@ public class GameViewModel extends ViewModel {
                 //Unlock screen
             }
         });
-
-        //TODO: Create service call and service call back
-
-        //TODO: load live data in the service call back
     }
 
     private List<Image> duplicateAndShuffleCards(List<Image> imageList) {
@@ -227,12 +287,38 @@ public class GameViewModel extends ViewModel {
         return imageList;
     }
 
-    private void updateObservable(MemoryCard memoryCard) {
-        for (MutableLiveData<MemoryCard> card : cardListLiveData) {
-            if (card.getValue().getRowPosition() == memoryCard.getRowPosition() &&
-                    card.getValue().getColPosition() == memoryCard.getColPosition()) {
-                card.setValue(memoryCard);
+    private boolean checkIsWinner() {
+        for (MutableLiveData<MemoryCard> memoryCardMutableLiveData : cardListLiveData) {
+            if (!memoryCardMutableLiveData.getValue().isFound()) {
+                return false;
             }
+        }
+        this.isWinnerLiveData.setValue(true);
+        return true;
+    }
+
+    private void updateObservable(MemoryCard... memoryCardList) {
+        for (MemoryCard memoryCard : memoryCardList) {
+            for (MutableLiveData<MemoryCard> card : cardListLiveData) {
+                if (card.getValue().getRowPosition() == memoryCard.getRowPosition() &&
+                        card.getValue().getColPosition() == memoryCard.getColPosition()) {
+                    card.setValue(memoryCard);
+                }
+            }
+        }
+    }
+
+    private void updateObservableEnableClick(boolean shouldEnable) {
+        for (MutableLiveData<MemoryCard> card : cardListLiveData) {
+            card.getValue().setEnabled(shouldEnable);
+            card.setValue(card.getValue());
+        }
+    }
+
+    private void turnAllCardsFacedDown() {
+        for (MutableLiveData<MemoryCard> card : cardListLiveData) {
+            card.getValue().setRevealed(false);
+            card.setValue(card.getValue());
         }
     }
 

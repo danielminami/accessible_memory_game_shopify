@@ -15,6 +15,7 @@ public class CustomRetrofit {
 
         LogInterceptor logInterceptor = new LogInterceptor();
 
+        // TODO: Fix Retrofit Log Interceptor
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 //.addInterceptor(logInterceptor)
                 .build();
