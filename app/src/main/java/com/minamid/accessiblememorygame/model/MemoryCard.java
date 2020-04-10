@@ -8,6 +8,7 @@ public class MemoryCard extends android.support.v7.widget.AppCompatImageView {
     private String imageId;
     private String src;
     private String description;
+    private boolean isFound;
     private boolean isRevealed;
     private int rowPosition;
     private int colPosition;
@@ -26,13 +27,9 @@ public class MemoryCard extends android.support.v7.widget.AppCompatImageView {
         super(context, attrs, defStyleAttr);
     }
 
-    public String getImageId() {
-        return imageId;
-    }
+    public String getImageId() { return imageId; }
 
-    public void setImageId(String imageId) {
-        this.imageId = imageId;
-    }
+    public void setImageId(String imageId) { this.imageId = imageId; }
 
     public String getSrc() {
         return src;
@@ -42,7 +39,6 @@ public class MemoryCard extends android.support.v7.widget.AppCompatImageView {
         this.src = src;
     }
 
-
     public boolean isRevealed() {
         return isRevealed;
     }
@@ -50,8 +46,6 @@ public class MemoryCard extends android.support.v7.widget.AppCompatImageView {
     public void setRevealed(boolean revealed) {
         isRevealed = revealed;
     }
-
-
 
     public int getColPosition() {
         return colPosition;
@@ -76,4 +70,8 @@ public class MemoryCard extends android.support.v7.widget.AppCompatImageView {
     public void setRowPosition(int rowPosition) {
         this.rowPosition = rowPosition;
     }
+
+    public boolean isFound() { return isFound; }
+
+    public void setFound(boolean found) { isFound = found; }
 }

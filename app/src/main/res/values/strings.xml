@@ -19,7 +19,8 @@
     <string name="contentDescription_btn_welcome">Start Game</string>
 
     <!-- Game Fragment -->
-
-
+    <string name="card_revealed">Row %d Column %d, %s</string>
+    <string name="card_faced_down">Row %d Column %d, faced down</string>
+    <string name="card_found">Row %d Column %d, matched</string>
 
 </resources>

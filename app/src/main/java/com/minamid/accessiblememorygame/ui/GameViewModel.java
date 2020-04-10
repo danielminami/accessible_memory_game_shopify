@@ -6,12 +6,14 @@ import android.util.Log;
 import android.view.View;
 
 import com.minamid.accessiblememorygame.model.Board;
+import com.minamid.accessiblememorygame.model.Image;
 import com.minamid.accessiblememorygame.model.ImageResponse;
 import com.minamid.accessiblememorygame.model.MemoryCard;
 import com.minamid.accessiblememorygame.service.ImageService;
 import com.minamid.accessiblememorygame.util.ResponseStatusCode;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class GameViewModel extends ViewModel {
@@ -167,6 +169,12 @@ public class GameViewModel extends ViewModel {
 
     public void onClick(View v) {
         MemoryCard memoryCard = (MemoryCard) v;
+
+        boolean skipClick;
+
+        // Getting user click and to check whether this cell was already clicked
+        // memoryCard.isRevealed();
+
         Log.d("onClick", "Card " + memoryCard.getRowPosition() + " " +  memoryCard.getColPosition());
         if (!memoryCard.isRevealed()) {
             memoryCard.setRevealed(true);
@@ -192,10 +200,12 @@ public class GameViewModel extends ViewModel {
         imageService.fetchImageList(new ImageService.FetchImageCallBack() {
             @Override
             public void onSuccess(ImageResponse imageResponse) {
-                for (int i = 0; i < cardListLiveData.size() && i < imageResponse.getAlbum().getImages().size(); i++) {
-                    cardListLiveData.get(i).getValue().setImageId(imageResponse.getAlbum().getImages().get(i).getImageId());
-                    cardListLiveData.get(i).getValue().setDescription(imageResponse.getAlbum().getImages().get(i).getDescription());
-                    cardListLiveData.get(i).getValue().setSrc(imageResponse.getAlbum().getImages().get(i).getLink());
+                List<Image> imageList = duplicateAndShuffleCards(imageResponse.getAlbum().getImages());
+                for (int i = 0; i < cardListLiveData.size() && i < imageList.size(); i++) {
+                    cardListLiveData.get(i).getValue().setImageId(imageList.get(i).getImageId());
+                    cardListLiveData.get(i).getValue().setDescription(imageList.get(i).getDescription());
+                    cardListLiveData.get(i).getValue().setSrc(imageList.get(i).getLink());
+                    cardListLiveData.get(i).getValue().setFound(false);
                     cardListLiveData.get(i).setValue(cardListLiveData.get(i).getValue());
                 }
             }
@@ -211,10 +221,16 @@ public class GameViewModel extends ViewModel {
         //TODO: load live data in the service call back
     }
 
+    private List<Image> duplicateAndShuffleCards(List<Image> imageList) {
+        imageList.addAll(imageList);
+        Collections.shuffle(imageList);
+        return imageList;
+    }
+
     private void updateObservable(MemoryCard memoryCard) {
         for (MutableLiveData<MemoryCard> card : cardListLiveData) {
-            if (card.getValue().getColPosition() == memoryCard.getColPosition() &&
-            card.getValue().getRowPosition() == memoryCard.getColPosition()) {
+            if (card.getValue().getRowPosition() == memoryCard.getRowPosition() &&
+                    card.getValue().getColPosition() == memoryCard.getColPosition()) {
                 card.setValue(memoryCard);
             }
         }

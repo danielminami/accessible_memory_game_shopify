@@ -220,10 +220,36 @@ public class GameFragment extends CustomFragment {
     }
 
     private void bindImage(MemoryCard... memoryCard) {
+
         for (MemoryCard card : memoryCard) {
-            Glide.with(getContext())
-                    .load(card.getSrc())
-                    .into(card);
+            if (card != null) {
+                if (!card.isFound()) {
+                    if (card.isRevealed()) {
+                        Glide.with(getContext())
+                                .load(R.drawable.ic_question_mark)
+                                .into(card);
+                        card.setContentDescription(getString(R.string.card_faced_down,
+                                card.getRowPosition(),
+                                card.getColPosition()));
+                    } else {
+                        Glide.with(getContext())
+                                .load(card.getSrc())
+                                .into(card);
+                        card.setContentDescription(getString(R.string.card_revealed,
+                                card.getRowPosition(),
+                                card.getColPosition(),
+                                card.getDescription()));
+                    }
+                } else {
+                    Glide.with(getContext())
+                            .load(R.drawable.ic_launcher_background)
+                            .into(card);
+                    card.setContentDescription(getString(R.string.card_found,
+                            card.getRowPosition(),
+                            card.getColPosition()));
+                    card.setEnabled(false);
+                }
+            }
         }
     }
 
