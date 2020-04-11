@@ -8,8 +8,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.minamid.accessiblememorygame.R;
 import com.minamid.accessiblememorygame.base.CustomFragment;
 import com.minamid.accessiblememorygame.util.Config;
@@ -21,6 +23,7 @@ public class MainFragment extends CustomFragment {
 
     @BindView(R.id.welcomeMessage) TextView welcomeMessage;
     @BindView(R.id.button_start_game) Button button_start_game;
+    @BindView(R.id.imageView) ImageView imageView;
     private MainViewModel mViewModel;
 
     public static MainFragment newInstance() {
@@ -49,6 +52,14 @@ public class MainFragment extends CustomFragment {
             }
         });
 
+        bindImage(imageView, R.drawable.accessible_memory_game_logo_gray);
+
+    }
+
+    private void bindImage(ImageView imageView, int resourceId) {
+        Glide.with(getContext())
+                .load(resourceId)
+                .into(imageView);
     }
 
 }

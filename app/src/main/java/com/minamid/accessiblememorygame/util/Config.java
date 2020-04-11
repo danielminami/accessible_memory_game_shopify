@@ -12,7 +12,7 @@ public class Config {
     public static final String CLIENT_ID = "Client-ID 5d0704704a62d33";
 
 
-    public static final int timeBoardRevealed = 60;
+    public static final int timeBoardRevealed = 30;
 
     public static Config getInstance() {
         return ourInstance;

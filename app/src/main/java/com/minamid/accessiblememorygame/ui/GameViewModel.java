@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 
+import com.minamid.accessiblememorygame.model.Announcements;
 import com.minamid.accessiblememorygame.model.Board;
 import com.minamid.accessiblememorygame.model.Image;
 import com.minamid.accessiblememorygame.model.ImageResponse;
@@ -24,6 +25,7 @@ public class GameViewModel extends ViewModel {
     private MutableLiveData<Boolean> isWinnerLiveData = new MutableLiveData<>();
     private List<MutableLiveData<MemoryCard>> cardListLiveData;
     private MutableLiveData<Boolean> isScreenLock = new MutableLiveData<>();
+    private MutableLiveData<Announcements> announceableLiveData = new MutableLiveData<>();
     private MemoryCard previousCardRevealed;
     private MutableLiveData<MemoryCard> card11LiveData = new MutableLiveData<>();
     private MutableLiveData<MemoryCard> card12LiveData = new MutableLiveData<>();
@@ -168,6 +170,13 @@ public class GameViewModel extends ViewModel {
         return isScreenLock;
     }
 
+    public MutableLiveData<Announcements> getAnnounceableLiveData() {
+        if (announceableLiveData == null) {
+            announceableLiveData = new MutableLiveData<>();
+        }
+        return announceableLiveData;
+    }
+
     public void setBoard(Board board, ImageService imageService) {
         this.imageService = imageService;
         this.isScreenLock.setValue(true);
@@ -269,9 +278,10 @@ public class GameViewModel extends ViewModel {
                     public void run() {
                         // TODO: Announce all cards are turned face down
                         updateObservableEnableClick(true);
+                        updateObservableAnnonceable(Announcements.START_GAME);
                         turnAllCardsFacedDown();
                     }
-                }, Config.timeBoardRevealed * 100);
+                }, Config.timeBoardRevealed * 1000);
             }
 
             @Override
@@ -313,6 +323,10 @@ public class GameViewModel extends ViewModel {
             card.getValue().setEnabled(shouldEnable);
             card.setValue(card.getValue());
         }
+    }
+
+    private void updateObservableAnnonceable(Announcements announcements) {
+        announceableLiveData.setValue(announcements);
     }
 
     private void turnAllCardsFacedDown() {

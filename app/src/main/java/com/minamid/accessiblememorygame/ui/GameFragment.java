@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import com.bumptech.glide.Glide;
 import com.minamid.accessiblememorygame.R;
 import com.minamid.accessiblememorygame.base.CustomFragment;
+import com.minamid.accessiblememorygame.model.Announcements;
 import com.minamid.accessiblememorygame.model.Board;
 import com.minamid.accessiblememorygame.model.MemoryCard;
 import com.minamid.accessiblememorygame.service.ImageService;
@@ -239,6 +240,17 @@ public class GameFragment extends CustomFragment {
             public void onChanged(@Nullable Boolean aBoolean) {
                 // TODO: Unlock Screen Here
                 Log.d("onChanged", "ScreenLock Observer: " + aBoolean.toString());
+            }
+        });
+
+        mViewModel.getAnnounceableLiveData().observe(this, new Observer<Announcements>() {
+            @Override
+            public void onChanged(@Nullable Announcements announcements) {
+                // TODO: Create a enum class for this accessibility announcement
+                if (announcements.equals("START_GAME")) {
+                    getView().announceForAccessibility("GAME WILL START");
+                }
+                Log.d("onChanged", "ScreenLock Observer: " + announcements.toString());
             }
         });
 
