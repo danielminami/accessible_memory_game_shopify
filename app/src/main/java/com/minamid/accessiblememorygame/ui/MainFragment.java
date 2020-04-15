@@ -52,7 +52,7 @@ public class MainFragment extends CustomFragment {
             }
         });
 
-        bindImage(imageView, R.drawable.accessible_memory_game_logo_gray);
+        bindImage(imageView, R.drawable.accessible_memory_game_logo_gray_3);
 
     }
 

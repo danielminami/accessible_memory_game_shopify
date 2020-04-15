@@ -22,6 +22,7 @@ import java.util.List;
 public class GameViewModel extends ViewModel {
 
     private ImageService imageService;
+    private MutableLiveData<Boolean> isGameStarted;
     private MutableLiveData<Boolean> isWinnerLiveData = new MutableLiveData<>();
     private List<MutableLiveData<MemoryCard>> cardListLiveData;
     private MutableLiveData<Boolean> isScreenLock = new MutableLiveData<>();
@@ -177,18 +178,24 @@ public class GameViewModel extends ViewModel {
         return announceableLiveData;
     }
 
+    public MutableLiveData<Boolean> getIsGameStarted() {
+        return isGameStarted;
+    }
+
     public void setBoard(Board board, ImageService imageService) {
-        this.imageService = imageService;
-        this.isScreenLock.setValue(true);
-        this.isWinnerLiveData.setValue(false);
-        setPositions(board);
-        cardListLiveData = Arrays.asList(
-                card11LiveData, card12LiveData, card13LiveData, card14LiveData,
-                card21LiveData, card22LiveData, card23LiveData, card24LiveData,
-                card31LiveData, card32LiveData, card33LiveData, card34LiveData,
-                card41LiveData, card42LiveData, card43LiveData, card44LiveData);
-        setLiveData(board, cardListLiveData);
-        fetchCardImages();
+        if (isGameStarted == null) {
+            this.imageService = imageService;
+            this.isScreenLock.setValue(true);
+            this.isWinnerLiveData.setValue(false);
+            setPositions(board);
+            cardListLiveData = Arrays.asList(
+                    card11LiveData, card12LiveData, card13LiveData, card14LiveData,
+                    card21LiveData, card22LiveData, card23LiveData, card24LiveData,
+                    card31LiveData, card32LiveData, card33LiveData, card34LiveData,
+                    card41LiveData, card42LiveData, card43LiveData, card44LiveData);
+            setLiveData(board, cardListLiveData);
+            fetchCardImages();
+        }
     }
 
     public void setLiveData(Board board, List<MutableLiveData<MemoryCard>> boardLiveData) {
@@ -224,6 +231,7 @@ public class GameViewModel extends ViewModel {
                 previousCardRevealed = null;
             } else {
                 memoryCard.setRevealed(true);
+                updateObservable(memoryCard);
                 updateObservableEnableClick(false);
                 new Handler().postDelayed(new Runnable() {
                     public void run() {
@@ -234,7 +242,6 @@ public class GameViewModel extends ViewModel {
                         updateObservableEnableClick(true);
                     }
                 }, 3000);
-
             }
         } else {
             previousCardRevealed = memoryCard;
@@ -270,6 +277,8 @@ public class GameViewModel extends ViewModel {
                     cardListLiveData.get(i).setValue(cardListLiveData.get(i).getValue());
                 }
                 isScreenLock.setValue(false);
+                isGameStarted = new MutableLiveData<>();
+                isGameStarted.setValue(true);
                 updateObservableEnableClick(false);
 
                 // TODO: Announce the game start
@@ -327,6 +336,12 @@ public class GameViewModel extends ViewModel {
 
     private void updateObservableAnnonceable(Announcements announcements) {
         announceableLiveData.setValue(announcements);
+    }
+
+    public void refreshBoard() {
+        for (MutableLiveData<MemoryCard> cardMutableLiveData : cardListLiveData) {
+            cardMutableLiveData.setValue(cardMutableLiveData.getValue());
+        }
     }
 
     private void turnAllCardsFacedDown() {

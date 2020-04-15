@@ -71,7 +71,13 @@ public class GameFragment extends CustomFragment {
                 card31, card32, card33, card34,
                 card41, card42, card43, card44));
 
-        mViewModel.setBoard(board, new ImageService());
+        setObservers();
+
+        if (mViewModel.getIsGameStarted() == null) {
+            mViewModel.setBoard(board, new ImageService());
+        } else {
+            mViewModel.refreshBoard();
+        }
 
         for (MemoryCard memoryCard : board) {
             memoryCard.setOnClickListener(new View.OnClickListener() {
@@ -81,8 +87,6 @@ public class GameFragment extends CustomFragment {
                 }
             });
         }
-
-        setObservers();
 
         //TODO: Add navigation, backbutton, and apply layout style.
     }
@@ -95,128 +99,144 @@ public class GameFragment extends CustomFragment {
         mViewModel.getCard11LiveData().observe(this, new Observer<MemoryCard>() {
             @Override
             public void onChanged(@Nullable MemoryCard memoryCard) {
-                bindImage(memoryCard);
-                Log.d("onChanged", "YAY");
+                setLiveDataIntoView(card11, memoryCard);
+                bindImage(card11);
+                Log.d("onChanged", "Card11");
             }
         });
 
         mViewModel.getCard12LiveData().observe(this, new Observer<MemoryCard>() {
             @Override
             public void onChanged(@Nullable MemoryCard memoryCard) {
-                bindImage(memoryCard);
-                Log.d("onChanged", "YAY");
+                setLiveDataIntoView(card12, memoryCard);
+                bindImage(card12);
+                Log.d("onChanged", "Card12");
             }
         });
 
         mViewModel.getCard13LiveData().observe(this, new Observer<MemoryCard>() {
             @Override
             public void onChanged(@Nullable MemoryCard memoryCard) {
-                bindImage(memoryCard);
-                Log.d("onChanged", "YAY");
+                setLiveDataIntoView(card13, memoryCard);
+                bindImage(card13);
+                Log.d("onChanged", "Card13");
             }
         });
 
         mViewModel.getCard14LiveData().observe(this, new Observer<MemoryCard>() {
             @Override
             public void onChanged(@Nullable MemoryCard memoryCard) {
-                bindImage(memoryCard);
-                Log.d("onChanged", "YAY");
+                setLiveDataIntoView(card14, memoryCard);
+                bindImage(card14);
+                Log.d("onChanged", "Card14");
             }
         });
 
         mViewModel.getCard21LiveData().observe(this, new Observer<MemoryCard>() {
             @Override
             public void onChanged(@Nullable MemoryCard memoryCard) {
-                bindImage(memoryCard);
-                Log.d("onChanged", "YAY");
+                setLiveDataIntoView(card21, memoryCard);
+                bindImage(card21);
+                Log.d("onChanged", "Card21");
             }
         });
 
         mViewModel.getCard22LiveData().observe(this, new Observer<MemoryCard>() {
             @Override
             public void onChanged(@Nullable MemoryCard memoryCard) {
-                bindImage(memoryCard);
-                Log.d("onChanged", "YAY");
+                setLiveDataIntoView(card22, memoryCard);
+                bindImage(card22);
+                Log.d("onChanged", "Card22");
             }
         });
 
         mViewModel.getCard23LiveData().observe(this, new Observer<MemoryCard>() {
             @Override
             public void onChanged(@Nullable MemoryCard memoryCard) {
-                bindImage(memoryCard);
-                Log.d("onChanged", "YAY");
+                setLiveDataIntoView(card23, memoryCard);
+                bindImage(card23);
+                Log.d("onChanged", "Card23");
             }
         });
 
         mViewModel.getCard24LiveData().observe(this, new Observer<MemoryCard>() {
             @Override
             public void onChanged(@Nullable MemoryCard memoryCard) {
-                bindImage(memoryCard);
-                Log.d("onChanged", "YAY");
+                setLiveDataIntoView(card24, memoryCard);
+                bindImage(card24);
+                Log.d("onChanged", "Card24");
             }
         });
 
         mViewModel.getCard31LiveData().observe(this, new Observer<MemoryCard>() {
             @Override
             public void onChanged(@Nullable MemoryCard memoryCard) {
-                bindImage(memoryCard);
-                Log.d("onChanged", "YAY");
+                setLiveDataIntoView(card31, memoryCard);
+                bindImage(card31);
+                Log.d("onChanged", "Card31");
             }
         });
 
         mViewModel.getCard32LiveData().observe(this, new Observer<MemoryCard>() {
             @Override
             public void onChanged(@Nullable MemoryCard memoryCard) {
-                bindImage(memoryCard);
-                Log.d("onChanged", "YAY");
+                setLiveDataIntoView(card32, memoryCard);
+                bindImage(card32);
+                Log.d("onChanged", "Card32");
             }
         });
 
         mViewModel.getCard33LiveData().observe(this, new Observer<MemoryCard>() {
             @Override
             public void onChanged(@Nullable MemoryCard memoryCard) {
-                bindImage(memoryCard);
-                Log.d("onChanged", "YAY");
+                setLiveDataIntoView(card33, memoryCard);
+                bindImage(card33);
+                Log.d("onChanged", "Card33");
             }
         });
 
         mViewModel.getCard34LiveData().observe(this, new Observer<MemoryCard>() {
             @Override
             public void onChanged(@Nullable MemoryCard memoryCard) {
-                bindImage(memoryCard);
-                Log.d("onChanged", "YAY");
+                setLiveDataIntoView(card34, memoryCard);
+                bindImage(card34);
+                Log.d("onChanged", "Card34");
             }
         });
 
         mViewModel.getCard41LiveData().observe(this, new Observer<MemoryCard>() {
             @Override
             public void onChanged(@Nullable MemoryCard memoryCard) {
-                bindImage(memoryCard);
-                Log.d("onChanged", "YAY");
+                setLiveDataIntoView(card41, memoryCard);
+                bindImage(card41);
+                Log.d("onChanged", "Card41");
             }
         });
 
         mViewModel.getCard42LiveData().observe(this, new Observer<MemoryCard>() {
             @Override
             public void onChanged(@Nullable MemoryCard memoryCard) {
-                bindImage(memoryCard);
-                Log.d("onChanged", "YAY");
+                setLiveDataIntoView(card42, memoryCard);
+                bindImage(card42);
+                Log.d("onChanged", "Card42");
             }
         });
 
         mViewModel.getCard43LiveData().observe(this, new Observer<MemoryCard>() {
             @Override
             public void onChanged(@Nullable MemoryCard memoryCard) {
-                bindImage(memoryCard);
-                Log.d("onChanged", "YAY");
+                setLiveDataIntoView(card43, memoryCard);
+                bindImage(card43);
+                Log.d("onChanged", "Card43");
             }
         });
 
         mViewModel.getCard44LiveData().observe(this, new Observer<MemoryCard>() {
             @Override
             public void onChanged(@Nullable MemoryCard memoryCard) {
-                bindImage(memoryCard);
-                Log.d("onChanged", "YAY");
+                setLiveDataIntoView(card44, memoryCard);
+                bindImage(card44);
+                Log.d("onChanged", "Card44");
             }
         });
 
@@ -255,6 +275,17 @@ public class GameFragment extends CustomFragment {
         });
 
     }
+    
+    private void setLiveDataIntoView(MemoryCard viewMemoryCard, MemoryCard liveDataMemoryCard) {
+        viewMemoryCard.setRevealed(liveDataMemoryCard.isRevealed());
+        viewMemoryCard.setSrc(liveDataMemoryCard.getSrc());
+        viewMemoryCard.setEnabled(liveDataMemoryCard.isEnabled());
+        viewMemoryCard.setFound(liveDataMemoryCard.isFound());
+        viewMemoryCard.setImageId(liveDataMemoryCard.getImageId());
+        viewMemoryCard.setColPosition(liveDataMemoryCard.getColPosition());
+        viewMemoryCard.setRowPosition(liveDataMemoryCard.getRowPosition());
+        viewMemoryCard.setDescription(liveDataMemoryCard.getDescription());
+    }
 
     private void bindImage(MemoryCard... memoryCard) {
 
@@ -281,9 +312,7 @@ public class GameFragment extends CustomFragment {
                     Glide.with(getContext())
                             .load(R.drawable.ic_match)
                             .into(card);
-                    card.setContentDescription(getString(R.string.card_found,
-                            card.getRowPosition(),
-                            card.getColPosition()));
+                    card.setContentDescription(getString(R.string.card_found, card.getDescription()));
                     card.setEnabled(false);
                 }
             }

@@ -21,6 +21,6 @@
     <!-- Game Fragment -->
     <string name="card_revealed">Row %d Column %d, %s</string>
     <string name="card_faced_down">Row %d Column %d, faced down</string>
-    <string name="card_found">Row %d Column %d, matched</string>
+    <string name="card_found">%s, matched</string>
 
 </resources>
