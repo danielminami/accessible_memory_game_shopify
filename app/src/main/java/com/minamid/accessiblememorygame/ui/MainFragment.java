@@ -23,6 +23,7 @@ public class MainFragment extends CustomFragment {
 
     @BindView(R.id.welcomeMessage) TextView welcomeMessage;
     @BindView(R.id.button_start_game) Button button_start_game;
+    @BindView(R.id.button_settings) Button button_settings;
     @BindView(R.id.imageView) ImageView imageView;
     private MainViewModel mViewModel;
 
@@ -43,11 +44,19 @@ public class MainFragment extends CustomFragment {
         super.onActivityCreated(savedInstanceState);
         mViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
 
-        welcomeMessage.setContentDescription(getString(R.string.contentDescription_text_welcome, Config.timeBoardRevealed));
+        welcomeMessage.setContentDescription(getString(R.string.contentDescription_text_welcome, welcomeMessage.getText(), Config.timeBoardRevealed));
 
         button_start_game.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                navigateTo(GameFragment.newInstance(), true);
+            }
+        });
+
+        button_settings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO: Create the settings screen
                 navigateTo(GameFragment.newInstance(), true);
             }
         });

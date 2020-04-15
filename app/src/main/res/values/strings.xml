@@ -2,21 +2,20 @@
     <string name="app_name">Accessible Memory Game</string>
 
     <!-- MainFragment -->
-    <string name="txt_text_welcome">Welcome to the Accessible Memory Game \nThis game is
-        targeted for users with vision impairment.\nTalkback feature is not required but is
-        recommended for the full game experience.</string>
-    <string name="contentDescription_text_welcome">Welcome to the Accessible Memory Game.
-        Game explanation:
-        First: After you start the game, you will have %d seconds to explore the revealed cards.
-        After this time, an announcement will be given and the focus will be placed in the card
-        row 1 column 1.
-        Second: Closed cards will be announced by their position.
-        Third: Double tap to reveal a card.
-        Fourth: Cards already matched will be announced as matched and the position.
-        Fifth: Hope you love the game Ana, Vitor and Andre.
+    <string name="txt_text_welcome">This game is targeted for users with vision impairment.
+        \nTalkback feature is not required but is recommended for the full game experience.</string>
+    <string name="contentDescription_text_welcome">
+        %s
+        Instructions:
+        1: When you start the game, you will have %d seconds to explore the revealed cards.
+        This time can be changed in the settings page.
+        2: After the given time to explore, all the cards will be turned face down.
+        3: The board is a four rows and four columns size.
+        4: You will be able to share your record after finishing the game.
     </string>
     <string name="txt_btn_welcome">Start Game</string>
     <string name="contentDescription_btn_welcome">Start Game</string>
+    <string name="txt_img_main">Image, Accessible Memory Game Logo</string>
 
     <!-- Game Fragment -->
     <string name="card_revealed">Row %d Column %d, %s</string>
