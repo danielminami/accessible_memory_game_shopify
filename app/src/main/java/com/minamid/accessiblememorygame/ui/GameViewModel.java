@@ -3,6 +3,7 @@ package com.minamid.accessiblememorygame.ui;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
 
@@ -17,6 +18,7 @@ import com.minamid.accessiblememorygame.util.ResponseStatusCode;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 public class GameViewModel extends ViewModel {
@@ -28,6 +30,7 @@ public class GameViewModel extends ViewModel {
     private MutableLiveData<Boolean> isScreenLock = new MutableLiveData<>();
     private MutableLiveData<Announcements> announceableLiveData = new MutableLiveData<>();
     private MemoryCard previousCardRevealed;
+    private long gameTimeInSeconds;
     private MutableLiveData<MemoryCard> card11LiveData = new MutableLiveData<>();
     private MutableLiveData<MemoryCard> card12LiveData = new MutableLiveData<>();
     private MutableLiveData<MemoryCard> card13LiveData = new MutableLiveData<>();
@@ -45,142 +48,28 @@ public class GameViewModel extends ViewModel {
     private MutableLiveData<MemoryCard> card43LiveData = new MutableLiveData<>();
     private MutableLiveData<MemoryCard> card44LiveData = new MutableLiveData<>();
 
-    public MutableLiveData<MemoryCard> getCard11LiveData() {
-        if (card11LiveData == null) {
-            card11LiveData = new MutableLiveData<>();
-        }
-        return card11LiveData;
-    }
+    public MutableLiveData<MemoryCard> getCard11LiveData() { return card11LiveData; }
+    public MutableLiveData<MemoryCard> getCard12LiveData() { return card12LiveData; }
+    public MutableLiveData<MemoryCard> getCard13LiveData() { return card13LiveData; }
+    public MutableLiveData<MemoryCard> getCard14LiveData() { return card14LiveData; }
+    public MutableLiveData<MemoryCard> getCard21LiveData() { return card21LiveData; }
+    public MutableLiveData<MemoryCard> getCard22LiveData() { return card22LiveData; }
+    public MutableLiveData<MemoryCard> getCard23LiveData() { return card23LiveData; }
+    public MutableLiveData<MemoryCard> getCard24LiveData() { return card24LiveData; }
+    public MutableLiveData<MemoryCard> getCard31LiveData() { return card31LiveData; }
+    public MutableLiveData<MemoryCard> getCard32LiveData() { return card32LiveData; }
+    public MutableLiveData<MemoryCard> getCard33LiveData() { return card33LiveData; }
+    public MutableLiveData<MemoryCard> getCard34LiveData() { return card34LiveData; }
+    public MutableLiveData<MemoryCard> getCard41LiveData() { return card41LiveData; }
+    public MutableLiveData<MemoryCard> getCard42LiveData() { return card42LiveData; }
+    public MutableLiveData<MemoryCard> getCard43LiveData() { return card43LiveData; }
+    public MutableLiveData<MemoryCard> getCard44LiveData() { return card44LiveData; }
 
-    public MutableLiveData<MemoryCard> getCard12LiveData() {
-        if (card12LiveData == null) {
-            card12LiveData = new MutableLiveData<>();
-        }
-        return card12LiveData;
-    }
-
-    public MutableLiveData<MemoryCard> getCard13LiveData() {
-        if (card13LiveData == null) {
-            card13LiveData = new MutableLiveData<>();
-        }
-        return card13LiveData;
-    }
-
-    public MutableLiveData<MemoryCard> getCard14LiveData() {
-        if (card14LiveData == null) {
-            card14LiveData = new MutableLiveData<>();
-        }
-        return card14LiveData;
-    }
-
-    public MutableLiveData<MemoryCard> getCard21LiveData() {
-        if (card21LiveData == null) {
-            card21LiveData = new MutableLiveData<>();
-        }
-        return card21LiveData;
-    }
-
-    public MutableLiveData<MemoryCard> getCard22LiveData() {
-        if (card22LiveData == null) {
-            card22LiveData = new MutableLiveData<>();
-        }
-        return card22LiveData;
-    }
-
-    public MutableLiveData<MemoryCard> getCard23LiveData() {
-        if (card23LiveData == null) {
-            card23LiveData = new MutableLiveData<>();
-        }
-        return card23LiveData;
-    }
-
-    public MutableLiveData<MemoryCard> getCard24LiveData() {
-        if (card24LiveData == null) {
-            card24LiveData = new MutableLiveData<>();
-        }
-        return card24LiveData;
-    }
-
-    public MutableLiveData<MemoryCard> getCard31LiveData() {
-        if (card31LiveData == null) {
-            card31LiveData = new MutableLiveData<>();
-        }
-        return card31LiveData;
-    }
-
-    public MutableLiveData<MemoryCard> getCard32LiveData() {
-        if (card32LiveData == null) {
-            card32LiveData = new MutableLiveData<>();
-        }
-        return card32LiveData;
-    }
-
-    public MutableLiveData<MemoryCard> getCard33LiveData() {
-        if (card33LiveData == null) {
-            card33LiveData = new MutableLiveData<>();
-        }
-        return card33LiveData;
-    }
-
-    public MutableLiveData<MemoryCard> getCard34LiveData() {
-        if (card34LiveData == null) {
-            card34LiveData = new MutableLiveData<>();
-        }
-        return card34LiveData;
-    }
-
-    public MutableLiveData<MemoryCard> getCard41LiveData() {
-        if (card41LiveData == null) {
-            card41LiveData = new MutableLiveData<>();
-        }
-        return card41LiveData;
-    }
-
-    public MutableLiveData<MemoryCard> getCard42LiveData() {
-        if (card42LiveData == null) {
-            card42LiveData = new MutableLiveData<>();
-        }
-        return card42LiveData;
-    }
-
-    public MutableLiveData<MemoryCard> getCard43LiveData() {
-        if (card43LiveData == null) {
-            card43LiveData = new MutableLiveData<>();
-        }
-        return card43LiveData;
-    }
-
-    public MutableLiveData<MemoryCard> getCard44LiveData() {
-        if (card44LiveData == null) {
-            card44LiveData = new MutableLiveData<>();
-        }
-        return card44LiveData;
-    }
-
-    public MutableLiveData<Boolean> getIsWinnerLiveData() {
-        if (isWinnerLiveData == null) {
-            isWinnerLiveData = new MutableLiveData<>();
-        }
-        return isWinnerLiveData;
-    }
-
-    public MutableLiveData<Boolean> getIsScreenLock() {
-        if (isScreenLock == null) {
-            isScreenLock = new MutableLiveData<>();
-        }
-        return isScreenLock;
-    }
-
-    public MutableLiveData<Announcements> getAnnounceableLiveData() {
-        if (announceableLiveData == null) {
-            announceableLiveData = new MutableLiveData<>();
-        }
-        return announceableLiveData;
-    }
-
-    public MutableLiveData<Boolean> getIsGameStarted() {
-        return isGameStarted;
-    }
+    public MutableLiveData<Boolean> getIsWinnerLiveData() { return isWinnerLiveData; }
+    public MutableLiveData<Boolean> getIsScreenLock() { return isScreenLock; }
+    public MutableLiveData<Announcements> getAnnounceableLiveData() { return announceableLiveData; }
+    public MutableLiveData<Boolean> getIsGameStarted() { return isGameStarted; }
+    public long getGameTimeInSeconds() { return gameTimeInSeconds; }
 
     public void setBoard(Board board, ImageService imageService) {
         if (isGameStarted == null) {
@@ -288,6 +177,8 @@ public class GameViewModel extends ViewModel {
                         updateObservableEnableClick(true);
                         updateObservableAnnonceable(Announcements.START_GAME);
                         turnAllCardsFacedDown();
+                        Date date = new Date();
+                        gameTimeInSeconds = date.getTime();
                     }
                 }, Config.timeBoardRevealed * 1000);
             }
@@ -311,6 +202,8 @@ public class GameViewModel extends ViewModel {
                 return false;
             }
         }
+        Date date = new Date();
+        gameTimeInSeconds = (date.getTime() - gameTimeInSeconds) / 1000;
         this.isWinnerLiveData.setValue(true);
         return true;
     }

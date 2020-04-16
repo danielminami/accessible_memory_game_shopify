@@ -21,5 +21,8 @@
     <string name="card_revealed">Row %d Column %d, %s</string>
     <string name="card_faced_down">Row %d Column %d, faced down</string>
     <string name="card_found">%s, matched</string>
+    <string name="winner_header">Congratulations</string>
+    <string name="winner_body_message">You finished the game in %d seconds</string>
+    <string name="winner_button_text">Return to main</string>
 
 </resources>

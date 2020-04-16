@@ -92,10 +92,6 @@ public class GameFragment extends CustomFragment {
         //TODO: Add navigation, backbutton, and apply layout style.
     }
 
-    private void updateUI(Board board) {
-        //TODO: implement method body
-    }
-
     private void setObservers() {
         mViewModel.getCard11LiveData().observe(this, new Observer<MemoryCard>() {
             @Override
@@ -243,13 +239,12 @@ public class GameFragment extends CustomFragment {
 
         mViewModel.getIsWinnerLiveData().observe(this, new Observer<Boolean>() {
             @Override
-            public void onChanged(@Nullable Boolean aBoolean) {
-                if (aBoolean) {
-                    String message = String.format("You Win with XX movements!");
+            public void onChanged(@Nullable Boolean winner) {
+                if (winner) {
                     AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
-                    alert.setTitle("Good Job!");
-                    alert.setMessage(message);
-                    alert.setPositiveButton("Return to Lobby", new DialogInterface.OnClickListener() {
+                    alert.setTitle(getString(R.string.winner_header));
+                    alert.setMessage(getString(R.string.winner_body_message, mViewModel.getGameTimeInSeconds()));
+                    alert.setPositiveButton(getString(R.string.winner_button_text), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             getActivity().onBackPressed();
@@ -257,7 +252,7 @@ public class GameFragment extends CustomFragment {
                     });
                     alert.show();
                 }
-                Log.d("onChanged", "Winner Observer: " + aBoolean.toString());
+                Log.d("onChanged", "Winner Observer: " + winner.toString());
             }
         });
 
