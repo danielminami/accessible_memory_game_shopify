@@ -57,6 +57,7 @@ public class MainFragment extends CustomFragment {
             @Override
             public void onClick(View v) {
                 // TODO: Create the settings screen
+                // TODO: Option for sound after Matching ???
                 navigateTo(GameFragment.newInstance(), true);
             }
         });
