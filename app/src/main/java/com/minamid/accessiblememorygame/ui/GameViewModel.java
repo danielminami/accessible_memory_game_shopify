@@ -224,7 +224,6 @@ public class GameViewModel extends ViewModel {
                 updateObservable(previousCardRevealed, memoryCard);
                 if (checkIsWinner()) {
                     updateObservableEnableClick(false);
-                    isWinnerLiveData.setValue(true);
                     return;
                 }
                 updateObservable(memoryCard, previousCardRevealed);

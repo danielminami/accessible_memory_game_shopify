@@ -3,6 +3,7 @@ package com.minamid.accessiblememorygame.ui;
 import android.app.AlertDialog;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -248,7 +249,12 @@ public class GameFragment extends CustomFragment {
                     AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
                     alert.setTitle("Good Job!");
                     alert.setMessage(message);
-                    alert.setPositiveButton("Return to Lobby",null);
+                    alert.setPositiveButton("Return to Lobby", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            getActivity().onBackPressed();
+                        }
+                    });
                     alert.show();
                 }
                 Log.d("onChanged", "Winner Observer: " + aBoolean.toString());
@@ -288,7 +294,7 @@ public class GameFragment extends CustomFragment {
     }
 
     private void bindImage(MemoryCard... memoryCard) {
-
+        // TODO: Refactor to remove Glide Repetition
         for (MemoryCard card : memoryCard) {
             if (card != null) {
                 if (!card.isFound()) {
