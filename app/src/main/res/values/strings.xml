@@ -24,5 +24,7 @@
     <string name="winner_header">Congratulations</string>
     <string name="winner_body_message">You finished the game in %d seconds</string>
     <string name="winner_button_text">Return to main</string>
+    <string name="time_to_explore">You have %d seconds to explore</string>
+    <string name="game_start">Game started</string>
 
 </resources>

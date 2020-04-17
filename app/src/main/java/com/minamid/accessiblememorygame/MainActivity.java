@@ -11,6 +11,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // TODO: Authenticate using Google
+        // TODO: Authenticate using Facebook
+        // TODO: Authenticate using Firebase with email account
+        // TODO: Save authentication in Firebase
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.container, MainFragment.newInstance())

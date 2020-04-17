@@ -19,6 +19,8 @@ import com.minamid.accessiblememorygame.model.Announcements;
 import com.minamid.accessiblememorygame.model.Board;
 import com.minamid.accessiblememorygame.model.MemoryCard;
 import com.minamid.accessiblememorygame.service.ImageService;
+import com.minamid.accessiblememorygame.util.AccessibilityUtils;
+import com.minamid.accessiblememorygame.util.Config;
 
 import java.util.Arrays;
 
@@ -93,6 +95,8 @@ public class GameFragment extends CustomFragment {
     }
 
     private void setObservers() {
+        // TODO: Can I get rid of this repetition?
+
         mViewModel.getCard11LiveData().observe(this, new Observer<MemoryCard>() {
             @Override
             public void onChanged(@Nullable MemoryCard memoryCard) {
@@ -240,6 +244,8 @@ public class GameFragment extends CustomFragment {
         mViewModel.getIsWinnerLiveData().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(@Nullable Boolean winner) {
+                // TODO: Create a share with Friends
+                // TODO: Create a Rank and integrate with a Service
                 if (winner) {
                     AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
                     alert.setTitle(getString(R.string.winner_header));
@@ -267,10 +273,16 @@ public class GameFragment extends CustomFragment {
         mViewModel.getAnnounceableLiveData().observe(this, new Observer<Announcements>() {
             @Override
             public void onChanged(@Nullable Announcements announcements) {
-                // TODO: Create a enum class for this accessibility announcement
-                if (announcements.equals("START_GAME")) {
-                    getView().announceForAccessibility("GAME WILL START");
+                String textToBeAnnounced = "";
+                switch (announcements) {
+                    case START_GAME:
+                        textToBeAnnounced = getString(R.string.game_start);
+                        break;
+                    case TIME_TO_EXPLORE:
+                        textToBeAnnounced = getString(R.string.time_to_explore, Config.timeBoardRevealed);
+                        break;
                 }
+                AccessibilityUtils.announceForAccessibility(getView(),textToBeAnnounced);
                 Log.d("onChanged", "ScreenLock Observer: " + announcements.toString());
             }
         });

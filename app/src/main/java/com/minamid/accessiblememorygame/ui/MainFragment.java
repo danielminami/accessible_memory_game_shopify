@@ -57,8 +57,10 @@ public class MainFragment extends CustomFragment {
             @Override
             public void onClick(View v) {
                 // TODO: Create the settings screen
-                // TODO: Option for sound after Matching ???
-                navigateTo(SettingsFragment.newInstance(1), true);
+                // TODO: Option for sound after Matching
+                // TODO: Configurations using Preference Manager
+                // TODO: Maybe create different set of pictures
+                //navigateTo(SettingsFragment.newInstance(1), true);
             }
         });
 

@@ -87,7 +87,7 @@ public class GameViewModel extends ViewModel {
         }
     }
 
-    public void setLiveData(Board board, List<MutableLiveData<MemoryCard>> boardLiveData) {
+    private void setLiveData(Board board, List<MutableLiveData<MemoryCard>> boardLiveData) {
         for (int i=0; i < board.size() && i < boardLiveData.size(); i++) {
             boardLiveData.get(i).setValue(board.get(i));
         }
@@ -103,6 +103,8 @@ public class GameViewModel extends ViewModel {
         }
 
         boolean isMatch = false;
+
+        // TODO: `previousCardRevealed` can cause memory leak. This needs to be fixed.
 
         if (previousCardRevealed != null) {
             isMatch = previousCardRevealed.getImageId().equals(memoryCard.getImageId());
@@ -151,7 +153,7 @@ public class GameViewModel extends ViewModel {
     }
 
     private void fetchCardImages() {
-        //Lock Screen
+        // TODO: Create a screen lock while service call is not complete
         imageService.fetchImageList(new ImageService.FetchImageCallBack() {
             @Override
             public void onSuccess(ImageResponse imageResponse) {
@@ -168,14 +170,14 @@ public class GameViewModel extends ViewModel {
                 isGameStarted = new MutableLiveData<>();
                 isGameStarted.setValue(true);
                 updateObservableEnableClick(false);
-
+                updateObservableAnnounceable(Announcements.TIME_TO_EXPLORE);
                 // TODO: Announce the game start
 
                 new Handler().postDelayed(new Runnable() {
                     public void run() {
                         // TODO: Announce all cards are turned face down
                         updateObservableEnableClick(true);
-                        updateObservableAnnonceable(Announcements.START_GAME);
+                        updateObservableAnnounceable(Announcements.START_GAME);
                         turnAllCardsFacedDown();
                         Date date = new Date();
                         gameTimeInSeconds = date.getTime();
@@ -185,7 +187,8 @@ public class GameViewModel extends ViewModel {
 
             @Override
             public void onFailure(ResponseStatusCode responseStatusCode) {
-                //Unlock screen
+                // TODO: Unlock screen
+                // TODO: Handle service call Error
             }
         });
     }
@@ -226,7 +229,7 @@ public class GameViewModel extends ViewModel {
         }
     }
 
-    private void updateObservableAnnonceable(Announcements announcements) {
+    private void updateObservableAnnounceable(Announcements announcements) {
         announceableLiveData.setValue(announcements);
     }
 
