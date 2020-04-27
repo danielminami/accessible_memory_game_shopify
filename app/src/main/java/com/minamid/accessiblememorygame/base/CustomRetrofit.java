@@ -1,9 +1,11 @@
 package com.minamid.accessiblememorygame.base;
 
+import com.minamid.accessiblememorygame.util.CacheInterceptor;
 import com.minamid.accessiblememorygame.util.Config;
-import com.minamid.accessiblememorygame.util.LogInterceptor;
-
+import butterknife.BuildConfig;
+import okhttp3.Cache;
 import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -13,11 +15,22 @@ public class CustomRetrofit {
 
     public static Retrofit setup(){
 
-        LogInterceptor logInterceptor = new LogInterceptor();
+        HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
+        CacheInterceptor cacheInterceptor = new CacheInterceptor();
 
-        // TODO: Fix Retrofit Log Interceptor
+        Cache cache = new Cache(Config.CACHE_LOCATION, Config.CACHE_SIZE);
+
+        if (BuildConfig.DEBUG) {
+            httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        } else {
+            httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BASIC);
+        }
+
+        // TODO: Create a Cache Interceptor
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                //.addInterceptor(logInterceptor)
+                .addInterceptor(httpLoggingInterceptor)
+                .addNetworkInterceptor(cacheInterceptor)
+                .cache(cache)
                 .build();
 
         Retrofit.Builder builder = new Retrofit.Builder()
@@ -27,5 +40,4 @@ public class CustomRetrofit {
 
         return retrofit = builder.build();
     }
-
 }
