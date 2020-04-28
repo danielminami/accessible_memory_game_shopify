@@ -29,7 +29,7 @@ public class ImageService {
     }
 
     public void fetchImageList(final FetchImageCallBack callBack) {
-        Call<ImageResponse> call = api.fetchImageList(Config.CLIENT_ID);
+        Call<ImageResponse> call = api.fetchImageList();
         call.enqueue(new Callback<ImageResponse>() {
             @Override
             public void onResponse(Call<ImageResponse> call, Response<ImageResponse> response) {

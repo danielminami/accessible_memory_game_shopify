@@ -5,20 +5,27 @@ import com.google.gson.annotations.SerializedName;
 public class Image {
 
     @SerializedName("id")
-    private String imageId;
+    private String id;
 
-    @SerializedName("description")
+    @SerializedName("src")
+    private String src;
+
     private String description;
 
-    @SerializedName("link")
-    private String link;
-
-    public String getImageId() {
-        return imageId;
+    public String getId() {
+        return id;
     }
 
-    public void setImageId(String imageId) {
-        this.imageId = imageId;
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getSrc() {
+        return src;
+    }
+
+    public void setSrc(String src) {
+        this.src = src;
     }
 
     public String getDescription() {
@@ -27,13 +34,5 @@ public class Image {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public String getLink() {
-        return link;
-    }
-
-    public void setLink(String link) {
-        this.link = link;
     }
 }

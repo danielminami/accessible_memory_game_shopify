@@ -12,10 +12,12 @@ import com.minamid.accessiblememorygame.model.Board;
 import com.minamid.accessiblememorygame.model.Image;
 import com.minamid.accessiblememorygame.model.ImageResponse;
 import com.minamid.accessiblememorygame.model.MemoryCard;
+import com.minamid.accessiblememorygame.model.Product;
 import com.minamid.accessiblememorygame.service.ImageService;
 import com.minamid.accessiblememorygame.util.Config;
 import com.minamid.accessiblememorygame.util.ResponseStatusCode;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
@@ -157,11 +159,11 @@ public class GameViewModel extends ViewModel {
         imageService.fetchImageList(new ImageService.FetchImageCallBack() {
             @Override
             public void onSuccess(ImageResponse imageResponse) {
-                List<Image> imageList = duplicateAndShuffleCards(imageResponse.getAlbum().getImages());
+                List<Image> imageList = duplicateAndShuffleCards(imageResponse.getProducts());
                 for (int i = 0; i < cardListLiveData.size() && i < imageList.size(); i++) {
-                    cardListLiveData.get(i).getValue().setImageId(imageList.get(i).getImageId());
+                    cardListLiveData.get(i).getValue().setImageId(imageList.get(i).getId());
                     cardListLiveData.get(i).getValue().setDescription(imageList.get(i).getDescription());
-                    cardListLiveData.get(i).getValue().setSrc(imageList.get(i).getLink());
+                    cardListLiveData.get(i).getValue().setSrc(imageList.get(i).getSrc());
                     cardListLiveData.get(i).getValue().setRevealed(true);
                     cardListLiveData.get(i).getValue().setFound(false);
                     cardListLiveData.get(i).setValue(cardListLiveData.get(i).getValue());
@@ -183,6 +185,8 @@ public class GameViewModel extends ViewModel {
                         gameTimeInSeconds = date.getTime();
                     }
                 }, Config.timeBoardRevealed * 1000);
+
+                Log.d("CallBack", "OnSuccess");
             }
 
             @Override
@@ -193,10 +197,19 @@ public class GameViewModel extends ViewModel {
         });
     }
 
-    private List<Image> duplicateAndShuffleCards(List<Image> imageList) {
-        imageList.addAll(imageList);
-        Collections.shuffle(imageList);
-        return imageList;
+    private List<Image> duplicateAndShuffleCards(List<Product> productList) {
+        //TODO: replace for a configuration setting
+        List<Image> tempImageList = new ArrayList<>();
+        for (int i = 0; i < 7 + 1; i++) {
+            if (i != 10) {
+                productList.get(i).getImage().setDescription(productList.get(i).getTitle());
+                tempImageList.add(productList.get(i).getImage());
+            }
+        }
+        
+        tempImageList.addAll(tempImageList);
+        Collections.shuffle(tempImageList);
+        return tempImageList;
     }
 
     private boolean checkIsWinner() {

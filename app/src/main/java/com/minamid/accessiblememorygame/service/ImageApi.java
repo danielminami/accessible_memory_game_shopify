@@ -12,5 +12,5 @@ public interface ImageApi {
 
     @Headers("Cache-Control: max-age=0")
     @GET(Config.IMAGE_LIST_ENDPOINT)
-    Call<ImageResponse> fetchImageList(@Header("Authorization") String auth);
+    Call<ImageResponse> fetchImageList();
 }

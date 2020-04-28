@@ -29,7 +29,7 @@ public class CustomRetrofit {
         // TODO: Create a Cache Interceptor
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .addInterceptor(httpLoggingInterceptor)
-                .addNetworkInterceptor(cacheInterceptor)
+                //.addNetworkInterceptor(cacheInterceptor)
                 .cache(cache)
                 .build();
 
