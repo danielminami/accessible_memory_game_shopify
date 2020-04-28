@@ -3,6 +3,8 @@ package com.minamid.accessiblememorygame.model;
 import android.content.Context;
 import android.util.AttributeSet;
 
+import com.minamid.accessiblememorygame.R;
+
 public class MemoryCard extends android.support.v7.widget.AppCompatImageView {
 
     private String imageId;
@@ -13,18 +15,19 @@ public class MemoryCard extends android.support.v7.widget.AppCompatImageView {
     private int rowPosition;
     private int colPosition;
 
-
-
     public MemoryCard(Context context) {
         super(context);
+        setDefaultImage();
     }
 
     public MemoryCard(Context context, AttributeSet attrs) {
         super(context, attrs);
+        setDefaultImage();
     }
 
     public MemoryCard(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        setDefaultImage();
     }
 
     public String getImageId() { return imageId; }
@@ -74,4 +77,8 @@ public class MemoryCard extends android.support.v7.widget.AppCompatImageView {
     public boolean isFound() { return isFound; }
 
     public void setFound(boolean found) { isFound = found; }
+
+    private void setDefaultImage() {
+        setImageResource(R.drawable.ic_question_mark);
+    }
 }

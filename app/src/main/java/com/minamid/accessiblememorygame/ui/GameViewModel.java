@@ -206,7 +206,7 @@ public class GameViewModel extends ViewModel {
                 tempImageList.add(productList.get(i).getImage());
             }
         }
-        
+
         tempImageList.addAll(tempImageList);
         Collections.shuffle(tempImageList);
         return tempImageList;

@@ -49,7 +49,7 @@ public class MainFragment extends CustomFragment {
         button_start_game.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                navigateTo(GameFragment.newInstance(), true);
+                navigateTo(GameBoardFragment.newInstance(), true);
             }
         });
 
