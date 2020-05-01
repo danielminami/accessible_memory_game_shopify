@@ -1,28 +1,45 @@
 package com.minamid.accessiblememorygame.ui;
 
+import android.app.AlertDialog;
+import android.arch.lifecycle.MutableLiveData;
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.GridLayout;
+import android.widget.AdapterView;
+import android.widget.GridView;
 
+import com.bumptech.glide.Glide;
 import com.minamid.accessiblememorygame.R;
 import com.minamid.accessiblememorygame.base.CustomFragment;
+import com.minamid.accessiblememorygame.model.Announcements;
+import com.minamid.accessiblememorygame.model.BoardSize;
 import com.minamid.accessiblememorygame.model.MemoryCard;
+import com.minamid.accessiblememorygame.service.ImageService;
+import com.minamid.accessiblememorygame.util.AccessibilityUtils;
+import com.minamid.accessiblememorygame.util.Config;
 import com.minamid.accessiblememorygame.util.Utils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class GameBoardFragment extends CustomFragment {
+public class GameBoardFragment extends CustomFragment{
 
-    @BindView(R.id.game_grid_layout) GridLayout gameGridLayout;
+    @BindView(R.id.game_grid_layout) GridView gameGridView;
 
     private GameViewModel mViewModel;
+    private List<MemoryCard> board = new ArrayList<>();
+    private BoardAdapter customAdapter;
+    private final int NO_CARD_FOUND = 99;
 
     public static GameBoardFragment newInstance() {
         return new GameBoardFragment();
@@ -41,71 +58,206 @@ public class GameBoardFragment extends CustomFragment {
         super.onActivityCreated(savedInstanceState);
         mViewModel = ViewModelProviders.of(this).get(GameViewModel.class);
 
-        // TODO: get this int from ViewModel
-        int[] boardSize = calculateRowsAndColumns(10);
+        // TODO: Should this be in the config file?
+        int numOfColumns = Utils.getBoardSize(Config.getNumOfMatchesPerGame() * Config.getPairsToMatch());
+        BoardSize boardSize = BoardSize.getBoardSize(Config.getNumOfMatchesPerGame() * Config.getPairsToMatch());
 
-        setupBoard(boardSize[0], boardSize[1]);
-    }
+        for (int i = 0; i < Config.numberOfCards; i++) {
+            board.add(new MemoryCard(getContext()));
+        }
+        setPositions(board, numOfColumns);
 
-    public void setupBoard(int rows, int cols){
-        gameGridLayout.setRowCount(rows);
-        gameGridLayout.setColumnCount(cols);
-        GridLayout.Spec row;
-        GridLayout.Spec colspan;
-        GridLayout.LayoutParams gridLayoutParam;
-
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                MemoryCard memoryCard = new MemoryCard(getContext());
-                row = GridLayout.spec(i, 1);
-                colspan = GridLayout.spec(j, 1);
-                gridLayoutParam = new GridLayout.LayoutParams(row, colspan);
-                gameGridLayout.addView(memoryCard, gridLayoutParam);
-            }
+        if (mViewModel.getIsGameStarted() == null) {
+            mViewModel.setBoard(board, numOfColumns, Config.numberOfCards, new ImageService());
+        } else {
+            mViewModel.refreshBoard();
+            gameGridView.setAdapter(null);
         }
 
-//        Button button = new Button(getContext());
-//        button.setText("OK");
-//        GridLayout.Spec row = GridLayout.spec(1, 1);
-//        GridLayout.Spec colspan = GridLayout.spec(1, 1);
-//        GridLayout.LayoutParams gridLayoutParam = new GridLayout.LayoutParams(row, colspan);
-//        gameGridLayout.addView(button, gridLayoutParam);
+        setObservers();
+
+        customAdapter = new BoardAdapter(
+                getContext(),
+                board,
+                this,
+                Utils.getGridViewSize(
+                        getContext(),
+                        boardSize)
+        );
+
+        gameGridView.setVerticalSpacing(Utils.getGridViewVerticalSpacing(boardSize));
+        gameGridView.setNumColumns(numOfColumns);
+        gameGridView.setAdapter(customAdapter);
+
+        gameGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                for(int i = 0; i < ((ViewGroup)view).getChildCount(); i++) {
+                    View child = ((ViewGroup)view).getChildAt(i);
+                    MemoryCard card = (MemoryCard)child;
+                    if (card.isEnabled()) {
+                        mViewModel.onClick(child);
+                    }
+                    break;
+                }
+            }
+        });
+
+        /*
+        // TODO: get this int from ViewModel
+        int[] boardSize = Utils.getBoardSize(getContext(), 20);
+
+        setupBoard(boardSize[0], boardSize[1]);
+        */
+    }
 //
-//        button = new Button(getContext());
-//        button.setText("OK");
-//        row = GridLayout.spec(1, 1);
-//        colspan = GridLayout.spec(2, 1);
-//        gridLayoutParam = new GridLayout.LayoutParams(row, colspan);
-//        gameGridLayout.addView(button, gridLayoutParam);
+//    public void setupBoard(int rows, int cols) {
+//        gameGridView.setNumColumns(cols);
+//        GridLayout.Spec row;
+//        GridLayout.Spec colspan;
+//        GridLayout.LayoutParams gridLayoutParam;
 //
-//        button = new Button(getContext());
-//        button.setText("OK");
-//        row = GridLayout.spec(2, 1);
-//        colspan = GridLayout.spec(1, 1);
-//        gridLayoutParam = new GridLayout.LayoutParams(row, colspan);
-//        gameGridLayout.addView(button, gridLayoutParam);
-//
-//        button = new Button(getContext());
-//        button.setText("OK");
-//        row = GridLayout.spec(2, 1);
-//        colspan = GridLayout.spec(2, 1);
-//        gridLayoutParam = new GridLayout.LayoutParams(row, colspan);
-//        gameGridLayout.addView(button, gridLayoutParam);
+//        for (int i = 0; i < rows; i++) {
+//            for (int j = 0; j < cols; j++) {
+//                MemoryCard memoryCard = new MemoryCard(getContext());
+//                row = GridLayout.spec(i, 1);
+//                colspan = GridLayout.spec(j, 1);
+//                gridLayoutParam = new GridLayout.LayoutParams(row, colspan);
+//                gameGridView.addView(memoryCard, gridLayoutParam);
+//            }
+//        }
+//    }
+
+    private void setPositions(List<MemoryCard> cardList, int numOfColumns) {
+        int i = 1, j = 1;
+        for (MemoryCard card : cardList) {
+            card.setRowPosition(i);
+            card.setColPosition(j);
+            i = j == numOfColumns ? ++i : i;
+            j = j == numOfColumns ? 1 : ++j;
+        }
     }
 
-    private int[] calculateRowsAndColumns(int numberOfCards) {
-        int[] boardSize = {4, Utils.calculateNoOfColumns(getContext())};
+    private void setObservers() {
 
+        for (MutableLiveData<MemoryCard> memoryCardMutableLiveData : mViewModel.getCardListLiveData()) {
+            memoryCardMutableLiveData.observe(this, new Observer<MemoryCard>() {
+                @Override
+                public void onChanged(@Nullable MemoryCard memoryCard) {
+                    int index = findMatchingCardIndex(memoryCard);
+                    if (index != NO_CARD_FOUND) {
+                        setLiveDataIntoView(board.get(index), memoryCard);
+                        bindImage(board.get(index));
+                        synchronized (customAdapter) {
+                            customAdapter.notifyDataSetChanged();
+                        }
+                        Log.d("onChanged_OBSERVER", memoryCard.getRowPosition() + " - " + memoryCard.getColPosition());
+                    }
+                }
+            });
+        }
 
-        // TODO: make calculations based on Cards and Screen size. Maybe create some kind of Util
-        // Function to return the size of the screen or how many it fits by line
+        mViewModel.getIsWinnerLiveData().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(@Nullable Boolean winner) {
+                // TODO: Create a share with Friends
+                // TODO: Create a Rank and integrate with a Service
+                if (winner) {
+                    AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
+                    alert.setTitle(getString(R.string.winner_header));
+                    alert.setMessage(getString(R.string.winner_body_message, mViewModel.getGameTimeInSeconds()));
+                    alert.setPositiveButton(getString(R.string.winner_button_text), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            getActivity().onBackPressed();
+                        }
+                    });
+                    alert.show();
+                }
+                Log.d("onChanged", "Winner Observer: " + winner.toString());
+            }
+        });
 
+        mViewModel.getIsScreenLock().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(@Nullable Boolean aBoolean) {
+                // TODO: Unlock Screen Here
+                Log.d("onChanged", "ScreenLock Observer: " + aBoolean.toString());
+            }
+        });
 
-        return boardSize;
+        mViewModel.getAnnounceableLiveData().observe(this, new Observer<Announcements>() {
+            @Override
+            public void onChanged(@Nullable Announcements announcements) {
+                String textToBeAnnounced = "";
+                switch (announcements) {
+                    case START_GAME:
+                        textToBeAnnounced = getString(R.string.game_start);
+                        break;
+                    case TIME_TO_EXPLORE:
+                        textToBeAnnounced = getString(R.string.time_to_explore, Config.timeBoardRevealed);
+                        break;
+                }
+                AccessibilityUtils.announceForAccessibility(getView(),textToBeAnnounced);
+                Log.d("onChanged", "ScreenLock Observer: " + announcements.toString());
+            }
+        });
+
     }
 
-    private int calculateImageSize() {
-        return 0;
+    private int findMatchingCardIndex(MemoryCard memoryCard) {
+        for (int i = 0; i < board.size(); i++) {
+            if (board.get(i).getRowPosition() == memoryCard.getRowPosition() &&
+                    board.get(i).getColPosition() == memoryCard.getColPosition()) {
+                return i;
+            }
+        }
+        return NO_CARD_FOUND;
     }
 
+    private void setLiveDataIntoView(MemoryCard viewMemoryCard, MemoryCard liveDataMemoryCard) {
+        viewMemoryCard.setRevealed(liveDataMemoryCard.isRevealed());
+        viewMemoryCard.setSrc(liveDataMemoryCard.getSrc());
+        viewMemoryCard.setEnabled(liveDataMemoryCard.isEnabled());
+        viewMemoryCard.setFound(liveDataMemoryCard.isFound());
+        viewMemoryCard.setImageId(liveDataMemoryCard.getImageId());
+        viewMemoryCard.setColPosition(liveDataMemoryCard.getColPosition());
+        viewMemoryCard.setRowPosition(liveDataMemoryCard.getRowPosition());
+        viewMemoryCard.setDescription(liveDataMemoryCard.getDescription());
+    }
+
+    public void bindImage(MemoryCard... memoryCard) {
+        // TODO: Refactor to remove Glide Repetition
+        for (MemoryCard card : memoryCard) {
+            if (card != null) {
+                if (!card.isFound()) {
+                    if (card.isRevealed()) {
+                        Glide.with(getContext())
+                                .load(card.getSrc())
+                                .into(card);
+                        card.setContentDescription(getString(R.string.card_revealed,
+                                card.getRowPosition(),
+                                card.getColPosition(),
+                                card.getDescription()));
+                    } else {
+                        Glide.with(getContext())
+                                .load(R.drawable.ic_question_mark)
+                                .into(card);
+                        card.setContentDescription(getString(R.string.card_faced_down,
+                                card.getRowPosition(),
+                                card.getColPosition()));
+                    }
+                } else {
+                    Glide.with(getContext())
+                            .load(R.drawable.ic_match)
+                            .into(card);
+                    card.setContentDescription(getString(R.string.card_found, card.getDescription()));
+                    card.setEnabled(false);
+                }
+            }
+        }
+        synchronized (customAdapter) {
+            customAdapter.notifyDataSetChanged();
+        }
+    }
 }

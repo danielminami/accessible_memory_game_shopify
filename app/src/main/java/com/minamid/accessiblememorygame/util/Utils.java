@@ -9,67 +9,124 @@ import com.minamid.accessiblememorygame.model.BoardSize;
 public class Utils {
 
     /**
-     * This method is used to dynamically decide how many cards will be placed
-     * for screen line.
+     * This method returns the board column size
      *
-     * @return the number of columns of the board
-     *
-     * Credits: https://stackoverflow.com/a/38472370
-     */
-    public static int calculateNoOfColumns(Context context) {
+     * @return the column size
+     **/
+    public static int calculateColumnSize(Context context, BoardSize boardSize) {
 
-        float columnWidthDp = 85 - (((Config.getPairsToMatch() * 2) + (Config.getNumOfMatchesPerGame())/2));
+        float columnWidthDp = (((Config.getPairsToMatch() * 2) + (Config.getNumOfMatchesPerGame())/2));
 
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
         float screenWidthDp = displayMetrics.widthPixels / displayMetrics.density;
-        return (int)(screenWidthDp / columnWidthDp + 0.5);
+        return (int) ((screenWidthDp / columnWidthDp) + getGridViewColumnSize(boardSize));
+
     }
 
-    public static int[] getBoardSize(Context context, int numberOfCards) {
+    public static int getGridViewSize(Context context, BoardSize boardSize) {
         int orientation = context.getResources().getConfiguration().orientation;
-        int[] pairValue = new int[2];
-        BoardSize boardSize = BoardSize.getBoardSize(numberOfCards);
-        if (boardSize != null) {
 
-            if (boardSize == BoardSize.SMALL_10) {
-                pairValue[0] = 5;
-                pairValue[1] = 4;
-            } else if (boardSize == BoardSize.SMALL_12) {
-                pairValue[0] = 6;
-                pairValue[1] = 4;
-            } else if (boardSize == BoardSize.SMALL_14) {
-                pairValue[0] = 7;
-                pairValue[1] = 4;
-            } else if (boardSize == BoardSize.MEDIUM_10) {
-                pairValue[0] = 6;
-                pairValue[1] = 5;
-            } else if (boardSize == BoardSize.MEDIUM_12) {
-                pairValue[0] = 6;
-                pairValue[1] = 6;
-                return pairValue;
-            } else if (boardSize == BoardSize.MEDIUM_14) {
-                pairValue[0] = 7;
-                pairValue[1] = 6;
-            } else if (boardSize == BoardSize.LARGE_10) {
-                pairValue[0] = 8;
-                pairValue[1] = 5;
-            } else if (boardSize == BoardSize.LARGE_12) {
-                pairValue[0] = 8;
-                pairValue[1] = 6;
-            } else if (boardSize == BoardSize.LARGE_14) {
-                pairValue[0] = 8;
-                pairValue[1] = 7;
+        if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+            if (boardSize != null) {
+                return calculateColumnSize(context, boardSize);
             }
-
-            if (orientation == Configuration.ORIENTATION_PORTRAIT) {
-                return pairValue;
-            } else {
-                return new int[]{pairValue[1], pairValue[0]};
-            }
-
         } else {
-            return null;
+            if (boardSize != null) {
+                return calculateColumnSize(context, boardSize);
+            }
         }
+        return 0;
+    }
+
+    public static int getGridViewColumnSize(BoardSize boardSize) {
+        if (boardSize != null) {
+            if (boardSize == BoardSize.SMALL_10) {
+                return 140;
+            } else if (boardSize == BoardSize.SMALL_12) {
+                return 120;
+            } else if (boardSize == BoardSize.SMALL_14) {
+                return 100;
+            } else if (boardSize == BoardSize.MEDIUM_10) {
+                return 120;
+            } else if (boardSize == BoardSize.MEDIUM_12) {
+                return 100;
+            } else if (boardSize == BoardSize.MEDIUM_14) {
+                return 100;
+            } else if (boardSize == BoardSize.LARGE_10) {
+                return 80;
+            } else if (boardSize == BoardSize.LARGE_12) {
+                return 80;
+            } else if (boardSize == BoardSize.LARGE_14) {
+                return 70;
+            }
+        }
+        return 0;
+    }
+
+    /**
+     * This method returns the vertical spacing to be applied by the GridView depending on
+     * the Board size.
+     *
+     * @param boardSize
+     * @return
+     */
+    public static int getGridViewVerticalSpacing(BoardSize boardSize) {
+        if (boardSize != null) {
+            if (boardSize == BoardSize.SMALL_10) {
+                return 0;
+            } else if (boardSize == BoardSize.SMALL_12) {
+                return 0;
+            } else if (boardSize == BoardSize.SMALL_14) {
+                return 0;
+            } else if (boardSize == BoardSize.MEDIUM_10) {
+                return 0;
+            } else if (boardSize == BoardSize.MEDIUM_12) {
+                return 20;
+            } else if (boardSize == BoardSize.MEDIUM_14) {
+                return 0;
+            } else if (boardSize == BoardSize.LARGE_10) {
+                return 0;
+            } else if (boardSize == BoardSize.LARGE_12) {
+                return 0;
+            } else if (boardSize == BoardSize.LARGE_14) {
+                return 20;
+            }
+        }
+        return 0;
+    }
+
+    /**
+     * This method returns the number of Columns to create the board.
+     *
+     * @param numberOfCards
+     * @return number of board columns
+     */
+    public static int getBoardSize(int numberOfCards) {
+        int numOfColumns = 0;
+        BoardSize boardSize = BoardSize.getBoardSize(numberOfCards);
+
+        if (boardSize != null) {
+            if (boardSize == BoardSize.SMALL_10) {
+                 numOfColumns = 4;
+            } else if (boardSize == BoardSize.SMALL_12) {
+                numOfColumns = 4;
+            } else if (boardSize == BoardSize.SMALL_14) {
+                numOfColumns = 4;
+            } else if (boardSize == BoardSize.MEDIUM_10) {
+                numOfColumns = 5;
+            } else if (boardSize == BoardSize.MEDIUM_12) {
+                numOfColumns = 6;
+            } else if (boardSize == BoardSize.MEDIUM_14) {
+                numOfColumns = 6;
+            } else if (boardSize == BoardSize.LARGE_10) {
+                numOfColumns = 5;
+            } else if (boardSize == BoardSize.LARGE_12) {
+                numOfColumns = 6;
+            } else if (boardSize == BoardSize.LARGE_14) {
+                numOfColumns = 7;
+            }
+        }
+        return numOfColumns;
     }
 
 }

@@ -14,9 +14,13 @@ public class Config {
     public static File CACHE_LOCATION;
     public static final int CACHE_SIZE = 4092;
     // TODO: Make it dynamic
-    private static int pairsToMatch = 10;
-    private static int numOfMatchesPerGame = 2;
-    private static int columnSize = 50;
+    public static int pairsToMatch = 14;
+    public static int numOfMatchesPerGame = 4;
+    public static int numberOfCards = pairsToMatch * numOfMatchesPerGame;
+
+
+
+
 
     public static final int timeBoardRevealed = 10;
 
