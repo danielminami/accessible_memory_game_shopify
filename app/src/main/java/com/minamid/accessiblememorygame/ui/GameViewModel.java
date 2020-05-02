@@ -32,23 +32,25 @@ public class GameViewModel extends ViewModel {
     private MutableLiveData<Boolean> isScreenLock = new MutableLiveData<>();
     private MutableLiveData<Announcements> announceableLiveData = new MutableLiveData<>();
     private List<MemoryCard> previousCardRevealed = new ArrayList<>();
+    private MutableLiveData<Integer> playerMoves = new MutableLiveData<>();
+    private MutableLiveData<Integer> remainingPairs = new MutableLiveData<>();
     private long gameTimeInSeconds;
-    private int numOfCards;
     //private MutableLiveData<Board> boardMutableLiveData = new MutableLiveData<>();
 
     public List<MutableLiveData<MemoryCard>> getCardListLiveData() { return cardListLiveData; }
+    public MutableLiveData<Integer> getPlayerMoves() { return playerMoves; }
+    public MutableLiveData<Integer> getRemainingPairs() { return remainingPairs; }
     public MutableLiveData<Boolean> getIsWinnerLiveData() { return isWinnerLiveData; }
     public MutableLiveData<Boolean> getIsScreenLock() { return isScreenLock; }
     public MutableLiveData<Announcements> getAnnounceableLiveData() { return announceableLiveData; }
     public MutableLiveData<Boolean> getIsGameStarted() { return isGameStarted; }
     public long getGameTimeInSeconds() { return gameTimeInSeconds; }
 
-    public void setBoard(List<MemoryCard> board, int numOfColumns, int numOfCards, ImageService imageService) {
+    public void setBoard(List<MemoryCard> board, int numOfColumns, ImageService imageService) {
         if (isGameStarted == null) {
             this.imageService = imageService;
             this.isScreenLock.setValue(true);
             this.isWinnerLiveData.setValue(false);
-            this.numOfCards = numOfCards;
             setPositions(board, numOfColumns);
             setLiveData(board);
             fetchCardImages();
@@ -61,6 +63,15 @@ public class GameViewModel extends ViewModel {
             card.setValue(board.get(i));
             cardListLiveData.add(card);
         }
+
+        if (playerMoves.getValue() == null) {
+            playerMoves.setValue(0);
+        }
+
+        if (remainingPairs.getValue() == null) {
+            remainingPairs.setValue(Config.getInstance().getPairsToMatchToCompleteGame());
+        }
+
     }
 
     public void onClick(View v) {
@@ -73,7 +84,7 @@ public class GameViewModel extends ViewModel {
             memoryCard.setRevealed(true);
         }
 
-        if (previousCardRevealed.size() == Config.getPairsToMatch() - 1) {
+        if (previousCardRevealed.size() == Config.getInstance().getNumOfCardsToMakeMatch() - 1) {
             boolean isMatch = true;
             for (int i = 0; i < previousCardRevealed.size(); i++) {
                 if (!memoryCard.getImageId().equals(previousCardRevealed.get(i).getImageId())){
@@ -94,13 +105,16 @@ public class GameViewModel extends ViewModel {
 
                 if (checkIsWinner()) {
                     updateObservableEnableClick(false);
+                    playerMoves.setValue(playerMoves.getValue() + 1);
+                    remainingPairs.setValue(remainingPairs.getValue() - 1);
                     return;
                 }
                 for (MemoryCard previousCards : previousCardRevealed) {
                     updateObservable(previousCards);
                 }
+                remainingPairs.setValue(remainingPairs.getValue() - 1);
                 updateObservable(memoryCard);
-                previousCardRevealed = Collections.emptyList();
+                previousCardRevealed.clear();
             } else {
                 memoryCard.setRevealed(true);
                 updateObservable(memoryCard);
@@ -114,11 +128,12 @@ public class GameViewModel extends ViewModel {
                             previousCards.setRevealed(false);
                             updateObservable(previousCards);
                         }
-                        previousCardRevealed = Collections.emptyList();
+                        previousCardRevealed.clear();
                         updateObservableEnableClick(true);
                     }
                 }, 3000);
             }
+            playerMoves.setValue(playerMoves.getValue() + 1);
         } else {
             previousCardRevealed.add(memoryCard);
             updateObservable(memoryCard);
@@ -168,7 +183,7 @@ public class GameViewModel extends ViewModel {
                         Date date = new Date();
                         gameTimeInSeconds = date.getTime();
                     }
-                }, Config.timeBoardRevealed * 1000);
+                }, Config.getInstance().getTimeBoardRevealed() * 1000);
 
                 Log.d("CallBack", "OnSuccess");
             }
@@ -184,18 +199,20 @@ public class GameViewModel extends ViewModel {
     private List<Image> duplicateAndShuffleCards(List<Product> productList) {
         //TODO: replace for a configuration setting
         List<Image> tempImageList = new ArrayList<>();
-        for (int i = 0; i < Config.getPairsToMatch() + 1; i++) {
+        for (int i = 0; i < Config.getInstance().getPairsToMatchToCompleteGame() + 1; i++) {
             if (i != 10) {
                 productList.get(i).getImage().setDescription(productList.get(i).getTitle());
                 tempImageList.add(productList.get(i).getImage());
             }
         }
 
-        for (int i = 1; i < Config.numOfMatchesPerGame; i++) {
-            tempImageList.addAll(tempImageList);
+        List<Image> completeImageList = new ArrayList<>();
+
+        for (int i = 0; i < Config.getInstance().getNumOfCardsToMakeMatch(); i++) {
+            completeImageList.addAll(tempImageList);
         }
-        Collections.shuffle(tempImageList);
-        return tempImageList;
+        Collections.shuffle(completeImageList);
+        return completeImageList;
     }
 
     private boolean checkIsWinner() {

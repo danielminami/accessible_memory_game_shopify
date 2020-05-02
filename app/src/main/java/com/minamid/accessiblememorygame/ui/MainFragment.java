@@ -44,7 +44,7 @@ public class MainFragment extends CustomFragment {
         super.onActivityCreated(savedInstanceState);
         mViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
 
-        welcomeMessage.setContentDescription(getString(R.string.contentDescription_text_welcome, welcomeMessage.getText(), Config.timeBoardRevealed));
+        welcomeMessage.setContentDescription(getString(R.string.contentDescription_text_welcome, welcomeMessage.getText(), Config.getInstance().getTimeBoardRevealed()));
 
         button_start_game.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -15,7 +15,7 @@ public class Utils {
      **/
     public static int calculateColumnSize(Context context, BoardSize boardSize) {
 
-        float columnWidthDp = (((Config.getPairsToMatch() * 2) + (Config.getNumOfMatchesPerGame())/2));
+        float columnWidthDp = (((Config.getInstance().getPairsToMatchToCompleteGame() * 2) + (Config.getInstance().getNumOfCardsToMakeMatch())/2));
 
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
         float screenWidthDp = displayMetrics.widthPixels / displayMetrics.density;
@@ -41,7 +41,7 @@ public class Utils {
     public static int getGridViewColumnSize(BoardSize boardSize) {
         if (boardSize != null) {
             if (boardSize == BoardSize.SMALL_10) {
-                return 140;
+                return 120;
             } else if (boardSize == BoardSize.SMALL_12) {
                 return 120;
             } else if (boardSize == BoardSize.SMALL_14) {

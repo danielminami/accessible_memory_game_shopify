@@ -1,9 +1,5 @@
 package com.minamid.accessiblememorygame.util;
 
-import android.content.Context;
-
-import com.minamid.accessiblememorygame.model.BoardSize;
-
 import java.io.File;
 
 public class Config {
@@ -13,16 +9,13 @@ public class Config {
     public static final String IMAGE_LIST_ENDPOINT = "/admin/products.json?page=1&access_token=c32313df0d0ef512ca64d5b336a0d7c6";
     public static File CACHE_LOCATION;
     public static final int CACHE_SIZE = 4092;
+
     // TODO: Make it dynamic
-    public static int pairsToMatch = 14;
-    public static int numOfMatchesPerGame = 4;
-    public static int numberOfCards = pairsToMatch * numOfMatchesPerGame;
-
-
-
-
-
-    public static final int timeBoardRevealed = 10;
+    // Configurations defined in the SettingsFragment
+    private int pairsToMatchToCompleteGame = 10;
+    private int numOfCardsToMakeMatch = 2;
+    private int numberOfCards = pairsToMatchToCompleteGame * numOfCardsToMakeMatch;
+    private int timeBoardRevealed = 10;
 
     public static Config getInstance() {
         return ourInstance;
@@ -33,39 +26,64 @@ public class Config {
     }
 
     /**
-     * Gets the number of cards to form a match
+     * Number of Matches to complete the game
      *
-     * @return number of cards to form a match
+     * @return number of matches
      */
-    public static int getPairsToMatch() {
-        return pairsToMatch;
+    public int getPairsToMatchToCompleteGame() {
+        return pairsToMatchToCompleteGame;
     }
 
     /**
-     * Sets the number of cards to form a match
+     * Number of Matches to complete the game
      *
-     * @param pairsToMatch number
+     * @param pairsToMatchToCompleteGame
      */
-    public void setPairsToMatch(int pairsToMatch) {
-        this.pairsToMatch = pairsToMatch;
+    public void setPairsToMatchToCompleteGame(int pairsToMatchToCompleteGame) {
+        this.pairsToMatchToCompleteGame = pairsToMatchToCompleteGame;
     }
 
     /**
-     * Gets number of pairs to match
+     * Number of Cards necessary to form a Match
      *
-     * @return number of pairs to match
+     * @return
      */
-    public static int getNumOfMatchesPerGame() {
-        return numOfMatchesPerGame;
+    public int getNumOfCardsToMakeMatch() {
+        return numOfCardsToMakeMatch;
     }
 
     /**
-     * Sets number of pairs to match
+     * Number of Cards necessary to form a Match
      *
-     * @param numOfMatchesPerGame number
+     * @return
      */
-    public void setNumOfMatchesPerGame(int numOfMatchesPerGame) {
-        this.numOfMatchesPerGame = numOfMatchesPerGame;
+    public void setNumOfCardsToMakeMatch(int numOfCardsToMakeMatch) {
+        this.numOfCardsToMakeMatch = numOfCardsToMakeMatch;
     }
 
+    /**
+     * Gets the total number of cards in game
+     *
+     * @return number of cards
+     */
+    public int getNumberOfCards() {
+        return numberOfCards;
+    }
+
+    /**
+     * Gets the time the cards will be revealed before the game starts
+     *
+     * @return time the cards will be revealed
+     */
+    public int getTimeBoardRevealed() {
+        return timeBoardRevealed;
+    }
+
+    /**
+     * Sets the time the cards will be revealed before the game starts
+     *
+     */
+    public void setTimeBoardRevealed(int timeBoardRevealed) {
+        this.timeBoardRevealed = timeBoardRevealed;
+    }
 }

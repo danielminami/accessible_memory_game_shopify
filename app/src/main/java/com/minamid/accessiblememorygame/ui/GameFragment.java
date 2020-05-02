@@ -279,7 +279,7 @@ public class GameFragment extends CustomFragment {
                         textToBeAnnounced = getString(R.string.game_start);
                         break;
                     case TIME_TO_EXPLORE:
-                        textToBeAnnounced = getString(R.string.time_to_explore, Config.timeBoardRevealed);
+                        textToBeAnnounced = getString(R.string.time_to_explore, Config.getInstance().getTimeBoardRevealed());
                         break;
                 }
                 AccessibilityUtils.announceForAccessibility(getView(),textToBeAnnounced);

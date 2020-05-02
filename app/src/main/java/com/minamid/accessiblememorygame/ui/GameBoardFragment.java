@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.minamid.accessiblememorygame.R;
@@ -35,6 +36,8 @@ import butterknife.ButterKnife;
 public class GameBoardFragment extends CustomFragment{
 
     @BindView(R.id.game_grid_layout) GridView gameGridView;
+    @BindView(R.id.txt_player_moves) TextView txt_player_moves;
+    @BindView(R.id.txt_remaining_pairs) TextView txt_remaining_pairs;
 
     private GameViewModel mViewModel;
     private List<MemoryCard> board = new ArrayList<>();
@@ -59,16 +62,16 @@ public class GameBoardFragment extends CustomFragment{
         mViewModel = ViewModelProviders.of(this).get(GameViewModel.class);
 
         // TODO: Should this be in the config file?
-        int numOfColumns = Utils.getBoardSize(Config.getNumOfMatchesPerGame() * Config.getPairsToMatch());
-        BoardSize boardSize = BoardSize.getBoardSize(Config.getNumOfMatchesPerGame() * Config.getPairsToMatch());
+        int numOfColumns = Utils.getBoardSize(Config.getInstance().getNumberOfCards());
+        BoardSize boardSize = BoardSize.getBoardSize(Config.getInstance().getNumberOfCards());
 
-        for (int i = 0; i < Config.numberOfCards; i++) {
+        for (int i = 0; i < Config.getInstance().getNumberOfCards(); i++) {
             board.add(new MemoryCard(getContext()));
         }
         setPositions(board, numOfColumns);
 
         if (mViewModel.getIsGameStarted() == null) {
-            mViewModel.setBoard(board, numOfColumns, Config.numberOfCards, new ImageService());
+            mViewModel.setBoard(board, numOfColumns, new ImageService());
         } else {
             mViewModel.refreshBoard();
             gameGridView.setAdapter(null);
@@ -76,14 +79,9 @@ public class GameBoardFragment extends CustomFragment{
 
         setObservers();
 
-        customAdapter = new BoardAdapter(
-                getContext(),
-                board,
-                this,
-                Utils.getGridViewSize(
-                        getContext(),
-                        boardSize)
-        );
+        txt_player_moves.setText(getString(R.string.txt_user_moves, mViewModel.getPlayerMoves().getValue().intValue()));
+        txt_remaining_pairs.setText(getString(R.string.txt_remaining_pairs, mViewModel.getRemainingPairs().getValue().intValue()));
+        customAdapter = new BoardAdapter(getContext(), board, this, Utils.getGridViewSize(getContext(), boardSize));
 
         gameGridView.setVerticalSpacing(Utils.getGridViewVerticalSpacing(boardSize));
         gameGridView.setNumColumns(numOfColumns);
@@ -102,6 +100,9 @@ public class GameBoardFragment extends CustomFragment{
                 }
             }
         });
+
+        // TODO: Implement Reset Game Button Logic
+        // TODO: Make everything accessible
 
         /*
         // TODO: get this int from ViewModel
@@ -195,11 +196,25 @@ public class GameBoardFragment extends CustomFragment{
                         textToBeAnnounced = getString(R.string.game_start);
                         break;
                     case TIME_TO_EXPLORE:
-                        textToBeAnnounced = getString(R.string.time_to_explore, Config.timeBoardRevealed);
+                        textToBeAnnounced = getString(R.string.time_to_explore, Config.getInstance().getTimeBoardRevealed());
                         break;
                 }
                 AccessibilityUtils.announceForAccessibility(getView(),textToBeAnnounced);
                 Log.d("onChanged", "ScreenLock Observer: " + announcements.toString());
+            }
+        });
+
+        mViewModel.getPlayerMoves().observe(this, new Observer<Integer>() {
+            @Override
+            public void onChanged(@Nullable Integer moves) {
+                txt_player_moves.setText(getString(R.string.txt_user_moves, moves));
+            }
+        });
+
+        mViewModel.getRemainingPairs().observe(this, new Observer<Integer>() {
+            @Override
+            public void onChanged(@Nullable Integer remainingPairs) {
+                txt_remaining_pairs.setText(getString(R.string.txt_remaining_pairs, remainingPairs));
             }
         });
 

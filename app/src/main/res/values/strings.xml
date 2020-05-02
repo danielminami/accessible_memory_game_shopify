@@ -27,4 +27,9 @@
     <string name="time_to_explore">You have %d seconds to explore</string>
     <string name="game_start">Game started</string>
 
+    <!-- Game Fragment - Screen Elements -->
+    <string name="txt_user_moves">Moves: %d</string>
+    <string name="txt_remaining_pairs">Remaining Pairs: %d</string>
+    <string name="btn_restart_game">Restart Game</string>
+
 </resources>
