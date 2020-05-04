@@ -190,6 +190,7 @@ public class GameViewModel extends ViewModel {
 
             @Override
             public void onFailure(ResponseStatusCode responseStatusCode) {
+                isScreenLock.setValue(false);
                 // TODO: Unlock screen
                 // TODO: Handle service call Error
             }

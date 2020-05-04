@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,6 +39,7 @@ public class GameBoardFragment extends CustomFragment{
     @BindView(R.id.game_grid_layout) GridView gameGridView;
     @BindView(R.id.txt_player_moves) TextView txt_player_moves;
     @BindView(R.id.txt_remaining_pairs) TextView txt_remaining_pairs;
+    @BindView(R.id.loading_progress_bar_container) ConstraintLayout loading_progress_bar_container;
 
     private GameViewModel mViewModel;
     private List<MemoryCard> board = new ArrayList<>();
@@ -191,9 +193,13 @@ public class GameBoardFragment extends CustomFragment{
 
         mViewModel.getIsScreenLock().observe(this, new Observer<Boolean>() {
             @Override
-            public void onChanged(@Nullable Boolean aBoolean) {
-                // TODO: Unlock Screen Here
-                Log.d("onChanged", "ScreenLock Observer: " + aBoolean.toString());
+            public void onChanged(@Nullable Boolean isVisible) {
+                if (isVisible) {
+                    loading_progress_bar_container.setVisibility(View.VISIBLE);
+                } else {
+                    loading_progress_bar_container.setVisibility(View.GONE);
+                }
+                Log.d("onChanged", "ScreenLock Observer");
             }
         });
 
