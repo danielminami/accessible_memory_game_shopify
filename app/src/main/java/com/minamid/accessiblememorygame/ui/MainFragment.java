@@ -28,7 +28,6 @@ public class MainFragment extends CustomFragment {
     @BindView(R.id.button_start_game) Button button_start_game;
     @BindView(R.id.button_settings) Button button_settings;
     @BindView(R.id.imageView) ImageView imageView;
-    private MainViewModel mViewModel;
     private SharedPreferences mSharedPreferences;
 
     public static MainFragment newInstance() {
@@ -46,7 +45,6 @@ public class MainFragment extends CustomFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
 
         welcomeMessage.setContentDescription(getString(R.string.contentDescription_text_welcome, welcomeMessage.getText(), Config.getInstance().getTimeBoardRevealed()));
 
@@ -64,7 +62,6 @@ public class MainFragment extends CustomFragment {
                 // TODO: Option for sound after Matching
                 // TODO: Create a option to stop announcing the card position
                 // TODO: Maybe create different set of pictures
-                // TODO: Create difficulty levels which may involve time and trials
                 // Practice: As many, tries | 60 seconds
                 // Easy: 8 errors, 40 seconds
                 // Normal: 5 errors, 30 seconds

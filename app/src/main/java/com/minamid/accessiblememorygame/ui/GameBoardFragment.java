@@ -137,6 +137,7 @@ public class GameBoardFragment extends CustomFragment{
             card.setColPosition(j);
             i = j == numOfColumns ? ++i : i;
             j = j == numOfColumns ? 1 : ++j;
+            card.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_YES);
         }
     }
 
@@ -259,17 +260,16 @@ public class GameBoardFragment extends CustomFragment{
                         Glide.with(getContext())
                                 .load(card.getSrc())
                                 .into(card);
-                        card.setContentDescription(getString(R.string.card_revealed,
-                                card.getRowPosition(),
-                                card.getColPosition(),
-                                card.getDescription()));
+                        card.setContentDescription(card.getDescription());
+//                        card.setContentDescription(getString(R.string.card_revealed,
+//                                card.getRowPosition(),
+//                                card.getColPosition(),
+//                                card.getDescription()));
                     } else {
                         Glide.with(getContext())
                                 .load(R.drawable.ic_question_mark)
                                 .into(card);
-                        card.setContentDescription(getString(R.string.card_faced_down,
-                                card.getRowPosition(),
-                                card.getColPosition()));
+                        card.setContentDescription(getString(R.string.card_faced_down));
                     }
                 } else {
                     Glide.with(getContext())

@@ -3,23 +3,19 @@ package com.minamid.accessiblememorygame.ui;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.os.Handler;
-import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
 
 import com.minamid.accessiblememorygame.model.Announcements;
-import com.minamid.accessiblememorygame.model.Board;
 import com.minamid.accessiblememorygame.model.Image;
 import com.minamid.accessiblememorygame.model.ImageResponse;
 import com.minamid.accessiblememorygame.model.MemoryCard;
 import com.minamid.accessiblememorygame.model.Product;
 import com.minamid.accessiblememorygame.service.ImageService;
-import com.minamid.accessiblememorygame.util.AccessibilityUtils;
 import com.minamid.accessiblememorygame.util.Config;
 import com.minamid.accessiblememorygame.util.ResponseStatusCode;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -36,7 +32,6 @@ public class GameViewModel extends ViewModel {
     private MutableLiveData<Integer> playerMoves = new MutableLiveData<>();
     private MutableLiveData<Integer> remainingPairs = new MutableLiveData<>();
     private long gameTimeInSeconds;
-    //private MutableLiveData<Board> boardMutableLiveData = new MutableLiveData<>();
 
     public List<MutableLiveData<MemoryCard>> getCardListLiveData() { return cardListLiveData; }
     public MutableLiveData<Integer> getPlayerMoves() { return playerMoves; }
@@ -95,13 +90,13 @@ public class GameViewModel extends ViewModel {
 
             if (isMatch) {
 
-                for (MemoryCard previousCards : previousCardRevealed) {
-                    previousCards.setFound(true);
-                    previousCards.setShouldAnnounce(false);
-                    memoryCard.setShouldAnnounce(false);
-                    updateObservable(previousCards);
+                for (MemoryCard previousCard : previousCardRevealed) {
+                    previousCard.setFound(true);
+                    previousCard.setShouldAnnounce(false);
+                    updateObservable(previousCard);
                 }
 
+                memoryCard.setShouldAnnounce(false);
                 memoryCard.setFound(true);
                 memoryCard.setRevealed(true);
                 updateObservable(memoryCard);
@@ -113,26 +108,25 @@ public class GameViewModel extends ViewModel {
                     return;
                 }
 
-//                for (MemoryCard previousCards : previousCardRevealed) {
-//                    updateObservable(previousCards);
-//                }
-
                 remainingPairs.setValue(remainingPairs.getValue() - 1);
                 updateObservable(memoryCard);
                 previousCardRevealed.clear();
+
             } else {
                 memoryCard.setRevealed(true);
-                memoryCard.setShouldAnnounce(false);
                 updateObservable(memoryCard);
+                for (MemoryCard previousCard : previousCardRevealed) {
+                    previousCard.setShouldAnnounce(false);
+                }
                 updateObservableEnableClick(false);
 
                 new Handler().postDelayed(new Runnable() {
                     public void run() {
                         memoryCard.setRevealed(false);
+                        memoryCard.setShouldAnnounce(false);
                         updateObservable(memoryCard);
                         for (MemoryCard previousCards : previousCardRevealed) {
                             previousCards.setRevealed(false);
-                            previousCards.setShouldAnnounce(false);
                             updateObservable(previousCards);
                         }
                         previousCardRevealed.clear();
@@ -180,11 +174,9 @@ public class GameViewModel extends ViewModel {
                 isGameStarted.setValue(true);
                 updateObservableEnableClick(false);
                 updateObservableAnnounceable(Announcements.TIME_TO_EXPLORE);
-                // TODO: Announce the game start
 
                 new Handler().postDelayed(new Runnable() {
                     public void run() {
-                        // TODO: Announce all cards are turned face down
                         updateObservableEnableClick(true);
                         updateObservableAnnounceable(Announcements.START_GAME);
                         turnAllCardsFacedDown();
@@ -205,7 +197,6 @@ public class GameViewModel extends ViewModel {
     }
 
     private List<Image> duplicateAndShuffleCards(List<Product> productList) {
-        //TODO: replace for a configuration setting
         List<Image> tempImageList = new ArrayList<>();
         for (int i = 0; i < Config.getInstance().getPairsToMatchToCompleteGame() + 1; i++) {
             if (i != 10) {
