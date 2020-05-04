@@ -14,6 +14,7 @@ import com.minamid.accessiblememorygame.model.ImageResponse;
 import com.minamid.accessiblememorygame.model.MemoryCard;
 import com.minamid.accessiblememorygame.model.Product;
 import com.minamid.accessiblememorygame.service.ImageService;
+import com.minamid.accessiblememorygame.util.AccessibilityUtils;
 import com.minamid.accessiblememorygame.util.Config;
 import com.minamid.accessiblememorygame.util.ResponseStatusCode;
 
@@ -96,6 +97,8 @@ public class GameViewModel extends ViewModel {
 
                 for (MemoryCard previousCards : previousCardRevealed) {
                     previousCards.setFound(true);
+                    previousCards.setShouldAnnounce(false);
+                    memoryCard.setShouldAnnounce(false);
                     updateObservable(previousCards);
                 }
 
@@ -109,23 +112,27 @@ public class GameViewModel extends ViewModel {
                     remainingPairs.setValue(remainingPairs.getValue() - 1);
                     return;
                 }
-                for (MemoryCard previousCards : previousCardRevealed) {
-                    updateObservable(previousCards);
-                }
+
+//                for (MemoryCard previousCards : previousCardRevealed) {
+//                    updateObservable(previousCards);
+//                }
+
                 remainingPairs.setValue(remainingPairs.getValue() - 1);
                 updateObservable(memoryCard);
                 previousCardRevealed.clear();
             } else {
                 memoryCard.setRevealed(true);
+                memoryCard.setShouldAnnounce(false);
                 updateObservable(memoryCard);
                 updateObservableEnableClick(false);
+
                 new Handler().postDelayed(new Runnable() {
                     public void run() {
-
                         memoryCard.setRevealed(false);
                         updateObservable(memoryCard);
                         for (MemoryCard previousCards : previousCardRevealed) {
                             previousCards.setRevealed(false);
+                            previousCards.setShouldAnnounce(false);
                             updateObservable(previousCards);
                         }
                         previousCardRevealed.clear();
@@ -135,6 +142,7 @@ public class GameViewModel extends ViewModel {
             }
             playerMoves.setValue(playerMoves.getValue() + 1);
         } else {
+            memoryCard.setShouldAnnounce(true);
             previousCardRevealed.add(memoryCard);
             updateObservable(memoryCard);
         }
