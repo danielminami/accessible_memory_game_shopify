@@ -3,7 +3,7 @@ package com.minamid.accessiblememorygame.util;
 import java.io.File;
 
 public class Config {
-    private static final Config ourInstance = new Config();
+    private static final Config configInstance = new Config();
 
     public static final String URL = "https://shopicruit.myshopify.com/";
     public static final String IMAGE_LIST_ENDPOINT = "/admin/products.json?page=1&access_token=c32313df0d0ef512ca64d5b336a0d7c6";
@@ -12,13 +12,13 @@ public class Config {
 
     // TODO: Make it dynamic
     // Configurations defined in the SettingsFragment
-    private int pairsToMatchToCompleteGame = 10;
-    private int numOfCardsToMakeMatch = 2;
-    private int numberOfCards = pairsToMatchToCompleteGame * numOfCardsToMakeMatch;
-    private int timeBoardRevealed = 10;
+    private int pairsToMatchToCompleteGame;
+    private int numOfCardsToMakeMatch;
+    private int numberOfCards;
+    private int timeBoardRevealed;
 
     public static Config getInstance() {
-        return ourInstance;
+        return configInstance;
     }
 
     private Config() {
@@ -67,7 +67,7 @@ public class Config {
      * @return number of cards
      */
     public int getNumberOfCards() {
-        return numberOfCards;
+        return pairsToMatchToCompleteGame * numOfCardsToMakeMatch;
     }
 
     /**

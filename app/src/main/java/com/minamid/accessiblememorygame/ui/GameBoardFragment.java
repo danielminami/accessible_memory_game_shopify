@@ -68,6 +68,7 @@ public class GameBoardFragment extends CustomFragment{
         for (int i = 0; i < Config.getInstance().getNumberOfCards(); i++) {
             board.add(new MemoryCard(getContext()));
         }
+
         setPositions(board, numOfColumns);
 
         if (mViewModel.getIsGameStarted() == null) {
@@ -152,6 +153,14 @@ public class GameBoardFragment extends CustomFragment{
                         synchronized (customAdapter) {
                             customAdapter.notifyDataSetChanged();
                         }
+                        if (memoryCard.isShouldAnnounce()) {
+                            AccessibilityUtils.announceForAccessibility(memoryCard,
+                                    getString(R.string.card_revealed,
+                                            memoryCard.getRowPosition(),
+                                            memoryCard.getColPosition(),
+                                            memoryCard.getDescription()));
+                        }
+
                         Log.d("onChanged_OBSERVER", memoryCard.getRowPosition() + " - " + memoryCard.getColPosition());
                     }
                 }

@@ -1,9 +1,12 @@
 package com.minamid.accessiblememorygame.ui;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.preference.Preference;
+import android.support.v7.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +29,7 @@ public class MainFragment extends CustomFragment {
     @BindView(R.id.button_settings) Button button_settings;
     @BindView(R.id.imageView) ImageView imageView;
     private MainViewModel mViewModel;
+    private SharedPreferences mSharedPreferences;
 
     public static MainFragment newInstance() {
         return new MainFragment();
@@ -49,6 +53,7 @@ public class MainFragment extends CustomFragment {
         button_start_game.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                setConfigWithPreferences();
                 navigateTo(GameBoardFragment.newInstance(), true);
             }
         });
@@ -56,10 +61,8 @@ public class MainFragment extends CustomFragment {
         button_settings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: Create the settings screen
                 // TODO: Option for sound after Matching
                 // TODO: Create a option to stop announcing the card position
-                // TODO: Configurations using Preference Manager
                 // TODO: Maybe create different set of pictures
                 // TODO: Create difficulty levels which may involve time and trials
                 // Practice: As many, tries | 60 seconds
@@ -68,7 +71,7 @@ public class MainFragment extends CustomFragment {
                 // Hard: 3 errors, 25 seconds
                 // Pro: 0 errors, 15 seconds
                 // TODO: Create feature to unlock new difficulty levels
-                //navigateTo(SettingsFragment.newInstance(1), true);
+                navigateTo(SettingsFragment.newInstance(), true);
             }
         });
 
@@ -80,6 +83,16 @@ public class MainFragment extends CustomFragment {
         Glide.with(getContext())
                 .load(resourceId)
                 .into(imageView);
+    }
+
+    private void setConfigWithPreferences() {
+        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        String numOfMatchesPerGame = mSharedPreferences.getString(getString(R.string.preference_num_of_matches_per_game_key), "10" );
+        String numOfCardsToMakeMatch = mSharedPreferences.getString(getString(R.string.preference_num_of_cards_to_form_match_key), "2" );
+        String timeBoardRevealed = mSharedPreferences.getString(getString(R.string.preference_time_revealed_key), "10" );
+        Config.getInstance().setPairsToMatchToCompleteGame(Integer.parseInt(numOfMatchesPerGame));
+        Config.getInstance().setNumOfCardsToMakeMatch(Integer.parseInt(numOfCardsToMakeMatch));
+        Config.getInstance().setTimeBoardRevealed(Integer.parseInt(timeBoardRevealed));
     }
 
 }

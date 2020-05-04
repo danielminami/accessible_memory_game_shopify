@@ -31,5 +31,25 @@
     <string name="txt_user_moves">Moves: %d</string>
     <string name="txt_remaining_pairs">Remaining Pairs: %d</string>
     <string name="btn_restart_game">Restart Game</string>
+    <string name="title_activity_settings">Settings</string>
+
+    <!-- Strings related to Settings -->
+        <!-- Pairs to Match Tile -->
+        <string name="preference_num_of_matches_per_game_dialog_title">Number of Pair to Match</string>
+        <string name="preference_num_of_matches_per_game_key">num_of_matches_per_game</string>
+        <string name="preference_num_of_matches_per_game_summary">Choose how many pair you want to match</string>
+        <string name="preference_num_of_matches_per_game_title">Number of Pair to Match</string>
+
+        <!-- Cards to form a Match Tile -->
+        <string name="preference_num_of_cards_to_form_match_dialog_title">Number of Cards to Make a Match</string>
+        <string name="preference_num_of_cards_to_form_match_key">preference_num_of_cards_to_form_match</string>
+        <string name="preference_num_of_cards_to_form_match_summary">Choose how many cards makes one match</string>
+        <string name="preference_num_of_cards_to_form_match_title">Number of Cards to Make a Match</string>
+
+        <!-- Time Revealed Tile -->
+        <string name="preference_time_revealed_dialog_title">Seconds Cards are Revealed</string>
+        <string name="preference_time_revealed_key">preference_time_revealed_key</string>
+        <string name="preference_time_revealed_summary">Number of seconds cards are revealed before the game starts</string>
+        <string name="preference_time_revealed_title">Seconds Cards are Revealed</string>
 
 </resources>

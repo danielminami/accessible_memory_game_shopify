@@ -14,6 +14,7 @@ public class MemoryCard extends android.support.v7.widget.AppCompatImageView {
     private boolean isRevealed;
     private int rowPosition;
     private int colPosition;
+    private boolean shouldAnnounce;
 
     public MemoryCard(Context context) {
         super(context);
@@ -80,5 +81,13 @@ public class MemoryCard extends android.support.v7.widget.AppCompatImageView {
 
     private void setDefaultImage() {
         setImageResource(R.drawable.ic_question_mark);
+    }
+
+    public boolean isShouldAnnounce() {
+        return shouldAnnounce;
+    }
+
+    public void setShouldAnnounce(boolean shouldAnnounce) {
+        this.shouldAnnounce = shouldAnnounce;
     }
 }
