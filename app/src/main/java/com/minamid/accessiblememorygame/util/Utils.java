@@ -47,11 +47,11 @@ public class Utils {
             } else if (boardSize == BoardSize.SMALL_14) {
                 return 100;
             } else if (boardSize == BoardSize.MEDIUM_10) {
-                return 120;
+                return 100;
             } else if (boardSize == BoardSize.MEDIUM_12) {
-                return 100;
+                return 90;
             } else if (boardSize == BoardSize.MEDIUM_14) {
-                return 100;
+                return 90;
             } else if (boardSize == BoardSize.LARGE_10) {
                 return 80;
             } else if (boardSize == BoardSize.LARGE_12) {
