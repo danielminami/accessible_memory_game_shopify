@@ -73,6 +73,7 @@ public class GameViewModel extends ViewModel {
 
     }
 
+    //TODO: Write test for it
     public void onClick(View v) {
 
         final MemoryCard memoryCard = (MemoryCard) v;
@@ -162,6 +163,7 @@ public class GameViewModel extends ViewModel {
         }
     }
 
+    //TODO: Can I mock this service to test it?
     private void fetchCardImages() {
         imageService.fetchImageList(new ImageService.FetchImageCallBack() {
             @Override
@@ -203,6 +205,7 @@ public class GameViewModel extends ViewModel {
         });
     }
 
+    //TODO: Write test for this method
     private List<Image> duplicateAndShuffleCards(List<Product> productList) {
         List<Image> tempImageList = new ArrayList<>();
         for (int i = 0; i < Config.getInstance().getPairsToMatchToCompleteGame() + 1; i++) {
@@ -233,6 +236,7 @@ public class GameViewModel extends ViewModel {
         return true;
     }
 
+    //TODO: Write a Test for this Method
     private void updateObservable(MemoryCard... memoryCardList) {
         for (MemoryCard memoryCard : memoryCardList) {
             for (MutableLiveData<MemoryCard> card : cardListLiveData) {
@@ -244,6 +248,7 @@ public class GameViewModel extends ViewModel {
         }
     }
 
+    //TODO: Make it testable by making it accept the arrayOfCards
     private void updateObservableEnableClick(boolean shouldEnable) {
         for (MutableLiveData<MemoryCard> card : cardListLiveData) {
             card.getValue().setEnabled(shouldEnable);
@@ -255,12 +260,14 @@ public class GameViewModel extends ViewModel {
         announceableLiveData.setValue(announcements);
     }
 
+    //TODO: Make it testable by making it accept the arrayOfCards
     public void refreshBoard() {
         for (MutableLiveData<MemoryCard> cardMutableLiveData : cardListLiveData) {
             cardMutableLiveData.setValue(cardMutableLiveData.getValue());
         }
     }
 
+    //TODO: Make it testable by making it accept the arrayOfCards
     private void turnAllCardsFacedDown() {
         for (MutableLiveData<MemoryCard> card : cardListLiveData) {
             card.getValue().setRevealed(false);
