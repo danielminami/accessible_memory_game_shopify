@@ -6,6 +6,10 @@ This memory game focus Android users with vision impairment.
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
 
+## Build
+
+[![Build status](https://badge.buildkite.com/fae4d188e43aa2339505c96c4c7c0c0cc506f018abd3c6c949.svg)](https://buildkite.com/minamidaniel/accessible-memory-game)
+
 ### Prerequisites
 
 What things you need to install the software and how to install them
