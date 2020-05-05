@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
 
@@ -38,6 +39,7 @@ public class GameBoardFragment extends CustomFragment{
 
     @BindView(R.id.game_grid_layout) GridView gameGridView;
     @BindView(R.id.txt_player_moves) TextView txt_player_moves;
+    @BindView(R.id.btn_restart_game) Button btn_restart_game;
     @BindView(R.id.txt_remaining_pairs) TextView txt_remaining_pairs;
     @BindView(R.id.loading_progress_bar_container) ConstraintLayout loading_progress_bar_container;
 
@@ -62,8 +64,11 @@ public class GameBoardFragment extends CustomFragment{
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = ViewModelProviders.of(this).get(GameViewModel.class);
+        startGame();
+    }
 
-        // TODO: Should this be in the config file?
+    private void startGame() {
+
         int numOfColumns = Utils.getBoardSize(Config.getInstance().getNumberOfCards());
         BoardSize boardSize = BoardSize.getBoardSize(Config.getInstance().getNumberOfCards());
 
@@ -84,12 +89,34 @@ public class GameBoardFragment extends CustomFragment{
 
         txt_player_moves.setText(getString(R.string.txt_user_moves, mViewModel.getPlayerMoves().getValue().intValue()));
         txt_remaining_pairs.setText(getString(R.string.txt_remaining_pairs, mViewModel.getRemainingPairs().getValue().intValue()));
-        customAdapter = new BoardAdapter(getContext(), board, this, Utils.getGridViewSize(getContext(), boardSize));
+        customAdapter = new BoardAdapter(getContext(), board, this, Utils.getGridViewSize(getActivity(), boardSize));
 
         gameGridView.setVerticalSpacing(Utils.getGridViewVerticalSpacing(boardSize));
         gameGridView.setNumColumns(numOfColumns);
         gameGridView.setAdapter(customAdapter);
 
+        setListeners();
+    }
+
+    private void resetGame() {
+        board.clear();
+        gameGridView.setAdapter(null);
+        mViewModel.resetGame();
+        startGame();
+    }
+
+    private void setPositions(List<MemoryCard> cardList, int numOfColumns) {
+        int i = 1, j = 1;
+        for (MemoryCard card : cardList) {
+            card.setRowPosition(i);
+            card.setColPosition(j);
+            i = j == numOfColumns ? ++i : i;
+            j = j == numOfColumns ? 1 : ++j;
+            card.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_YES);
+        }
+    }
+
+    private void setListeners() {
         gameGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -104,43 +131,13 @@ public class GameBoardFragment extends CustomFragment{
             }
         });
 
-        // TODO: Implement Reset Game Button Logic
-        // TODO: Make everything accessible
+        btn_restart_game.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resetGame();
+            }
+        });
 
-        /*
-        // TODO: get this int from ViewModel
-        int[] boardSize = Utils.getBoardSize(getContext(), 20);
-
-        setupBoard(boardSize[0], boardSize[1]);
-        */
-    }
-//
-//    public void setupBoard(int rows, int cols) {
-//        gameGridView.setNumColumns(cols);
-//        GridLayout.Spec row;
-//        GridLayout.Spec colspan;
-//        GridLayout.LayoutParams gridLayoutParam;
-//
-//        for (int i = 0; i < rows; i++) {
-//            for (int j = 0; j < cols; j++) {
-//                MemoryCard memoryCard = new MemoryCard(getContext());
-//                row = GridLayout.spec(i, 1);
-//                colspan = GridLayout.spec(j, 1);
-//                gridLayoutParam = new GridLayout.LayoutParams(row, colspan);
-//                gameGridView.addView(memoryCard, gridLayoutParam);
-//            }
-//        }
-//    }
-
-    private void setPositions(List<MemoryCard> cardList, int numOfColumns) {
-        int i = 1, j = 1;
-        for (MemoryCard card : cardList) {
-            card.setRowPosition(i);
-            card.setColPosition(j);
-            i = j == numOfColumns ? ++i : i;
-            j = j == numOfColumns ? 1 : ++j;
-            card.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_YES);
-        }
     }
 
     private void setObservers() {
@@ -203,6 +200,13 @@ public class GameBoardFragment extends CustomFragment{
             }
         });
 
+        mViewModel.getIsResetEnabled().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(@Nullable Boolean shouldResetButtonEnable) {
+                btn_restart_game.setEnabled(shouldResetButtonEnable);
+            }
+        });
+
         mViewModel.getAnnounceableLiveData().observe(this, new Observer<Announcements>() {
             @Override
             public void onChanged(@Nullable Announcements announcements) {
@@ -233,7 +237,6 @@ public class GameBoardFragment extends CustomFragment{
                 txt_remaining_pairs.setText(getString(R.string.txt_remaining_pairs, remainingPairs));
             }
         });
-
     }
 
     private int findMatchingCardIndex(MemoryCard memoryCard) {
@@ -267,10 +270,6 @@ public class GameBoardFragment extends CustomFragment{
                                 .load(card.getSrc())
                                 .into(card);
                         card.setContentDescription(card.getDescription());
-//                        card.setContentDescription(getString(R.string.card_revealed,
-//                                card.getRowPosition(),
-//                                card.getColPosition(),
-//                                card.getDescription()));
                     } else {
                         Glide.with(getContext())
                                 .load(R.drawable.ic_question_mark)

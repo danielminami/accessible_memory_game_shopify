@@ -1,10 +1,14 @@
 package com.minamid.accessiblememorygame.util;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
+import android.graphics.Point;
 import android.util.DisplayMetrics;
 
 import com.minamid.accessiblememorygame.model.BoardSize;
+
+import okhttp3.internal.Util;
 
 public class Utils {
 
@@ -13,51 +17,55 @@ public class Utils {
      *
      * @return the column size
      **/
-    public static int calculateColumnSize(Context context, BoardSize boardSize) {
+    public static int calculateColumnSize(Activity activity, BoardSize boardSize) {
 
-        float columnWidthDp = (((Config.getInstance().getPairsToMatchToCompleteGame() * 2) + (Config.getInstance().getNumOfCardsToMakeMatch())/2));
+        Point screenWidth = new Point();
+        activity.getWindowManager().getDefaultDisplay().getSize(screenWidth);
+        return (int) (((double) screenWidth.x) / (Utils.getBoardSize(Config.getInstance().getNumberOfCards()) + Utils.getGridViewColumnSize(boardSize)));
 
-        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
-        float screenWidthDp = displayMetrics.widthPixels / displayMetrics.density;
-        return (int) ((screenWidthDp / columnWidthDp) + getGridViewColumnSize(boardSize));
+//        float columnWidthDp = (((Config.getInstance().getPairsToMatchToCompleteGame() * 2) + (Config.getInstance().getNumOfCardsToMakeMatch())/2));
+//        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+//        float screenWidthDp = displayMetrics.widthPixels / displayMetrics.density;
+//        return (int) ((screenWidthDp / columnWidthDp) + getGridViewColumnSize(boardSize));
+
 
     }
 
-    public static int getGridViewSize(Context context, BoardSize boardSize) {
-        int orientation = context.getResources().getConfiguration().orientation;
+    public static int getGridViewSize(Activity activity, BoardSize boardSize) {
+        int orientation = activity.getResources().getConfiguration().orientation;
 
         if (orientation == Configuration.ORIENTATION_PORTRAIT) {
             if (boardSize != null) {
-                return calculateColumnSize(context, boardSize);
+                return calculateColumnSize(activity, boardSize);
             }
         } else {
             if (boardSize != null) {
-                return calculateColumnSize(context, boardSize);
+                return calculateColumnSize(activity, boardSize);
             }
         }
         return 0;
     }
 
-    public static int getGridViewColumnSize(BoardSize boardSize) {
+    public static double getGridViewColumnSize(BoardSize boardSize) {
         if (boardSize != null) {
             if (boardSize == BoardSize.SMALL_10) {
-                return 120;
+                return 1;
             } else if (boardSize == BoardSize.SMALL_12) {
-                return 120;
+                return 1.5;
             } else if (boardSize == BoardSize.SMALL_14) {
-                return 100;
+                return 2.5;
             } else if (boardSize == BoardSize.MEDIUM_10) {
-                return 100;
+                return 1;
             } else if (boardSize == BoardSize.MEDIUM_12) {
-                return 90;
+                return 1;
             } else if (boardSize == BoardSize.MEDIUM_14) {
-                return 90;
+                return 1.5;
             } else if (boardSize == BoardSize.LARGE_10) {
-                return 80;
+                return 2.5;
             } else if (boardSize == BoardSize.LARGE_12) {
-                return 80;
+                return 2;
             } else if (boardSize == BoardSize.LARGE_14) {
-                return 70;
+                return 2;
             }
         }
         return 0;

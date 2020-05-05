@@ -60,13 +60,7 @@ public class MainFragment extends CustomFragment {
             @Override
             public void onClick(View v) {
                 // TODO: Option for sound after Matching
-                // TODO: Create a option to stop announcing the card position
                 // TODO: Maybe create different set of pictures
-                // Practice: As many, tries | 60 seconds
-                // Easy: 8 errors, 40 seconds
-                // Normal: 5 errors, 30 seconds
-                // Hard: 3 errors, 25 seconds
-                // Pro: 0 errors, 15 seconds
                 // TODO: Create feature to unlock new difficulty levels
                 navigateTo(SettingsFragment.newInstance(), true);
             }

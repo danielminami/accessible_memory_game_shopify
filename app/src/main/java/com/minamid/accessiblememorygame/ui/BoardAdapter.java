@@ -77,7 +77,6 @@ public class BoardAdapter extends BaseAdapter {
 
     static class ViewHolder {
         MemoryCard memoryCardInListView;
-
     }
 
 

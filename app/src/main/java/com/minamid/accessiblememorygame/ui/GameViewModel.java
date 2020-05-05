@@ -27,6 +27,7 @@ public class GameViewModel extends ViewModel {
     private MutableLiveData<Boolean> isWinnerLiveData = new MutableLiveData<>();
     private List<MutableLiveData<MemoryCard>> cardListLiveData = new ArrayList<>();
     private MutableLiveData<Boolean> isScreenLock = new MutableLiveData<>();
+    private MutableLiveData<Boolean> isResetEnabled = new MutableLiveData<>();
     private MutableLiveData<Announcements> announceableLiveData = new MutableLiveData<>();
     private List<MemoryCard> previousCardRevealed = new ArrayList<>();
     private MutableLiveData<Integer> playerMoves = new MutableLiveData<>();
@@ -37,6 +38,7 @@ public class GameViewModel extends ViewModel {
     public MutableLiveData<Integer> getPlayerMoves() { return playerMoves; }
     public MutableLiveData<Integer> getRemainingPairs() { return remainingPairs; }
     public MutableLiveData<Boolean> getIsWinnerLiveData() { return isWinnerLiveData; }
+    public MutableLiveData<Boolean> getIsResetEnabled() { return isResetEnabled; }
     public MutableLiveData<Boolean> getIsScreenLock() { return isScreenLock; }
     public MutableLiveData<Announcements> getAnnounceableLiveData() { return announceableLiveData; }
     public MutableLiveData<Boolean> getIsGameStarted() { return isGameStarted; }
@@ -46,6 +48,7 @@ public class GameViewModel extends ViewModel {
         if (isGameStarted == null) {
             this.imageService = imageService;
             this.isScreenLock.setValue(true);
+            isResetEnabled.setValue(false);
             this.isWinnerLiveData.setValue(false);
             setPositions(board, numOfColumns);
             setLiveData(board);
@@ -82,6 +85,7 @@ public class GameViewModel extends ViewModel {
 
         if (previousCardRevealed.size() == Config.getInstance().getNumOfCardsToMakeMatch() - 1) {
             boolean isMatch = true;
+            isResetEnabled.setValue(false);
             for (int i = 0; i < previousCardRevealed.size(); i++) {
                 if (!memoryCard.getImageId().equals(previousCardRevealed.get(i).getImageId())){
                     isMatch = false;
@@ -103,12 +107,14 @@ public class GameViewModel extends ViewModel {
 
                 if (checkIsWinner()) {
                     updateObservableEnableClick(false);
+                    isResetEnabled.setValue(true);
                     playerMoves.setValue(playerMoves.getValue() + 1);
                     remainingPairs.setValue(remainingPairs.getValue() - 1);
                     return;
                 }
 
                 remainingPairs.setValue(remainingPairs.getValue() - 1);
+                isResetEnabled.setValue(true);
                 updateObservable(memoryCard);
                 previousCardRevealed.clear();
 
@@ -124,6 +130,7 @@ public class GameViewModel extends ViewModel {
                     public void run() {
                         memoryCard.setRevealed(false);
                         memoryCard.setShouldAnnounce(false);
+                        isResetEnabled.setValue(true);
                         updateObservable(memoryCard);
                         for (MemoryCard previousCards : previousCardRevealed) {
                             previousCards.setRevealed(false);
@@ -156,7 +163,6 @@ public class GameViewModel extends ViewModel {
     }
 
     private void fetchCardImages() {
-        // TODO: Create a screen lock while service call is not complete
         imageService.fetchImageList(new ImageService.FetchImageCallBack() {
             @Override
             public void onSuccess(ImageResponse imageResponse) {
@@ -179,6 +185,7 @@ public class GameViewModel extends ViewModel {
                     public void run() {
                         updateObservableEnableClick(true);
                         updateObservableAnnounceable(Announcements.START_GAME);
+                        isResetEnabled.setValue(true);
                         turnAllCardsFacedDown();
                         Date date = new Date();
                         gameTimeInSeconds = date.getTime();
@@ -191,7 +198,6 @@ public class GameViewModel extends ViewModel {
             @Override
             public void onFailure(ResponseStatusCode responseStatusCode) {
                 isScreenLock.setValue(false);
-                // TODO: Unlock screen
                 // TODO: Handle service call Error
             }
         });
@@ -262,4 +268,9 @@ public class GameViewModel extends ViewModel {
         }
     }
 
+    public void resetGame() {
+        cardListLiveData.clear();
+        previousCardRevealed.clear();
+        isGameStarted = null;
+    }
 }

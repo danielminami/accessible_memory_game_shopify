@@ -9,11 +9,6 @@ public class ImageResponse {
     @SerializedName("products")
     private List<Product> products;
 
-    /**
-     * Retrieve the list of Products
-     *
-     * @return list of Products
-     */
     public List<Product> getProducts() {
         return products;
     }

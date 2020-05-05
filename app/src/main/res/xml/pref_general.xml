@@ -2,7 +2,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <android.support.v7.preference.PreferenceCategory
-        android:title="Category 1">
+        android:title="preference_block_game_settings_tile">
 
         <ListPreference
             android:defaultValue="10"

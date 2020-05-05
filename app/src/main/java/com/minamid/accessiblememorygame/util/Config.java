@@ -10,11 +10,8 @@ public class Config {
     public static File CACHE_LOCATION;
     public static final int CACHE_SIZE = 4092;
 
-    // TODO: Make it dynamic
-    // Configurations defined in the SettingsFragment
     private int pairsToMatchToCompleteGame;
     private int numOfCardsToMakeMatch;
-    private int numberOfCards;
     private int timeBoardRevealed;
 
     public static Config getInstance() {

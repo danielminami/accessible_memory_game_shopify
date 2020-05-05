@@ -19,7 +19,6 @@
 
     <!-- Game Fragment -->
     <string name="card_revealed">Row %d Column %d, %s</string>
-    <!--<string name="card_faced_down">Row %d Column %d, faced down</string>-->
     <string name="card_faced_down">Faced down</string>
     <string name="card_found">%s, matched</string>
     <string name="winner_header">Congratulations</string>
@@ -35,6 +34,7 @@
     <string name="title_activity_settings">Settings</string>
 
     <!-- Strings related to Settings -->
+        <string name="preference_block_game_settings_tile">Game Settings</string>
         <!-- Pairs to Match Tile -->
         <string name="preference_num_of_matches_per_game_dialog_title">Number of Pair to Match</string>
         <string name="preference_num_of_matches_per_game_key">num_of_matches_per_game</string>

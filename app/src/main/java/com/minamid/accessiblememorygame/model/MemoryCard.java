@@ -83,11 +83,7 @@ public class MemoryCard extends android.support.v7.widget.AppCompatImageView {
         setImageResource(R.drawable.ic_question_mark);
     }
 
-    public boolean isShouldAnnounce() {
-        return shouldAnnounce;
-    }
+    public boolean isShouldAnnounce() { return shouldAnnounce; }
 
-    public void setShouldAnnounce(boolean shouldAnnounce) {
-        this.shouldAnnounce = shouldAnnounce;
-    }
+    public void setShouldAnnounce(boolean shouldAnnounce) { this.shouldAnnounce = shouldAnnounce; }
 }
