@@ -2,6 +2,7 @@ package com.minamid.accessiblememorygame.ui;
 
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
+import android.support.annotation.VisibleForTesting;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
@@ -188,7 +189,7 @@ public class GameViewModel extends ViewModel {
                         updateObservableEnableClick(true);
                         updateObservableAnnounceable(Announcements.START_GAME);
                         isResetEnabled.setValue(true);
-                        turnAllCardsFacedDown();
+                        turnAllCardsFacedDown(cardListLiveData);
                         Date date = new Date();
                         gameTimeInSeconds = date.getTime();
                     }
@@ -268,7 +269,8 @@ public class GameViewModel extends ViewModel {
     }
 
     //TODO: Make it testable by making it accept the arrayOfCards
-    private void turnAllCardsFacedDown() {
+    @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
+    private void turnAllCardsFacedDown(List<MutableLiveData<MemoryCard>> cardListLiveData) {
         for (MutableLiveData<MemoryCard> card : cardListLiveData) {
             card.getValue().setRevealed(false);
             card.setValue(card.getValue());

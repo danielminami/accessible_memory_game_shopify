@@ -73,7 +73,9 @@ public class GameBoardFragment extends CustomFragment{
         BoardSize boardSize = BoardSize.getBoardSize(Config.getInstance().getNumberOfCards());
 
         for (int i = 0; i < Config.getInstance().getNumberOfCards(); i++) {
-            board.add(new MemoryCard(getContext()));
+            MemoryCard memoryCard = new MemoryCard(getContext());
+            memoryCard.setImageResource(R.drawable.ic_question_mark);
+            board.add(memoryCard);
         }
 
         setPositions(board, numOfColumns);
@@ -261,7 +263,7 @@ public class GameBoardFragment extends CustomFragment{
     }
 
     public void bindImage(MemoryCard... memoryCard) {
-        // TODO: Refactor to remove Glide Repetition
+        // TODO: Think how can I make this better...
         for (MemoryCard card : memoryCard) {
             if (card != null) {
                 if (!card.isFound()) {
