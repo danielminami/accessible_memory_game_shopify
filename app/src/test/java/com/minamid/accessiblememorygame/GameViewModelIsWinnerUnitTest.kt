@@ -9,13 +9,13 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-class GameViewModelUnitTest {
+class GameViewModelIsWinnerUnitTestUnitTest {
 
-    var mViewModel: GameViewModel = GameViewModel()
+    lateinit var mViewModel: GameViewModel
 
     @Before
     fun setup() {
-        val mViewModel = GameViewModel()
+        mViewModel = GameViewModel()
     }
 
     @Test
@@ -33,7 +33,5 @@ class GameViewModelUnitTest {
             assertEquals(false, it)
         })
     }
-
-
 
 }
