@@ -1,10 +1,7 @@
 package com.minamid.accessiblememorygame.model;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
-
-import com.minamid.accessiblememorygame.R;
 
 public class MemoryCard extends android.support.v7.widget.AppCompatImageView {
 
