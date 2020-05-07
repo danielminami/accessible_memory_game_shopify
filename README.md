@@ -30,9 +30,9 @@ link for accessibility reference from Google
 <img align="left" width="100" height="100" src="https://media.giphy.com/media/IdU8QouHMzMdseSEUG/giphy.gif">
 
 [x] Minimal requirement asked 
-
+```
 * Comments about how it was completed
-
+```
 ---
 
 \[x] The user should have to find a minimum of 10 pairs to win.
@@ -54,9 +54,9 @@ link for accessibility reference from Google
 <img align="right" width="100" height="100" src="https://media.indiedb.com/cache/images/games/1/35/34365/thumb_300x150/0_animation_Character_LevelUp.gif">
 
 [x] Bonuses requirements 
-
+```
 * Comments about how it was completed
-
+```
 ---
 
 \[x] Make the game configurable to match 3 or 4 of the same products instead of 2.
@@ -74,10 +74,13 @@ link for accessibility reference from Google
 \[x] Feel free to make the app beautiful and add anything else you think would be cool!
 * Please check out the Aditionl
 
+---
 
 ### Additional Features
 
-![AdditionalFeatures](https://media.giphy.com/media/13HgwGsXF0aiGY/giphy.gif)
+<img align="center" src="https://media.giphy.com/media/13HgwGsXF0aiGY/giphy.gif">
+
+---
 
 [x] Vision impaired focused game
     * 
