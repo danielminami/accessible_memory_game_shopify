@@ -25,11 +25,13 @@ link for accessibility reference from Google
 ## Project Requirements
 
 
-###`Basic` Requirements
+### `Basic` Requirements
 
 <img align="left" width="100" height="100" src="https://media.giphy.com/media/IdU8QouHMzMdseSEUG/giphy.gif">
 
-This is the stuff asked as a minimal requirement and comments about how it was completed.
+[x] Minimal requirement asked 
+
+* Comments about how it was completed
 
 ---
 
