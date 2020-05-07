@@ -24,7 +24,14 @@ link for accessibility reference from Google
 
 ## Project Requirements
 
-### Basic Requirements
+
+###`Basic` Requirements
+
+<img align="left" width="100" height="100" src="https://media.giphy.com/media/IdU8QouHMzMdseSEUG/giphy.gif">
+
+This is the stuff asked as a minimal requirement and comments about how it was completed.
+
+---
 
 \[x] The user should have to find a minimum of 10 pairs to win.
 * User can choose at the `SettingsFragment` page a different number of pairs to win.
@@ -37,6 +44,8 @@ link for accessibility reference from Google
 
 \[x] Make sure it compiles successfully.
 * An automated build is daily scheduled in [Buildkite] to make sure project compiles and passes all the tests successfully.
+
+---
 
 ### Bonus Requirements
 
