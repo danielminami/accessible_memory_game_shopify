@@ -26,18 +26,17 @@ link for accessibility reference from Google
 
 ### Basic Requirements
 
-[x] The user should have to find a minimum of 10 pairs to win.
-    * User can choose at the `SettingsFragment` page a different number of pairs to win.
-    
-[x] Keep track of how many pairs the user has found. 
-    * The `playerMoves` and `remainingPairs` LiveData objects keep track of it.
+\[x] The user should have to find a minimum of 10 pairs to win.
+* User can choose at the `SettingsFragment` page a different number of pairs to win.
 
-[x] When the user wins, display a message to let them know!
-    * The `isWinnerLiveData` is observed by the View and displays a dialog when condition is true.
+\[x] Keep track of how many pairs the user has found. 
+* The `playerMoves` and `remainingPairs` LiveData objects keep track of it.
 
-[x] Make sure it compiles successfully.
-    * An automated build is daily scheduled in [Buildkite] to make sure project compiles and passes all the tests successfully.
+\[x] When the user wins, display a message to let them know!
+* The `isWinnerLiveData` is observed by the View and displays a dialog when condition is true.
 
+\[x] Make sure it compiles successfully.
+* An automated build is daily scheduled in [Buildkite] to make sure project compiles and passes all the tests successfully.
 
 ### Bonus Requirements
 
