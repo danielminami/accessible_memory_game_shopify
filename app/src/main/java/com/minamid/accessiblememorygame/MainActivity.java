@@ -14,6 +14,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Config.getInstance().CACHE_LOCATION = getApplicationContext().getCacheDir();
 
+        // TODO: Git Hub Read Me
         // TODO: Authenticate using Google
         // TODO: Authenticate using Facebook
         // TODO: Authenticate using Firebase with email account
