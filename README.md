@@ -40,7 +40,7 @@ link for accessibility reference from Google
 
 ### Bonus Requirements
 
-![LevelUp](https://www.pngkey.com/png/detail/268-2687885_level-up-logo-level-up.png)
+![LevelUp](https://media.indiedb.com/cache/images/games/1/35/34365/thumb_300x150/0_animation_Character_LevelUp.gif)
 
 \[x] Make the game configurable to match 3 or 4 of the same products instead of 2.
 * `SettingsFragment` page allows users to change the match size.
@@ -59,6 +59,8 @@ link for accessibility reference from Google
 
 
 ### Additional Features
+
+![AdditionalFeatures](https://media.giphy.com/media/13HgwGsXF0aiGY/giphy.gif)
 
 [x] Vision impaired focused game
     * 
