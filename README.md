@@ -11,6 +11,8 @@ This memory game focus Android users with vision impairment.
   * [Bonus Requirements](#bonus-requirements)
   * [Additional Features](#additional-features)
 - [Screen Shots](#screen-shots)
+- [Author](#author)
+- [License](#license)
 
 ## About this project
 
@@ -78,7 +80,9 @@ link for accessibility reference from Google
 
 ### Additional Features
 
-<img align="center" src="https://media.giphy.com/media/13HgwGsXF0aiGY/giphy.gif">
+<p align="center">
+  <img width="460" height="300" src="https://media.giphy.com/media/13HgwGsXF0aiGY/giphy.gif">
+</p>
 
 ---
 
@@ -107,10 +111,11 @@ link for accessibility reference from Google
 Content from cell 1 | Content from cell 2
 Content in the first column | Content in the second column
 
-## Authors
+## Author
 
 * **Daniel Minami** 
+* minamidaniel@gmail.com
 
 ## License
 
-This project is licensed under the Apache License 2.0 License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the Apache License 2.0 License.
