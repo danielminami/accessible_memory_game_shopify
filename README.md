@@ -49,9 +49,15 @@ link for accessibility reference from Google
 
 ---
 
-### Bonus Requirements
+### `Bonus` Requirements
 
-![LevelUp](https://media.indiedb.com/cache/images/games/1/35/34365/thumb_300x150/0_animation_Character_LevelUp.gif)
+<img align="right" width="100" height="100" src="https://media.indiedb.com/cache/images/games/1/35/34365/thumb_300x150/0_animation_Character_LevelUp.gif">
+
+[x] Bonuses requirements 
+
+* Comments about how it was completed
+
+---
 
 \[x] Make the game configurable to match 3 or 4 of the same products instead of 2.
 * `SettingsFragment` page allows users to change the match size.
