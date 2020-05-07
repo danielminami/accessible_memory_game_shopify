@@ -4,13 +4,13 @@ This memory game focus Android users with vision impairment.
 
 ## Table of Contents
 
-- [About this Project](#heading)
-- [Build Status](#heading-2)
-- [Project Requirements](#heading-3)
-  * [Basic Requirements](#sub-heading-3)
-  * [Bonus Requirements](#sub-heading-3)
-  * [Additional Features](#sub-heading-3)
-- [Screen Shots](#heading-4)
+- [About this Project](#about-this-project)
+- [Build Status](#build-status)
+- [Project Requirements](#project-requirements)
+  * [Basic Requirements](#basic-requirements)
+  * [Bonus Requirements](#bonus-requirements)
+  * [Additional Features](#additional-features)
+- [Screen Shots](#screen-shots)
 
 ## About this project
 
@@ -40,20 +40,22 @@ link for accessibility reference from Google
 
 ### Bonus Requirements
 
-[x] Make the game configurable to match 3 or 4 of the same products instead of 2.
-    * `SettingsFragment` page allows users to change the match size.
+![LevelUp](https://www.pngkey.com/png/detail/268-2687885_level-up-logo-level-up.png)
 
-[x] Make the grid size configurable. (The player needs to match more than 10 sets of the same product).
-    * Users can choose both, `Number of Pairs to Win` and `Number of Cards to Make a Match`. This will determine the grid size automatically. The `Utils` class was created to make it look good in different devices and screen sizes.
+\[x] Make the game configurable to match 3 or 4 of the same products instead of 2.
+* `SettingsFragment` page allows users to change the match size.
 
-[x] Build a slick screen that keeps track of the user’s score.
-    * A `LinearLayout` was placed in the Game page bottom to keep user posted. This observes the `playerMoves` and `remainingPairs` LiveData objects.
+\[x] Make the grid size configurable. (The player needs to match more than 10 sets of the same product).
+* Users can choose both, `Number of Pairs to Win` and `Number of Cards to Make a Match`. This will determine the grid size automatically. The `Utils` class was created to make it look good in different devices and screen sizes.
 
-[x] Make a button that shuffles the game.
-    * Players are able to reset the game at almost any time. The exception comes when a `Runnable` is being executed.
+\[x] Build a slick screen that keeps track of the user’s score.
+* A `LinearLayout` was placed in the Game page bottom to keep user posted. This observes the `playerMoves` and `remainingPairs` LiveData objects.
 
-[x] Feel free to make the app beautiful and add anything else you think would be cool!
-    * Please check out the Aditionl
+\[x] Make a button that shuffles the game.
+* Players are able to reset the game at almost any time. The exception comes when a `Runnable` is being executed.
+
+\[x] Feel free to make the app beautiful and add anything else you think would be cool!
+* Please check out the Aditionl
 
 
 ### Additional Features
