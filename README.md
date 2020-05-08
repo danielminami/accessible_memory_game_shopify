@@ -1,6 +1,10 @@
+<p align="center">
+  <img src="https://github.com/danielminami/accessible_memory_game_shopify/blob/trunk/app/src/main/res/drawable/accessible_memory_game_logo_gray_2.png">
+</p>
+
 # Accessible Memory Game
 
-This memory game focus Android users with vision impairment.
+This game was passionately developed for Shopify for the Mobile Developer Intern (Android) - Fall 2020.
 
 ## Table of Contents
 
@@ -16,9 +20,11 @@ This memory game focus Android users with vision impairment.
 
 ## About this project
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
-
-link for accessibility reference from Google
+Thanks for taking time to read this. Some important consideration about this project:
+    1. I tried to show case my passion for Android Development by extending the original scope.
+    2. I added a special flavour to this project by making it **Accessible**.
+    3. I also included some other cool stuff such as automated tests and build, log Interceptor, and a Settings Screen.
+    4. I tried to follow as much as I could the [Shopify POS](https://engineering.shopify.com/blogs/engineering/building-shopify-pos-android-using-mvvm) Architecture with the difference of not adding `Contracts` between the `View` and the `ViewModel`. I am very familiar with this Design Pattern though, as I have experience using MVP. However, I decided to not use `Interfaces`, to avoid any call from the `ViewModel` to the `View`, but just `Observe` the changes.
 
 ## Build Status
 
@@ -29,7 +35,7 @@ link for accessibility reference from Google
 
 ### `Basic` Requirements
 
-<img align="left" width="100" height="100" src="https://media.giphy.com/media/IdU8QouHMzMdseSEUG/giphy.gif">
+<img align="right" width="100" height="100" src="https://media.giphy.com/media/IdU8QouHMzMdseSEUG/giphy.gif">
 
 - [x] Minimal requirement asked 
 ```
@@ -87,32 +93,32 @@ link for accessibility reference from Google
 ---
 
 - [x] Vision impaired focused game
-* As stated at the [Shopify's Accessibility Guide Lines](#https://polaris.shopify.com/foundations/accessibility#navigation) around 25% of the North Americans has some sort of disability. Accessible Memory Game was developed with special consideration to make it usable for everyone. Three main accessibility considerations are in place in this project: 
-1. All UI elements have `Content Description` added to it. Content bound dynamically also includes appropriated content descriptions.
-2. `Focus Order` is consistent. UI was designed to allow the natural flow of the Screen Reader.
-3. More than one `Feedback Mechanism` was implemented to serve users with different kids of disability.
-4. `UI Colors` were chosen respecting the [Shopify's Color Guide Line](#https://polaris.shopify.com/design/colors#navigation) having consideration about contrast and readability.
+    * As stated at the [Shopify's Accessibility Guide Lines](#https://polaris.shopify.com/foundations/accessibility#navigation) around 25% of the North Americans has some sort of disability. Accessible Memory Game was developed with special consideration to make it usable for everyone. Three main accessibility considerations are in place in this project: 
+        1. All UI elements have `Content Description` added to it. Content bound dynamically also includes appropriated content descriptions.
+        2. `Focus Order` is consistent. UI was designed to allow the natural flow of the Screen Reader.
+        3. More than one `Feedback Mechanism` was implemented to serve users with different kids of disability.
+        4. `UI Colors` were chosen respecting the [Shopify's Color Guide Line](#https://polaris.shopify.com/design/colors#navigation) having consideration about contrast and readability.
 
 - [x] Game configuration for impaired and non-impaired users
-* At Settings Page, users can switch on/off `Accessibility Enabled`. Switch off accessibility will enable features such as slight animations and sounds.
+    * At Settings Page, users can switch on/off `Accessibility Enabled`. Switch off accessibility will enable features such as slight animations and sounds.
 
 - [x] Custom Retrofit Class
-* `CustomRetrofit` implementation enhances code reusability and allows easy switch on/off network `Interceptors`.
+    * `CustomRetrofit` implementation enhances code reusability and allows easy switch on/off network `Interceptors`.
 
 - [x] Automated tests and build
-* Daily builds are ran at [Buildkite](#http://www.buildkite.com) to ensure code passes the tests and compiles successfully. Tests are written in Kotlin.
+    * Daily builds are ran at [Buildkite](#http://www.buildkite.com) to ensure code passes the tests and compiles successfully. Tests are written in Kotlin.
 
 - [x] Settings screen
-* Settings page allows users to change the difficulty level an also set the user experience.
+    * Settings page allows users to change the difficulty level an also set the user experience.
 
 - [x] Custom Fragment Class
-* This extended Fragment Class helps to keep track of the `Fragment` lifecycle, so we know what is going on under the hood. This is specially handy for debugging, as the application grows.
+    * This extended Fragment Class helps to keep track of the `Fragment` lifecycle, so we know what is going on under the hood. This is specially handy for debugging, as the application grows.
 
 - [x] Landing Fragment
     * A presentation landing fragment helps blind users to 
 
 - [ ] More Stuff?
-* Oh yeah!!! I wanted to do more stuff. Given the time constraint, I just listed it in the [Issues](#https://github.com/danielminami/accessible_memory_game_shopify/issues)
+    * Oh yeah!!! I wanted to do more stuff. Given the time constraint, I just listed it in the [Issues](https://github.com/danielminami/accessible_memory_game_shopify/issues).
 
 ## Screen Shots
 
@@ -139,7 +145,7 @@ Content in the first column | Content in the second column
 |Retrofit|To handle Service Calls|
 |Glide|To bind the images bind in the Custom `ImageView`|
 |Junit|To write some Unit Tests|
-|Roboeletric|Kinda Instrumentation test, once the context is need for some of them :-)|
+|Roboeletric|For some kinda Instrumentation test, once the context is needed for some of them :-)|
 |GSON|To convert JSON into POJO|
 
 
