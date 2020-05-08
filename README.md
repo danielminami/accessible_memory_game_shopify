@@ -21,10 +21,11 @@ This game was passionately developed for Shopify for the Mobile Developer Intern
 ## About this project
 
 Thanks for taking time to read this. Some important consideration about this project:
-    1. I tried to show case my passion for Android Development by extending the original scope.
-    2. I added a special flavour to this project by making it **Accessible**.
-    3. I also included some other cool stuff such as automated tests and build, log Interceptor, and a Settings Screen.
-    4. I tried to follow as much as I could the [Shopify POS](https://engineering.shopify.com/blogs/engineering/building-shopify-pos-android-using-mvvm) Architecture with the difference of not adding `Contracts` between the `View` and the `ViewModel`. I am very familiar with this Design Pattern though, as I have experience using MVP. However, I decided to not use `Interfaces`, to avoid any call from the `ViewModel` to the `View`, but just `Observe` the changes.
+
+1. I tried to show case my passion for Android Development by extending the original scope.
+2. I added a special flavour to this project by making it **Accessible**.
+3. I also included some other cool stuff such as automated tests and build, log Interceptor, and a Settings Screen.
+4. I tried to follow as much as I could the [Shopify POS](https://engineering.shopify.com/blogs/engineering/building-shopify-pos-android-using-mvvm) Architecture with the difference of not adding `Contracts` between the `View` and the `ViewModel`. I am very familiar with this Design Pattern though, as I have experience using MVP. However, I decided to not use `Interfaces`, to avoid any call from the `ViewModel` to the `View`, but just `Observe` the changes.
 
 ## Build Status
 
@@ -39,21 +40,16 @@ Thanks for taking time to read this. Some important consideration about this pro
 
 - [x] Minimal requirement asked 
 ```
-* Comments about how it was completed
+List of items in section "Requirements:"
 ```
 ---
 
-- [x] The user should have to find a minimum of 10 pairs to win.
-* User can choose at the `SettingsFragment` page a different number of pairs to win.
-
-- [x] Keep track of how many pairs the user has found. 
-* The `playerMoves` and `remainingPairs` LiveData objects keep track of it.
-
-- [x] When the user wins, display a message to let them know!
-* The `isWinnerLiveData` is observed by the View and displays a dialog when condition is true.
-
-- [x] Make sure it compiles successfully.
-* An automated build is daily scheduled in [Buildkite](#http://www.buildkite.com) to make sure project compiles and passes all the tests successfully.
+|Requirement|Status|
+|---|---|
+|The user should have to find a minimum of 10 pairs to win|:heavy_check_mark:|
+|Keep track of how many pairs the user has found|:heavy_check_mark:|
+|When the user wins, display a message to let them know!|:heavy_check_mark:|
+|Make sure it compiles successfully.|:heavy_check_mark:|
 
 ---
 
@@ -63,24 +59,17 @@ Thanks for taking time to read this. Some important consideration about this pro
 
 - [x] Bonuses requirements 
 ```
-* Comments about how it was completed
+List of items in section "Bonuses!"
 ```
 ---
 
-- [x] Make the game configurable to match 3 or 4 of the same products instead of 2.
-* `SettingsFragment` page allows users to change the match size.
-
-- [x] Make the grid size configurable. (The player needs to match more than 10 sets of the same product).
-* Users can choose both, `Number of Pairs to Win` and `Number of Cards to Make a Match`. This will determine the grid size automatically. The `Utils` class was created to make it look good in different devices and screen sizes.
-
-- [x] Build a slick screen that keeps track of the user’s score.
-* A `LinearLayout` was placed in the Game page bottom to keep user posted. This observes the `playerMoves` and `remainingPairs` LiveData objects.
-
-- [x] Make a button that shuffles the game.
-* Players are able to reset the game at almost any time. The exception comes when a `Runnable` is being executed.
-
-- [x] Feel free to make the app beautiful and add anything else you think would be cool!
-* Please check out the topic [Additional Features](#additional-features) to learn more about some more cool stuff.
+|Requirement|Status|
+|---|---|
+|Make the game configurable to match 3 or 4 of the same products instead of 2|:heavy_check_mark:|
+|Make the grid size configurable. (The player needs to match more than 10 sets of the same product).|:heavy_check_mark:|
+|Build a slick screen that keeps track of the user’s score.|:heavy_check_mark:|
+|Make a button that shuffles the game.|:heavy_check_mark:|
+|Feel free to make the app beautiful and add anything else you think would be cool!|:heavy_check_mark:|
 
 ---
 
@@ -103,7 +92,7 @@ Thanks for taking time to read this. Some important consideration about this pro
     * At Settings Page, users can switch on/off `Accessibility Enabled`. Switch off accessibility will enable features such as slight animations and sounds.
 
 - [x] Custom Retrofit Class
-    * `CustomRetrofit` implementation enhances code reusability and allows easy switch on/off network `Interceptors`.
+    * `CustomRetrofit` implementation enhances code reusability and allows a smooth switch on/off network `Interceptors`.
 
 - [x] Automated tests and build
     * Daily builds are ran at [Buildkite](#http://www.buildkite.com) to ensure code passes the tests and compiles successfully. Tests are written in Kotlin.
@@ -114,10 +103,7 @@ Thanks for taking time to read this. Some important consideration about this pro
 - [x] Custom Fragment Class
     * This extended Fragment Class helps to keep track of the `Fragment` lifecycle, so we know what is going on under the hood. This is specially handy for debugging, as the application grows.
 
-- [x] Landing Fragment
-    * A presentation landing fragment helps blind users to 
-
-- [ ] More Stuff?
+- [ ] More Stuff...
     * Oh yeah!!! I wanted to do more stuff. Given the time constraint, I just listed it in the [Issues](https://github.com/danielminami/accessible_memory_game_shopify/issues).
 
 ## Screen Shots
