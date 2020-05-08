@@ -1,14 +1,16 @@
-package com.minamid.accessiblememorygame.ui;
+package com.minamid.accessiblememorygame.ui.game;
 
 import android.app.AlertDialog;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +20,9 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
 
+import com.bumptech.glide.GenericTransitionOptions;
 import com.bumptech.glide.Glide;
+import com.minamid.accessiblememorygame.MainActivity;
 import com.minamid.accessiblememorygame.R;
 import com.minamid.accessiblememorygame.base.CustomFragment;
 import com.minamid.accessiblememorygame.model.Announcements;
@@ -47,6 +51,8 @@ public class GameBoardFragment extends CustomFragment{
     private List<MemoryCard> board = new ArrayList<>();
     private BoardAdapter customAdapter;
     private final int NO_CARD_FOUND = 99;
+    private MediaPlayer matchSound;
+    private MediaPlayer winnerSound;
 
     public static GameBoardFragment newInstance() {
         return new GameBoardFragment();
@@ -67,10 +73,20 @@ public class GameBoardFragment extends CustomFragment{
         startGame();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((MainActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ((MainActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);
+        ((MainActivity) getActivity()).getSupportActionBar().setTitle("");
+    }
+
     private void startGame() {
 
         int numOfColumns = Utils.getBoardSize(Config.getInstance().getNumberOfCards());
         BoardSize boardSize = BoardSize.getBoardSize(Config.getInstance().getNumberOfCards());
+        matchSound = MediaPlayer.create(getContext(), R.raw.esm_5_wickets_sound_fx_arcade_casino_kids_mobile_app);
+        winnerSound = MediaPlayer.create(getContext(), R.raw.esm_8_bit_small_win_arcade_80s_simple_alert_notification_game);
 
         for (int i = 0; i < Config.getInstance().getNumberOfCards(); i++) {
             MemoryCard memoryCard = new MemoryCard(getContext());
@@ -172,9 +188,10 @@ public class GameBoardFragment extends CustomFragment{
         mViewModel.getIsWinnerLiveData().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(@Nullable Boolean winner) {
-                // TODO: Create a share with Friends
-                // TODO: Create a Rank and integrate with a Service
                 if (winner) {
+                    if (!Config.getInstance().isAccessibilityEnabled()) {
+                        winnerSound.start();
+                    }
                     AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
                     alert.setTitle(getString(R.string.winner_header));
                     alert.setMessage(getString(R.string.winner_body_message, mViewModel.getGameTimeInSeconds()));
@@ -239,6 +256,13 @@ public class GameBoardFragment extends CustomFragment{
                 txt_remaining_pairs.setText(getString(R.string.txt_remaining_pairs, remainingPairs));
             }
         });
+
+        mViewModel.getIsMatchPlaySoundLiveData().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(@Nullable Boolean shouldSkipSound) {
+                if (!shouldSkipSound) matchSound.start();
+            }
+        });
     }
 
     private int findMatchingCardIndex(MemoryCard memoryCard) {
@@ -270,19 +294,25 @@ public class GameBoardFragment extends CustomFragment{
                     if (card.isRevealed()) {
                         Glide.with(getContext())
                                 .load(card.getSrc())
+                                .transition(GenericTransitionOptions.with(R.anim.slide_in_left))
                                 .into(card);
                         card.setContentDescription(card.getDescription());
                     } else {
                         Glide.with(getContext())
                                 .load(R.drawable.ic_question_mark)
+                                .transition(GenericTransitionOptions.with(R.anim.slide_in_left))
                                 .into(card);
                         card.setContentDescription(getString(R.string.card_faced_down));
                     }
                 } else {
-                    Glide.with(getContext())
-                            .load(R.drawable.ic_match)
-                            .into(card);
-                    card.setContentDescription(getString(R.string.card_found, card.getDescription()));
+                    if (Config.getInstance().isAccessibilityEnabled()) {
+                        Glide.with(getContext())
+                                .load(R.drawable.ic_match)
+                                .into(card);
+                        card.setContentDescription(getString(R.string.card_found, card.getDescription()));
+                    } else {
+                        card.setVisibility(View.GONE);
+                    }
                     card.setEnabled(false);
                 }
             }

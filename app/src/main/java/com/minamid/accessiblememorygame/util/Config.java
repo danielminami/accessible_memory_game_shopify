@@ -13,6 +13,7 @@ public class Config {
     private int pairsToMatchToCompleteGame;
     private int numOfCardsToMakeMatch;
     private int timeBoardRevealed;
+    private boolean accessibilityEnabled;
 
     public static Config getInstance() {
         return configInstance;
@@ -82,5 +83,13 @@ public class Config {
      */
     public void setTimeBoardRevealed(int timeBoardRevealed) {
         this.timeBoardRevealed = timeBoardRevealed;
+    }
+
+    public boolean isAccessibilityEnabled() {
+        return accessibilityEnabled;
+    }
+
+    public void setAccessibilityEnabled(boolean accessibilityEnabled) {
+        this.accessibilityEnabled = accessibilityEnabled;
     }
 }

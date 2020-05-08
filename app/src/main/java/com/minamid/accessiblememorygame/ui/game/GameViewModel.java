@@ -1,4 +1,4 @@
-package com.minamid.accessiblememorygame.ui;
+package com.minamid.accessiblememorygame.ui.game;
 
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
@@ -33,6 +33,7 @@ public class GameViewModel extends ViewModel {
     private List<MemoryCard> previousCardRevealed = new ArrayList<>();
     private MutableLiveData<Integer> playerMoves = new MutableLiveData<>();
     private MutableLiveData<Integer> remainingPairs = new MutableLiveData<>();
+    private MutableLiveData<Boolean> isMatchPlaySound = new MutableLiveData<>();
     private long gameTimeInSeconds;
 
     public List<MutableLiveData<MemoryCard>> getCardListLiveData() { return cardListLiveData; }
@@ -43,7 +44,10 @@ public class GameViewModel extends ViewModel {
     public MutableLiveData<Boolean> getIsScreenLock() { return isScreenLock; }
     public MutableLiveData<Announcements> getAnnounceableLiveData() { return announceableLiveData; }
     public MutableLiveData<Boolean> getIsGameStarted() { return isGameStarted; }
+    public MutableLiveData<Boolean> getIsMatchPlaySoundLiveData() { return isMatchPlaySound; }
     public long getGameTimeInSeconds() { return gameTimeInSeconds; }
+
+
 
     public void setBoard(List<MemoryCard> board, int numOfColumns, ImageService imageService) {
         if (isGameStarted == null) {
@@ -114,6 +118,8 @@ public class GameViewModel extends ViewModel {
                     remainingPairs.setValue(remainingPairs.getValue() - 1);
                     return;
                 }
+
+                if (!Config.getInstance().isAccessibilityEnabled()) { isMatchPlaySound.setValue(isWinnerLiveData.getValue()); }
 
                 remainingPairs.setValue(remainingPairs.getValue() - 1);
                 isResetEnabled.setValue(true);

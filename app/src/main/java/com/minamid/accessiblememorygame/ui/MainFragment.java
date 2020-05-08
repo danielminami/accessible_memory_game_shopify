@@ -1,11 +1,9 @@
 package com.minamid.accessiblememorygame.ui;
 
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,8 +13,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.minamid.accessiblememorygame.MainActivity;
 import com.minamid.accessiblememorygame.R;
 import com.minamid.accessiblememorygame.base.CustomFragment;
+import com.minamid.accessiblememorygame.ui.game.GameBoardFragment;
+import com.minamid.accessiblememorygame.ui.settings.SettingsFragment;
 import com.minamid.accessiblememorygame.util.Config;
 
 import butterknife.BindView;
@@ -60,14 +61,20 @@ public class MainFragment extends CustomFragment {
             @Override
             public void onClick(View v) {
                 // TODO: Option for sound after Matching
-                // TODO: Maybe create different set of pictures
-                // TODO: Create feature to unlock new difficulty levels
                 navigateTo(SettingsFragment.newInstance(), true);
             }
         });
 
         bindImage(imageView, R.drawable.accessible_memory_game_logo_gray_3);
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((MainActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        ((MainActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(false);
+        ((MainActivity) getActivity()).getSupportActionBar().setTitle(R.string.app_name);
     }
 
     private void bindImage(ImageView imageView, int resourceId) {
@@ -81,9 +88,11 @@ public class MainFragment extends CustomFragment {
         String numOfMatchesPerGame = mSharedPreferences.getString(getString(R.string.preference_num_of_matches_per_game_key), "10" );
         String numOfCardsToMakeMatch = mSharedPreferences.getString(getString(R.string.preference_num_of_cards_to_form_match_key), "2" );
         String timeBoardRevealed = mSharedPreferences.getString(getString(R.string.preference_time_revealed_key), "10" );
+        boolean accessibilityEnabled = mSharedPreferences.getBoolean("preference_accessibility_enabled_key",true);
         Config.getInstance().setPairsToMatchToCompleteGame(Integer.parseInt(numOfMatchesPerGame));
         Config.getInstance().setNumOfCardsToMakeMatch(Integer.parseInt(numOfCardsToMakeMatch));
         Config.getInstance().setTimeBoardRevealed(Integer.parseInt(timeBoardRevealed));
+        Config.getInstance().setAccessibilityEnabled(accessibilityEnabled);
     }
 
 }

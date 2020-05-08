@@ -35,11 +35,13 @@
 
     <!-- Strings related to Settings -->
         <string name="preference_block_game_settings_tile">Game Settings</string>
+        <string name="preference_block_accessibility_settings_tile">Accessibility Settings</string>
+
         <!-- Pairs to Match Tile -->
         <string name="preference_num_of_matches_per_game_dialog_title">Number of Pair to Match</string>
         <string name="preference_num_of_matches_per_game_key">num_of_matches_per_game</string>
         <string name="preference_num_of_matches_per_game_summary">Choose how many pair you want to match</string>
-        <string name="preference_num_of_matches_per_game_title">Number of Pair to Match</string>
+        <string name="preference_num_of_matches_per_game_title">Number of Pairs to Match</string>
 
         <!-- Cards to form a Match Tile -->
         <string name="preference_num_of_cards_to_form_match_dialog_title">Number of Cards to Make a Match</string>
@@ -52,5 +54,9 @@
         <string name="preference_time_revealed_key">preference_time_revealed_key</string>
         <string name="preference_time_revealed_summary">Number of seconds cards are revealed before the game starts</string>
         <string name="preference_time_revealed_title">Seconds Cards are Revealed</string>
+
+        <!-- Accessibility Enable Tile -->
+        <string name="preference_accessibility_enabled_title">Accessibility Enabled</string>
+        <string name="preference_accessibility_enabled_key">preference_accessibility_enabled_key</string>
 
 </resources>

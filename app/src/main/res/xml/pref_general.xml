@@ -33,4 +33,15 @@
 
     </android.support.v7.preference.PreferenceCategory>
 
+    <android.support.v7.preference.PreferenceCategory
+        android:title="@string/preference_block_accessibility_settings_tile">
+
+        <CheckBoxPreference android:title="@string/preference_accessibility_enabled_title"
+            android:defaultValue="true"
+            android:summary="This option makes the game more accessible by avoiding animations and sounds."
+            android:key="@string/preference_accessibility_enabled_key" />
+
+    </android.support.v7.preference.PreferenceCategory>
+
+
 </android.support.v7.preference.PreferenceScreen>

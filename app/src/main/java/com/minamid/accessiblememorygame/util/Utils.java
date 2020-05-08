@@ -18,17 +18,9 @@ public class Utils {
      * @return the column size
      **/
     public static int calculateColumnSize(Activity activity, BoardSize boardSize) {
-
         Point screenWidth = new Point();
         activity.getWindowManager().getDefaultDisplay().getSize(screenWidth);
         return (int) (((double) screenWidth.x) / (Utils.getBoardSize(Config.getInstance().getNumberOfCards()) + Utils.getGridViewColumnSize(boardSize)));
-
-//        float columnWidthDp = (((Config.getInstance().getPairsToMatchToCompleteGame() * 2) + (Config.getInstance().getNumOfCardsToMakeMatch())/2));
-//        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
-//        float screenWidthDp = displayMetrics.widthPixels / displayMetrics.density;
-//        return (int) ((screenWidthDp / columnWidthDp) + getGridViewColumnSize(boardSize));
-
-
     }
 
     public static int getGridViewSize(Activity activity, BoardSize boardSize) {

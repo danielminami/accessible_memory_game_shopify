@@ -2,7 +2,7 @@ package com.minamid.accessiblememorygame
 
 import android.arch.lifecycle.Observer
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.minamid.accessiblememorygame.ui.GameViewModel
+import com.minamid.accessiblememorygame.ui.game.GameViewModel
 import junit.framework.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test

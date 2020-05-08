@@ -1,4 +1,4 @@
-package com.minamid.accessiblememorygame.ui;
+package com.minamid.accessiblememorygame.ui.settings;
 
 import android.os.Bundle;
 import android.support.v7.preference.PreferenceFragmentCompat;

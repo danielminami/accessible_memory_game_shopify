@@ -1,7 +1,7 @@
 package com.minamid.accessiblememorygame
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.minamid.accessiblememorygame.ui.GameViewModel
+import com.minamid.accessiblememorygame.ui.game.GameViewModel
 import junit.framework.Assert
 import org.junit.Before
 import org.junit.Test

@@ -1,4 +1,4 @@
-package com.minamid.accessiblememorygame.ui;
+package com.minamid.accessiblememorygame.ui.game;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;
@@ -9,6 +9,7 @@ import android.widget.BaseAdapter;
 
 import com.minamid.accessiblememorygame.R;
 import com.minamid.accessiblememorygame.model.MemoryCard;
+import com.minamid.accessiblememorygame.ui.game.GameBoardFragment;
 
 import java.util.List;
 
