@@ -2,8 +2,7 @@
     <string name="app_name">Accessible Memory Game</string>
 
     <!-- MainFragment -->
-    <string name="txt_text_welcome">This game is targeted for users with vision impairment.
-        \nTalkback feature is not required but is recommended for the full game experience.</string>
+    <string name="txt_text_welcome">Welcome to the Accessible Memory Game. You can find the game settings at the Settings Button. .</string>
     <string name="contentDescription_text_welcome">
         %s
         Instructions:
