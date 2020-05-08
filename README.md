@@ -84,8 +84,8 @@ List of items in section "Bonuses!"
 
 ---
 
-- [x] Vision impaired focused game
-    * As stated at the [Shopify's Accessibility Guide Lines](#https://polaris.shopify.com/foundations/accessibility#navigation) around 25% of the North Americans has some sort of disability. Accessible Memory Game was developed with special consideration to make it usable for everyone. Three main accessibility considerations are in place in this project: 
+- [x] Accessibility focused game
+    * As stated at the [Shopify's Accessibility Guide Lines](#https://polaris.shopify.com/foundations/accessibility#navigation) around 20% of the North Americans has some sort of disability. Accessible Memory Game was developed with special consideration to make it usable for everyone. Three main accessibility considerations are in place in this project: 
         1. All UI elements have `Content Description` added to it. Content bound dynamically also includes appropriated content descriptions.
         2. `Focus Order` is consistent. UI was designed to allow the natural flow of the Screen Reader.
         3. More than one `Feedback Mechanism` was implemented to serve users with different kids of disability.
@@ -104,10 +104,10 @@ List of items in section "Bonuses!"
     * Settings page allows users to change the difficulty level an also set the user experience.
 
 - [x] Custom Fragment Class
-    * This extended Fragment Class helps to keep track of the `Fragment` lifecycle, so we know what is going on under the hood. This is specially handy for debugging, as the application grows.
+    * This extended Fragment Class logs the `Fragment` lifecycle, so we know what is going on under the hood. This is specially handy for debugging, as the application grows.
 
 - [ ] More Stuff...
-    * Oh yeah!!! I wanted to do more stuff. Given the time constraint, I just listed it in the [Issues](https://github.com/danielminami/accessible_memory_game_shopify/issues).
+    * Oh yeah!!! I wanted to do more stuff. Given the time constraint, I just listed the enhancements at [Issues](https://github.com/danielminami/accessible_memory_game_shopify/issues).
 
 ## Screen Shots
 
