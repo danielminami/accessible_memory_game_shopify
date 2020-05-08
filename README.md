@@ -15,6 +15,9 @@ This game was passionately developed for Shopify for the Mobile Developer Intern
   * [Bonus Requirements](#bonus-requirements)
   * [Additional Features](#additional-features)
 - [Screen Shots](#screen-shots)
+- [Libraries](#libraries)
+  * [Android Libraries](#android-libraries)
+  * [Third Party](#third-party)    
 - [Author](#author)
 - [License](#license)
 
