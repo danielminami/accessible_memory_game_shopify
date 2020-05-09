@@ -47,8 +47,6 @@ public class GameViewModel extends ViewModel {
     public MutableLiveData<Boolean> getIsMatchPlaySoundLiveData() { return isMatchPlaySound; }
     public long getGameTimeInSeconds() { return gameTimeInSeconds; }
 
-
-
     public void setBoard(List<MemoryCard> board, int numOfColumns, ImageService imageService) {
         if (isGameStarted == null) {
             this.imageService = imageService;
@@ -175,7 +173,9 @@ public class GameViewModel extends ViewModel {
         imageService.fetchImageList(new ImageService.FetchImageCallBack() {
             @Override
             public void onSuccess(ImageResponse imageResponse) {
-                List<Image> imageList = duplicateAndShuffleCards(imageResponse.getProducts());
+                List<Image> imageList = duplicateAndShuffleCards(imageResponse.getProducts(),
+                        Config.getInstance().getPairsToMatchToCompleteGame(),
+                        Config.getInstance().getNumOfCardsToMakeMatch());
                 for (int i = 0; i < cardListLiveData.size() && i < imageList.size(); i++) {
                     cardListLiveData.get(i).getValue().setImageId(imageList.get(i).getId());
                     cardListLiveData.get(i).getValue().setDescription(imageList.get(i).getDescription());
@@ -213,18 +213,24 @@ public class GameViewModel extends ViewModel {
     }
 
     //TODO: Write test for this method
-    private List<Image> duplicateAndShuffleCards(List<Product> productList) {
+    @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
+    private List<Image> duplicateAndShuffleCards(List<Product> productList, int numPairs, int matchSize) {
         List<Image> tempImageList = new ArrayList<>();
-        for (int i = 0; i < Config.getInstance().getPairsToMatchToCompleteGame() + 1; i++) {
-            if (i != 10) {
+        for (int i=0; tempImageList.size() < numPairs; i++) {
+            boolean shouldAddImage = true;
+            for (Image image : tempImageList) {
+                if (image.getDescription().equals(productList.get(i).getTitle())) {
+                    shouldAddImage = false;
+                }
+            }
+            if (shouldAddImage) {
                 productList.get(i).getImage().setDescription(productList.get(i).getTitle());
                 tempImageList.add(productList.get(i).getImage());
             }
         }
-
         List<Image> completeImageList = new ArrayList<>();
 
-        for (int i = 0; i < Config.getInstance().getNumOfCardsToMakeMatch(); i++) {
+        for (int i = 0; i < matchSize; i++) {
             completeImageList.addAll(tempImageList);
         }
         Collections.shuffle(completeImageList);
@@ -263,6 +269,7 @@ public class GameViewModel extends ViewModel {
         }
     }
 
+    // TODO: Test
     private void updateObservableAnnounceable(Announcements announcements) {
         announceableLiveData.setValue(announcements);
     }
@@ -274,7 +281,6 @@ public class GameViewModel extends ViewModel {
         }
     }
 
-    //TODO: Make it testable by making it accept the arrayOfCards
     @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
     private void turnAllCardsFacedDown(List<MutableLiveData<MemoryCard>> cardListLiveData) {
         for (MutableLiveData<MemoryCard> card : cardListLiveData) {

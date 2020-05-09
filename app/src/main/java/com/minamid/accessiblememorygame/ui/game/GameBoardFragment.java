@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
-import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -85,8 +84,8 @@ public class GameBoardFragment extends CustomFragment{
 
         int numOfColumns = Utils.getBoardSize(Config.getInstance().getNumberOfCards());
         BoardSize boardSize = BoardSize.getBoardSize(Config.getInstance().getNumberOfCards());
-        matchSound = MediaPlayer.create(getContext(), R.raw.esm_5_wickets_sound_fx_arcade_casino_kids_mobile_app);
-        winnerSound = MediaPlayer.create(getContext(), R.raw.esm_8_bit_small_win_arcade_80s_simple_alert_notification_game);
+        matchSound = MediaPlayer.create(getContext(), R.raw.match);
+        winnerSound = MediaPlayer.create(getContext(), R.raw.win);
 
         for (int i = 0; i < Config.getInstance().getNumberOfCards(); i++) {
             MemoryCard memoryCard = new MemoryCard(getContext());

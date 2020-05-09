@@ -85,11 +85,11 @@ List of items in section "Bonuses!"
 ---
 
 - [x] Accessibility focused game
-    * As stated at the [Shopify's Accessibility Guide Lines](#https://polaris.shopify.com/foundations/accessibility#navigation) around 20% of the North Americans has some sort of disability. Accessible Memory Game was developed with special consideration to make it usable for everyone. Three main accessibility considerations are in place in this project: 
+    * As stated at the [Shopify's Accessibility Guide Lines](https://polaris.shopify.com/foundations/accessibility#navigation) around 20% of the North Americans has some sort of disability. Accessible Memory Game was developed with special consideration to make it usable for everyone. Three main accessibility considerations are in place in this project: 
         1. All UI elements have `Content Description` added to it. Content bound dynamically also includes appropriated content descriptions.
         2. `Focus Order` is consistent. UI was designed to allow the natural flow of the Screen Reader.
         3. More than one `Feedback Mechanism` was implemented to serve users with different kids of disability.
-        4. `UI Colors` were chosen respecting the [Shopify's Color Guide Line](#https://polaris.shopify.com/design/colors#navigation) having consideration about contrast and readability.
+        4. `UI Colors` were chosen respecting the [Shopify's Color Guide Line](https://polaris.shopify.com/design/colors#navigation) having consideration about contrast and readability.
 
 - [x] Game configuration for impaired and non-impaired users
     * At Settings Page, users can switch on/off `Accessibility Enabled`. Switch off accessibility will enable features such as slight animations and sounds.
@@ -98,7 +98,7 @@ List of items in section "Bonuses!"
     * `CustomRetrofit` implementation enhances code reusability and allows a smooth switch on/off network `Interceptors`.
 
 - [x] Automated tests and build
-    * Daily builds are ran at [Buildkite](#http://www.buildkite.com) to ensure code passes the tests and compiles successfully. Tests are written in Kotlin.
+    * Daily builds are ran at [Buildkite](http://www.buildkite.com) to ensure code passes the tests and compiles successfully. Tests are written in Kotlin.
 
 - [x] Settings screen
     * Settings page allows users to change the difficulty level an also set the user experience.

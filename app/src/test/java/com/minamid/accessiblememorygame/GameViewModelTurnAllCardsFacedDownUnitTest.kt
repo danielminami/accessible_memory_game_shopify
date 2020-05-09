@@ -24,7 +24,6 @@ class GameViewModelTurnAllCardsFacedDownUnitTest {
     fun setup() {
         mViewModel = GameViewModel()
         mListOfMemoryCard = ArrayList()
-//        instrumentationContext = InstrumentationRegistry.getInstrumentation().context
         instrumentationContext = InstrumentationRegistry.getInstrumentation().targetContext.applicationContext
         for (x in 0 until 9) {
             memoryCardLiveData = MutableLiveData<MemoryCard>()

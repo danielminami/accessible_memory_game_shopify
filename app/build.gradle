@@ -55,6 +55,8 @@ dependencies {
     }
     implementation 'org.glassfish:javax.annotation:10.0-b28'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    implementation "com.airbnb.android:lottie:2.7.0"
 }
 repositories {
     mavenCentral()
