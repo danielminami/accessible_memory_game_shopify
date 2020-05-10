@@ -25,10 +25,10 @@ This game was passionately developed for Shopify for the Mobile Developer Intern
 
 Thanks for taking time to read this. Some important consideration about this project:
 
-1. I tried to show case my passion for Android Development by extending the original scope.
+1. I tried to show case my skills and passion for Android by going beyond the original scope.
 2. I added a special flavour to this project by making it **Accessible**.
 3. I also included some other cool stuff such as automated tests and build, log Interceptor, and a Settings Screen.
-4. I tried to follow as much as I could the [Shopify POS](https://engineering.shopify.com/blogs/engineering/building-shopify-pos-android-using-mvvm) Architecture with the difference of not adding `Contracts` between the `View` and the `ViewModel`. I am very familiar with this Design Pattern though, as I have experience using MVP. However, I decided to not use `Interfaces`, to avoid any call from the `ViewModel` to the `View`, but just `Observe` the changes.
+4. I tried to follow as much as I could the [Shopify POS](https://engineering.shopify.com/blogs/engineering/building-shopify-pos-android-using-mvvm) Architecture. The only thing I purposefully didn't add was the `Contracts` between the `View` and the `ViewModel`. Although I am familiar with this Design Pattern, as I have worked with MVP, I decided to consistently keep the `View` observing the `LiveData`.
 
 ## Build Status
 
@@ -98,10 +98,10 @@ List of items in section "Bonuses!"
     * `CustomRetrofit` implementation enhances code reusability and allows a smooth switch on/off network `Interceptors`.
 
 - [x] Automated tests and build
-    * Daily builds are ran at [Buildkite](http://www.buildkite.com) to ensure code passes the tests and compiles successfully. Tests are written in Kotlin.
+    * Scheduled builds are ran at [Buildkite](http://www.buildkite.com) to ensure code passes the tests and compiles successfully. Tests were written in **Kotlin**.
 
 - [x] Settings screen
-    * Settings page allows users to change the difficulty level an also set the user experience.
+    * Settings page allows users to change the difficulty level an also set the user experience for Accessibility.
 
 - [x] Custom Fragment Class
     * This extended Fragment Class logs the `Fragment` lifecycle, so we know what is going on under the hood. This is specially handy for debugging, as the application grows.
@@ -111,9 +111,9 @@ List of items in section "Bonuses!"
 
 ## Screen Shots
 
-| ------------ | ------------- |
-Content from cell 1 | Content from cell 2
-Content in the first column | Content in the second column
+|Accessibility Enabled|Accessibility Disabled|
+|---|---|
+
 
 ## Libraries
 
