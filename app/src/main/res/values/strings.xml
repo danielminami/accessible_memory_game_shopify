@@ -20,11 +20,15 @@
     <string name="card_revealed">Row %d Column %d, %s</string>
     <string name="card_faced_down">Faced down</string>
     <string name="card_found">%s, matched</string>
-    <string name="winner_header">Congratulations</string>
-    <string name="winner_body_message">You finished the game in %d seconds</string>
-    <string name="winner_button_text">Return to main</string>
     <string name="time_to_explore">You have %d seconds to explore</string>
     <string name="game_start">Game started</string>
+
+        <!-- Winner Dialog Fragment -->
+    <string name="winner_header">Congratulations</string>
+    <string name="winner_body_message">You won in %d seconds</string>
+    <string name="winner_animation">Fireworks animation</string>
+    <string name="winner_button_text">Return to main</string>
+    <string name="winner_bundle_value_winning_seconds_key">timeSpent</string>
 
     <!-- Game Fragment - Screen Elements -->
     <string name="txt_user_moves">Moves: %d</string>
@@ -57,5 +61,6 @@
         <!-- Accessibility Enable Tile -->
         <string name="preference_accessibility_enabled_title">Accessibility Enabled</string>
         <string name="preference_accessibility_enabled_key">preference_accessibility_enabled_key</string>
+
 
 </resources>

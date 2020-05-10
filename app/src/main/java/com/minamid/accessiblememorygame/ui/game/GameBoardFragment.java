@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
+import android.support.v4.app.DialogFragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -120,6 +121,7 @@ public class GameBoardFragment extends CustomFragment{
         gameGridView.setAdapter(null);
         mViewModel.resetGame();
         startGame();
+
     }
 
     private void setPositions(List<MemoryCard> cardList, int numOfColumns) {
@@ -187,20 +189,27 @@ public class GameBoardFragment extends CustomFragment{
         mViewModel.getIsWinnerLiveData().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(@Nullable Boolean winner) {
-                if (winner) {
-                    if (!Config.getInstance().isAccessibilityEnabled()) {
+                if (winner != null && winner) {
+                    if (Config.getInstance().isAccessibilityEnabled()) {
+                        AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
+                        alert.setTitle(getString(R.string.winner_header));
+                        alert.setMessage(getString(R.string.winner_body_message, mViewModel.getGameTimeInSeconds()));
+                        alert.setPositiveButton(getString(R.string.winner_button_text), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                getActivity().onBackPressed();
+                            }
+                        });
+                        alert.show();
+                    } else {
+                        Bundle bundle = new Bundle();
+                        bundle.putLong(getString(R.string.winner_bundle_value_winning_seconds_key),
+                                mViewModel.getGameTimeInSeconds());
                         winnerSound.start();
+                        DialogFragment winnerFragment = new WinnerFragment();
+                        winnerFragment.setArguments(bundle);
+                        winnerFragment.show(getFragmentManager(), "");
                     }
-                    AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
-                    alert.setTitle(getString(R.string.winner_header));
-                    alert.setMessage(getString(R.string.winner_body_message, mViewModel.getGameTimeInSeconds()));
-                    alert.setPositiveButton(getString(R.string.winner_button_text), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            getActivity().onBackPressed();
-                        }
-                    });
-                    alert.show();
                 }
                 Log.d("onChanged", "Winner Observer: " + winner.toString());
             }

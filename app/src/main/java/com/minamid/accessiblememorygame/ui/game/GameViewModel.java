@@ -212,7 +212,6 @@ public class GameViewModel extends ViewModel {
         });
     }
 
-    //TODO: Write test for this method
     @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
     private List<Image> duplicateAndShuffleCards(List<Product> productList, int numPairs, int matchSize) {
         List<Image> tempImageList = new ArrayList<>();

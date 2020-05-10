@@ -146,6 +146,7 @@ Content in the first column | Content in the second column
 ## Credits
 
 * Game Sounds from Zapsplat.com
+* Animation by Omar Mahmoud
 
 ## License
 
