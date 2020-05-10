@@ -22,6 +22,7 @@
     <string name="card_found">%s, matched</string>
     <string name="time_to_explore">You have %d seconds to explore</string>
     <string name="game_start">Game started</string>
+    <string name="network_error">An error occurred. Please try again.</string>
 
         <!-- Winner Dialog Fragment -->
     <string name="winner_header">Congratulations</string>

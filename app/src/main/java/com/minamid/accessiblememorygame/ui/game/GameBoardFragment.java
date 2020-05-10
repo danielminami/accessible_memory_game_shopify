@@ -19,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.GenericTransitionOptions;
 import com.bumptech.glide.Glide;
@@ -50,9 +51,10 @@ public class GameBoardFragment extends CustomFragment{
     private GameViewModel mViewModel;
     private List<MemoryCard> board = new ArrayList<>();
     private BoardAdapter customAdapter;
-    private final int NO_CARD_FOUND = 99;
     private MediaPlayer matchSound;
     private MediaPlayer winnerSound;
+
+    private final int NO_CARD_FOUND = 99;
 
     public static GameBoardFragment newInstance() {
         return new GameBoardFragment();
@@ -73,6 +75,9 @@ public class GameBoardFragment extends CustomFragment{
         startGame();
     }
 
+    /**
+     * onResume here is hiding the Activity Action Bar Back Button.
+     */
     @Override
     public void onResume() {
         super.onResume();
@@ -81,41 +86,32 @@ public class GameBoardFragment extends CustomFragment{
         ((MainActivity) getActivity()).getSupportActionBar().setTitle("");
     }
 
+    /**
+     * This method starts the game. It calls a chain of functions the create UI and setup LiveData.
+     *
+     */
     private void startGame() {
 
-        int numOfColumns = Utils.getBoardSize(Config.getInstance().getNumberOfCards());
-        BoardSize boardSize = BoardSize.getBoardSize(Config.getInstance().getNumberOfCards());
-        matchSound = MediaPlayer.create(getContext(), R.raw.match);
-        winnerSound = MediaPlayer.create(getContext(), R.raw.win);
+        int numOfCards = Utils.getBoardSize(Config.getInstance().getNumberOfCards());
 
-        for (int i = 0; i < Config.getInstance().getNumberOfCards(); i++) {
-            MemoryCard memoryCard = new MemoryCard(getContext());
-            memoryCard.setImageResource(R.drawable.ic_question_mark);
-            board.add(memoryCard);
-        }
+        setBoard(numOfCards);
 
-        setPositions(board, numOfColumns);
+        setMediaResources();
 
-        if (mViewModel.getIsGameStarted() == null) {
-            mViewModel.setBoard(board, numOfColumns, new ImageService());
-        } else {
-            mViewModel.refreshBoard();
-            gameGridView.setAdapter(null);
-        }
+        setPositions(board, numOfCards);
+
+        setViewModel(numOfCards);
 
         setObservers();
 
-        txt_player_moves.setText(getString(R.string.txt_user_moves, mViewModel.getPlayerMoves().getValue().intValue()));
-        txt_remaining_pairs.setText(getString(R.string.txt_remaining_pairs, mViewModel.getRemainingPairs().getValue().intValue()));
-        customAdapter = new BoardAdapter(getContext(), board, this, Utils.getGridViewSize(getActivity(), boardSize));
-
-        gameGridView.setVerticalSpacing(Utils.getGridViewVerticalSpacing(boardSize));
-        gameGridView.setNumColumns(numOfColumns);
-        gameGridView.setAdapter(customAdapter);
+        setUI(numOfCards);
 
         setListeners();
     }
 
+    /**
+     * Restarts the game. This resets the arrays, the adapter and the ViewModel
+     */
     private void resetGame() {
         board.clear();
         gameGridView.setAdapter(null);
@@ -124,6 +120,12 @@ public class GameBoardFragment extends CustomFragment{
 
     }
 
+    /**
+     * Set positions X and Y for each MemoryCard
+     *
+     * @param cardList
+     * @param numOfColumns
+     */
     private void setPositions(List<MemoryCard> cardList, int numOfColumns) {
         int i = 1, j = 1;
         for (MemoryCard card : cardList) {
@@ -271,8 +273,75 @@ public class GameBoardFragment extends CustomFragment{
                 if (!shouldSkipSound) matchSound.start();
             }
         });
+
+        mViewModel.getIsNetworkError().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(@Nullable Boolean isNetworkError) {
+                if (isNetworkError) {
+                    Toast.makeText(getContext(), getString(R.string.network_error), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
+    /**
+     * Setup UI components
+     *
+     * @param numOfCards
+     */
+    private void setUI(int numOfCards) {
+        BoardSize boardSize = BoardSize.getBoardSize(numOfCards);
+        txt_player_moves.setText(getString(R.string.txt_user_moves, mViewModel.getPlayerMoves().getValue().intValue()));
+        txt_remaining_pairs.setText(getString(R.string.txt_remaining_pairs, mViewModel.getRemainingPairs().getValue().intValue()));
+        customAdapter = new BoardAdapter(getContext(), board, this, Utils.getGridViewSize(getActivity(), boardSize));
+
+        gameGridView.setVerticalSpacing(Utils.getGridViewVerticalSpacing(boardSize));
+        gameGridView.setNumColumns(numOfCards);
+        gameGridView.setAdapter(customAdapter);
+    }
+
+    /**
+     * Setup Game Sounds
+     */
+    private void setMediaResources() {
+        matchSound = MediaPlayer.create(getContext(), R.raw.match);
+        winnerSound = MediaPlayer.create(getContext(), R.raw.win);
+    }
+
+    /**
+     * Create the UI MemoryCard elements
+     *
+     * @param numOfCards
+     */
+    private void setBoard(int numOfCards) {
+        for (int i = 0; i < numOfCards; i++) {
+            MemoryCard memoryCard = new MemoryCard(getContext());
+            memoryCard.setImageResource(R.drawable.ic_question_mark);
+            board.add(memoryCard);
+        }
+    }
+
+    /**
+     * Starts the View Model by calling setBoard.
+     * Also used to reset the game
+     *
+     * @param numOfCards
+     */
+    private void setViewModel(int numOfCards) {
+        if (mViewModel.getIsGameStarted() == null) {
+            mViewModel.setBoard(board, numOfCards, new ImageService());
+        } else {
+            mViewModel.refreshBoard();
+            gameGridView.setAdapter(null);
+        }
+    }
+
+    /**
+     * Finds the UI component related to the LiveData
+     *
+     * @param memoryCard
+     * @return
+     */
     private int findMatchingCardIndex(MemoryCard memoryCard) {
         for (int i = 0; i < board.size(); i++) {
             if (board.get(i).getRowPosition() == memoryCard.getRowPosition() &&
@@ -283,6 +352,12 @@ public class GameBoardFragment extends CustomFragment{
         return NO_CARD_FOUND;
     }
 
+    /**
+     * Updates the View with data coming from the ViewModel
+     *
+     * @param viewMemoryCard
+     * @param liveDataMemoryCard
+     */
     private void setLiveDataIntoView(MemoryCard viewMemoryCard, MemoryCard liveDataMemoryCard) {
         viewMemoryCard.setRevealed(liveDataMemoryCard.isRevealed());
         viewMemoryCard.setSrc(liveDataMemoryCard.getSrc());
@@ -294,6 +369,11 @@ public class GameBoardFragment extends CustomFragment{
         viewMemoryCard.setDescription(liveDataMemoryCard.getDescription());
     }
 
+    /**
+     * Binds data in the MemoryCard Element. Notify's the Adapter about data changes.
+     *
+     * @param memoryCard
+     */
     public void bindImage(MemoryCard... memoryCard) {
         // TODO: Think how can I make this better...
         for (MemoryCard card : memoryCard) {

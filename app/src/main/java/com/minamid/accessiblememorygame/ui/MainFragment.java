@@ -57,7 +57,6 @@ public class MainFragment extends CustomFragment {
         button_settings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: Option for sound after Matching
                 navigateTo(SettingsFragment.newInstance(), true);
             }
         });

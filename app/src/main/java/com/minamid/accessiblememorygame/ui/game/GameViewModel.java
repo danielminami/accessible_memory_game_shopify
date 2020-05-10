@@ -6,6 +6,7 @@ import android.support.annotation.VisibleForTesting;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.minamid.accessiblememorygame.model.Announcements;
 import com.minamid.accessiblememorygame.model.Image;
@@ -29,6 +30,7 @@ public class GameViewModel extends ViewModel {
     private List<MutableLiveData<MemoryCard>> cardListLiveData = new ArrayList<>();
     private MutableLiveData<Boolean> isScreenLock = new MutableLiveData<>();
     private MutableLiveData<Boolean> isResetEnabled = new MutableLiveData<>();
+    private MutableLiveData<Boolean> isNetworkError = new MutableLiveData<>();
     private MutableLiveData<Announcements> announceableLiveData = new MutableLiveData<>();
     private List<MemoryCard> previousCardRevealed = new ArrayList<>();
     private MutableLiveData<Integer> playerMoves = new MutableLiveData<>();
@@ -46,14 +48,12 @@ public class GameViewModel extends ViewModel {
     public MutableLiveData<Boolean> getIsGameStarted() { return isGameStarted; }
     public MutableLiveData<Boolean> getIsMatchPlaySoundLiveData() { return isMatchPlaySound; }
     public long getGameTimeInSeconds() { return gameTimeInSeconds; }
+    public MutableLiveData<Boolean> getIsNetworkError() { return isNetworkError; }
 
     public void setBoard(List<MemoryCard> board, int numOfColumns, ImageService imageService) {
         if (isGameStarted == null) {
             this.imageService = imageService;
-            this.isScreenLock.setValue(true);
-            isResetEnabled.setValue(false);
-            this.isWinnerLiveData.setValue(false);
-            setPositions(board, numOfColumns);
+            isWinnerLiveData.setValue(false);
             setLiveData(board);
             fetchCardImages();
         }
@@ -77,6 +77,10 @@ public class GameViewModel extends ViewModel {
     }
 
     //TODO: Write test for it
+    /**
+     * This is called by the UI when a Card is clicked
+     * @param v View Clicked
+     */
     public void onClick(View v) {
 
         final MemoryCard memoryCard = (MemoryCard) v;
@@ -158,18 +162,10 @@ public class GameViewModel extends ViewModel {
 
     }
 
-    private void setPositions(List<MemoryCard> cardList, int numOfColumns) {
-        int i = 1, j = 1;
-        for (MemoryCard card : cardList) {
-            card.setRowPosition(i);
-            card.setColPosition(j);
-            i = j == numOfColumns ? ++i : i;
-            j = j == numOfColumns ? 1 : ++j;
-        }
-    }
-
-    //TODO: Can I mock this service to test it?
+    //TODO: Mock Service to write automated test
     private void fetchCardImages() {
+        isResetEnabled.setValue(false);
+        isScreenLock.setValue(true);
         imageService.fetchImageList(new ImageService.FetchImageCallBack() {
             @Override
             public void onSuccess(ImageResponse imageResponse) {
@@ -205,13 +201,23 @@ public class GameViewModel extends ViewModel {
             }
 
             @Override
+            //TODO: Handle the error code
             public void onFailure(ResponseStatusCode responseStatusCode) {
                 isScreenLock.setValue(false);
-                // TODO: Handle service call Error
+                isNetworkError.postValue(true);
             }
         });
     }
 
+    /**
+     * This method multiplies the number of cards according to the user Settings.
+     * Also Shuffles the array.
+     *
+     * @param productList
+     * @param numPairs
+     * @param matchSize
+     * @return
+     */
     @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
     private List<Image> duplicateAndShuffleCards(List<Product> productList, int numPairs, int matchSize) {
         List<Image> tempImageList = new ArrayList<>();
@@ -236,6 +242,11 @@ public class GameViewModel extends ViewModel {
         return completeImageList;
     }
 
+    /**
+     * Check for the winning condition.
+     *
+     * @return
+     */
     private boolean checkIsWinner() {
         for (MutableLiveData<MemoryCard> memoryCardMutableLiveData : cardListLiveData) {
             if (!memoryCardMutableLiveData.getValue().isFound()) {
@@ -261,6 +272,10 @@ public class GameViewModel extends ViewModel {
     }
 
     //TODO: Make it testable by making it accept the arrayOfCards
+    /**
+     * Enable / Disable click in the whole board.
+     * @param shouldEnable
+     */
     private void updateObservableEnableClick(boolean shouldEnable) {
         for (MutableLiveData<MemoryCard> card : cardListLiveData) {
             card.getValue().setEnabled(shouldEnable);
@@ -268,18 +283,27 @@ public class GameViewModel extends ViewModel {
         }
     }
 
-    // TODO: Test
+    // TODO: Write Test
+    /**
+     * Updates the announceable LiveData for Accessibility
+     * @param announcements
+     */
     private void updateObservableAnnounceable(Announcements announcements) {
         announceableLiveData.setValue(announcements);
     }
 
-    //TODO: Make it testable by making it accept the arrayOfCards
+    // TODO: Write Test
     public void refreshBoard() {
         for (MutableLiveData<MemoryCard> cardMutableLiveData : cardListLiveData) {
             cardMutableLiveData.setValue(cardMutableLiveData.getValue());
         }
     }
 
+    /**
+     * This method turn all cards faced down.
+     *
+     * @param cardListLiveData
+     */
     @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
     private void turnAllCardsFacedDown(List<MutableLiveData<MemoryCard>> cardListLiveData) {
         for (MutableLiveData<MemoryCard> card : cardListLiveData) {
