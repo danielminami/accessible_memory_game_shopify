@@ -113,6 +113,7 @@ List of items in section "Bonuses!"
 
 |Accessibility Enabled|Accessibility Disabled|
 |---|---|
+|![MainScreen](https://github.com/danielminami/accessible_memory_game_shopify/blob/trunk/screenShots/main_screen.png)|![MainScreen](https://github.com/danielminami/accessible_memory_game_shopify/blob/trunk/screenShots/main_screen.png)|
 
 
 ## Libraries
