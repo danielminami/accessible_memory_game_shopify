@@ -116,8 +116,14 @@ List of items in section "Bonuses!"
 
 |Accessibility Enabled|Accessibility Disabled|
 |---|---|
-|![MainScreen](https://github.com/danielminami/accessible_memory_game_shopify/blob/trunk/screenShots/Accessibility_enabled_main.png)|![MainScreen](https://github.com/danielminami/accessible_memory_game_shopify/blob/trunk/screenShots/Accessibility_disabled_main.png)|
-|![SettingsMain](https://github.com/danielminami/accessible_memory_game_shopify/blob/trunk/screenShots/Accessibility_enabled_settings_main.png)|![SettingsMain](https://github.com/danielminami/accessible_memory_game_shopify/blob/trunk/screenShots/Accessibility_disabled_settings_main.png)|
+|![AccessibleMainScreen](https://github.com/danielminami/accessible_memory_game_shopify/blob/trunk/screenShots/Accessibility_enabled_main.png)|![MainScreen](https://github.com/danielminami/accessible_memory_game_shopify/blob/trunk/screenShots/Accessibility_disabled_main.png)|
+|![AccessibleSettingsMain](https://github.com/danielminami/accessible_memory_game_shopify/blob/trunk/screenShots/Accessibility_enabled_settings_main.png)|![SettingsMain](https://github.com/danielminami/accessible_memory_game_shopify/blob/trunk/screenShots/Accessibility_disabled_settings_main.png)|
+|![AccessibleSettingsNumOfPairs](https://github.com/danielminami/accessible_memory_game_shopify/blob/trunk/screenShots/Accessibility_enabled_settings_number_of_pairs.png)|![SettingsNumOfPairs](https://github.com/danielminami/accessible_memory_game_shopify/blob/trunk/screenShots/Accessibility_disabled_settings_number_of_pairs.png)|
+|![AccessibleGameTimeToExplore](https://github.com/danielminami/accessible_memory_game_shopify/blob/trunk/screenShots/Accessibility_enabled_game_time_revealed.png)|![GameTimeToExplore](https://github.com/danielminami/accessible_memory_game_shopify/blob/trunk/screenShots/Accessibility_disabled_game_time_revealed.png)|
+|![AccessibleGameNoMatch](https://github.com/danielminami/accessible_memory_game_shopify/blob/trunk/screenShots/Accessibility_enabled_game_no_match.png)|![GameNoMatch](https://github.com/danielminami/accessible_memory_game_shopify/blob/trunk/screenShots/Accessibility_disabled_game_no_match.png)|
+|![AccessibleGameSomeMatches](https://github.com/danielminami/accessible_memory_game_shopify/blob/trunk/screenShots/Accessibility_enabled_game_some_matches.png)|![GameSomeMatches](https://github.com/danielminami/accessible_memory_game_shopify/blob/trunk/screenShots/Accessibility_disabled_game_some_matches.png)|
+|![AccessibleGameWinner](https://github.com/danielminami/accessible_memory_game_shopify/blob/trunk/screenShots/Accessibility_enabled_game_winner.png)|![GameWinner](https://github.com/danielminami/accessible_memory_game_shopify/blob/trunk/screenShots/Accessibility_disabled_game_winner.png)|
+
 
 
 ## Libraries
