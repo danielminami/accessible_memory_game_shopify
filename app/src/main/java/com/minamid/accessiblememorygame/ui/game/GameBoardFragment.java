@@ -11,6 +11,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.DialogFragment;
+import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -76,14 +77,12 @@ public class GameBoardFragment extends CustomFragment{
     }
 
     /**
-     * onResume here is hiding the Activity Action Bar Back Button.
+     * onResume here is to show the Activity's Action Bar Back Button.
      */
     @Override
     public void onResume() {
         super.onResume();
-        ((MainActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        ((MainActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);
-        ((MainActivity) getActivity()).getSupportActionBar().setTitle("");
+        ((MainActivity)getActivity()).setSupportActionBar(true, "");
     }
 
     /**
@@ -92,19 +91,20 @@ public class GameBoardFragment extends CustomFragment{
      */
     private void startGame() {
 
-        int numOfCards = Utils.getBoardSize(Config.getInstance().getNumberOfCards());
+        int numOfCards = Config.getInstance().getNumberOfCards();
+        int numOfColumns = Utils.getBoardSize(numOfCards);
 
         setBoard(numOfCards);
 
-        setMediaResources();
+        setPositions(board, numOfColumns);
 
-        setPositions(board, numOfCards);
-
-        setViewModel(numOfCards);
+        setViewModel(numOfColumns);
 
         setObservers();
 
-        setUI(numOfCards);
+        setMediaResources();
+
+        setUI(numOfCards, numOfColumns);
 
         setListeners();
     }
@@ -117,7 +117,6 @@ public class GameBoardFragment extends CustomFragment{
         gameGridView.setAdapter(null);
         mViewModel.resetGame();
         startGame();
-
     }
 
     /**
@@ -137,6 +136,10 @@ public class GameBoardFragment extends CustomFragment{
         }
     }
 
+    /**
+     * Set GridView Click Listeners and Reset Button
+     *
+     */
     private void setListeners() {
         gameGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -158,9 +161,12 @@ public class GameBoardFragment extends CustomFragment{
                 resetGame();
             }
         });
-
     }
 
+    /**
+     * Attaches observers to LiveData
+     *
+     */
     private void setObservers() {
 
         for (MutableLiveData<MemoryCard> memoryCardMutableLiveData : mViewModel.getCardListLiveData()) {
@@ -181,8 +187,6 @@ public class GameBoardFragment extends CustomFragment{
                                             memoryCard.getColPosition(),
                                             memoryCard.getDescription()));
                         }
-
-                        Log.d("onChanged_OBSERVER", memoryCard.getRowPosition() + " - " + memoryCard.getColPosition());
                     }
                 }
             });
@@ -213,7 +217,6 @@ public class GameBoardFragment extends CustomFragment{
                         winnerFragment.show(getFragmentManager(), "");
                     }
                 }
-                Log.d("onChanged", "Winner Observer: " + winner.toString());
             }
         });
 
@@ -225,7 +228,6 @@ public class GameBoardFragment extends CustomFragment{
                 } else {
                     loading_progress_bar_container.setVisibility(View.GONE);
                 }
-                Log.d("onChanged", "ScreenLock Observer");
             }
         });
 
@@ -249,7 +251,6 @@ public class GameBoardFragment extends CustomFragment{
                         break;
                 }
                 AccessibilityUtils.announceForAccessibility(getView(),textToBeAnnounced);
-                Log.d("onChanged", "ScreenLock Observer: " + announcements.toString());
             }
         });
 
@@ -288,15 +289,16 @@ public class GameBoardFragment extends CustomFragment{
      * Setup UI components
      *
      * @param numOfCards
+     * @param numOfColumns
      */
-    private void setUI(int numOfCards) {
+    private void setUI(int numOfCards, int numOfColumns) {
         BoardSize boardSize = BoardSize.getBoardSize(numOfCards);
         txt_player_moves.setText(getString(R.string.txt_user_moves, mViewModel.getPlayerMoves().getValue().intValue()));
         txt_remaining_pairs.setText(getString(R.string.txt_remaining_pairs, mViewModel.getRemainingPairs().getValue().intValue()));
         customAdapter = new BoardAdapter(getContext(), board, this, Utils.getGridViewSize(getActivity(), boardSize));
 
         gameGridView.setVerticalSpacing(Utils.getGridViewVerticalSpacing(boardSize));
-        gameGridView.setNumColumns(numOfCards);
+        gameGridView.setNumColumns(numOfColumns);
         gameGridView.setAdapter(customAdapter);
     }
 
@@ -325,11 +327,11 @@ public class GameBoardFragment extends CustomFragment{
      * Starts the View Model by calling setBoard.
      * Also used to reset the game
      *
-     * @param numOfCards
+     * @param numOfColumns
      */
-    private void setViewModel(int numOfCards) {
+    private void setViewModel(int numOfColumns) {
         if (mViewModel.getIsGameStarted() == null) {
-            mViewModel.setBoard(board, numOfCards, new ImageService());
+            mViewModel.setBoard(board, numOfColumns, new ImageService());
         } else {
             mViewModel.refreshBoard();
             gameGridView.setAdapter(null);

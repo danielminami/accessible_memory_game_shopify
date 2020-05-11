@@ -68,9 +68,8 @@ public class MainFragment extends CustomFragment {
     @Override
     public void onResume() {
         super.onResume();
-        ((MainActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        ((MainActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(false);
-        ((MainActivity) getActivity()).getSupportActionBar().setTitle(R.string.app_name);
+        ((MainActivity)getActivity()).setSupportActionBar(false,
+                getString(R.string.app_name));
     }
 
     private void bindImage(ImageView imageView, int resourceId) {

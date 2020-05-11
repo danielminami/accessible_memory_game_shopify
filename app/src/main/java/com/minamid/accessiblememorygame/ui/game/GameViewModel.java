@@ -38,6 +38,9 @@ public class GameViewModel extends ViewModel {
     private MutableLiveData<Boolean> isMatchPlaySound = new MutableLiveData<>();
     private long gameTimeInSeconds;
 
+    /********************************************************************************************/
+    /* Getters                                                                                  */
+    /********************************************************************************************/
     public List<MutableLiveData<MemoryCard>> getCardListLiveData() { return cardListLiveData; }
     public MutableLiveData<Integer> getPlayerMoves() { return playerMoves; }
     public MutableLiveData<Integer> getRemainingPairs() { return remainingPairs; }
@@ -50,6 +53,7 @@ public class GameViewModel extends ViewModel {
     public long getGameTimeInSeconds() { return gameTimeInSeconds; }
     public MutableLiveData<Boolean> getIsNetworkError() { return isNetworkError; }
 
+
     public void setBoard(List<MemoryCard> board, int numOfColumns, ImageService imageService) {
         if (isGameStarted == null) {
             this.imageService = imageService;
@@ -59,6 +63,11 @@ public class GameViewModel extends ViewModel {
         }
     }
 
+    /**
+     * Set LiveData from the MemoryCards Object
+     *
+     * @param board
+     */
     private void setLiveData(List<MemoryCard> board) {
         for (int i=0; i < board.size(); i++) {
             MutableLiveData<MemoryCard> card = new MutableLiveData<MemoryCard>();
@@ -76,14 +85,15 @@ public class GameViewModel extends ViewModel {
 
     }
 
-    //TODO: Write test for it
+    // TODO: Write test for it
+    // TODO: Refactor this function and split in small units to make it more testable
     /**
      * This is called by the UI when a Card is clicked
      * @param v View Clicked
      */
     public void onClick(View v) {
 
-        final MemoryCard memoryCard = (MemoryCard) v;
+        MemoryCard memoryCard = (MemoryCard) v;
 
         if (memoryCard.isFound() || memoryCard.isRevealed()) {
             return;
@@ -136,20 +146,7 @@ public class GameViewModel extends ViewModel {
                 }
                 updateObservableEnableClick(false);
 
-                new Handler().postDelayed(new Runnable() {
-                    public void run() {
-                        memoryCard.setRevealed(false);
-                        memoryCard.setShouldAnnounce(false);
-                        isResetEnabled.setValue(true);
-                        updateObservable(memoryCard);
-                        for (MemoryCard previousCards : previousCardRevealed) {
-                            previousCards.setRevealed(false);
-                            updateObservable(previousCards);
-                        }
-                        previousCardRevealed.clear();
-                        updateObservableEnableClick(true);
-                    }
-                }, 3000);
+                mismatchHandler(memoryCard);
             }
             playerMoves.setValue(playerMoves.getValue() + 1);
         } else {
@@ -157,10 +154,31 @@ public class GameViewModel extends ViewModel {
             previousCardRevealed.add(memoryCard);
             updateObservable(memoryCard);
         }
-
         Log.d("onClick", "Card " + memoryCard.getRowPosition() + " " +  memoryCard.getColPosition());
-
     }
+
+    /**
+     * This method handles user's mismatch. After a given time, cards are turned face down.
+     * @param m last card clicked
+     */
+    private void mismatchHandler(MemoryCard m) {
+        final MemoryCard memoryCardHandler = m;
+        new Handler().postDelayed(new Runnable() {
+            public void run() {
+                memoryCardHandler.setRevealed(false);
+                memoryCardHandler.setShouldAnnounce(false);
+                isResetEnabled.postValue(true);
+                updateObservable(memoryCardHandler);
+                for (MemoryCard previousCards : previousCardRevealed) {
+                    previousCards.setRevealed(false);
+                    updateObservable(previousCards);
+                }
+                previousCardRevealed.clear();
+                updateObservableEnableClick(true);
+            }
+        }, 3000);
+    }
+
 
     //TODO: Mock Service to write automated test
     private void fetchCardImages() {
@@ -186,18 +204,7 @@ public class GameViewModel extends ViewModel {
                 updateObservableEnableClick(false);
                 updateObservableAnnounceable(Announcements.TIME_TO_EXPLORE);
 
-                new Handler().postDelayed(new Runnable() {
-                    public void run() {
-                        updateObservableEnableClick(true);
-                        updateObservableAnnounceable(Announcements.START_GAME);
-                        isResetEnabled.setValue(true);
-                        turnAllCardsFacedDown(cardListLiveData);
-                        Date date = new Date();
-                        gameTimeInSeconds = date.getTime();
-                    }
-                }, Config.getInstance().getTimeBoardRevealed() * 1000);
-
-                Log.d("CallBack", "OnSuccess");
+                startGameHandler();
             }
 
             @Override
@@ -207,6 +214,23 @@ public class GameViewModel extends ViewModel {
                 isNetworkError.postValue(true);
             }
         });
+    }
+
+    /**
+     * Handles the time cards are revealed for the user, before game starts.
+     *
+     */
+    private void startGameHandler() {
+        new Handler().postDelayed(new Runnable() {
+            public void run() {
+                updateObservableEnableClick(true);
+                updateObservableAnnounceable(Announcements.START_GAME);
+                isResetEnabled.postValue(true);
+                turnAllCardsFacedDown(cardListLiveData);
+                Date date = new Date();
+                gameTimeInSeconds = date.getTime();
+            }
+        }, Config.getInstance().getTimeBoardRevealed() * 1000);
     }
 
     /**
@@ -308,7 +332,7 @@ public class GameViewModel extends ViewModel {
     private void turnAllCardsFacedDown(List<MutableLiveData<MemoryCard>> cardListLiveData) {
         for (MutableLiveData<MemoryCard> card : cardListLiveData) {
             card.getValue().setRevealed(false);
-            card.setValue(card.getValue());
+            card.postValue(card.getValue());
         }
     }
 

@@ -48,12 +48,12 @@ public class BoardAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         ViewHolder listViewHolder;
-        if(convertView == null){
+        if (convertView == null) {
             listViewHolder = new ViewHolder();
             convertView = layoutinflater.inflate(R.layout.memory_card_layout, parent, false);
             listViewHolder.memoryCardInListView = (MemoryCard) convertView.findViewById(R.id.memory_card);
             convertView.setTag(listViewHolder);
-        }else{
+        } else {
             listViewHolder = (ViewHolder)convertView.getTag();
         }
         

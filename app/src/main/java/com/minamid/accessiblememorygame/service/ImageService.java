@@ -34,13 +34,6 @@ public class ImageService {
             @Override
             public void onResponse(Call<ImageResponse> call, Response<ImageResponse> response) {
                 if (response != null && response.body() != null && response.isSuccessful()) {
-                    if (response.raw().cacheResponse() != null) {
-                        Log.d(TAG, "Cache Response");
-                    }
-
-                    if (response.raw().networkResponse() != null) {
-                        Log.d(TAG, "Network Response");
-                    }
                     callBack.onSuccess(response.body());
                 } else {
                     callBack.onFailure(ResponseStatusCode.FAIL);

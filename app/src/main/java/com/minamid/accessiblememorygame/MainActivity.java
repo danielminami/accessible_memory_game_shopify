@@ -1,5 +1,6 @@
 package com.minamid.accessiblememorygame;
 
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -24,10 +25,16 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId()==android.R.id.home)
-        {
+        if (item.getItemId()==android.R.id.home) {
             super.onBackPressed();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void setSupportActionBar(boolean shouldDisplayTopBackButton, String title) {
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(shouldDisplayTopBackButton);
+        actionBar.setDisplayShowHomeEnabled(shouldDisplayTopBackButton);
+        actionBar.setTitle(title);
     }
 }

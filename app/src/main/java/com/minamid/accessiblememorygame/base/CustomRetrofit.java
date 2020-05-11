@@ -1,6 +1,5 @@
 package com.minamid.accessiblememorygame.base;
 
-import com.minamid.accessiblememorygame.util.CacheInterceptor;
 import com.minamid.accessiblememorygame.util.Config;
 import butterknife.BuildConfig;
 import okhttp3.Cache;
@@ -16,7 +15,6 @@ public class CustomRetrofit {
     public static Retrofit setup(){
 
         HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
-        CacheInterceptor cacheInterceptor = new CacheInterceptor();
 
         Cache cache = new Cache(Config.CACHE_LOCATION, Config.CACHE_SIZE);
 
@@ -26,10 +24,9 @@ public class CustomRetrofit {
             httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BASIC);
         }
 
-        // TODO: Create a Cache Interceptor
+        // TODO: Implement Cache Interceptor
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .addInterceptor(httpLoggingInterceptor)
-                //.addNetworkInterceptor(cacheInterceptor)
                 .cache(cache)
                 .build();
 

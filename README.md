@@ -109,7 +109,7 @@ List of items in section "Bonuses!"
 - [ ] More Stuff...
     * Oh yeah!!! I wanted to do more stuff. Given the time constraint, I just listed the enhancements at [Issues](https://github.com/danielminami/accessible_memory_game_shopify/issues).
 
-## Screen Shots
+## Screenshots
 
 |Accessibility Enabled|Accessibility Disabled|
 |---|---|

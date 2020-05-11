@@ -20,8 +20,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     @Override
     public void onResume() {
         super.onResume();
-        ((MainActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        ((MainActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);
-        ((MainActivity) getActivity()).getSupportActionBar().setTitle(getString(R.string.title_activity_settings));
+        ((MainActivity)getActivity()).setSupportActionBar(true,
+                getString(R.string.title_activity_settings));
     }
 }
