@@ -28,7 +28,7 @@ Thanks for taking time to read this. Some important consideration about this pro
 1. I tried to show case my skills and passion for Android by going above and beyond the original scope.
 2. I added a special flavour to this project by making it **Accessible**.
 3. I also included some other cool stuff such as automated tests and build, log Interceptor, and a Settings Screen.
-4. I tried to follow as much as I could the [Shopify POS](https://engineering.shopify.com/blogs/engineering/building-shopify-pos-android-using-mvvm) Architecture. The only thing I purposefully didn't add was the `Contracts` between the `View` and the `ViewModel`. Although I am familiar with this Design Pattern, as I have worked with MVP, I decided to use the `ViewModelProvider` make the `View` `observe` the `LiveData`.
+4. I tried to follow as much as I could the [Shopify POS](https://engineering.shopify.com/blogs/engineering/building-shopify-pos-android-using-mvvm) Architecture. The only thing I purposefully didn't add was the `Contracts` between the `View` and the `ViewModel`. Although I am familiar with this Design Pattern, as I have worked with MVP, I decided to use the `ViewModelProvider` to make the `View` `observe` the `LiveData`.
 
 ## Build Status
 
