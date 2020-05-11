@@ -105,6 +105,9 @@ List of items in section "Bonuses!"
 
 - [x] Custom Fragment Class
     * This extended Fragment Class logs the `Fragment` lifecycle, so we know what is going on under the hood. This is specially handy for debugging, as the application grows.
+    
+- [x] Winner message
+    * When Accessibility is disabled, we celebrate the user's victory with fireworks, we also give extra motivation by playing a winning sound!
 
 - [ ] More Stuff...
     * Oh yeah!!! I wanted to do more stuff. Given the time constraint, I just listed the enhancements at [Issues](https://github.com/danielminami/accessible_memory_game_shopify/issues).
