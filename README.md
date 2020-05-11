@@ -116,8 +116,8 @@ List of items in section "Bonuses!"
 
 |Accessibility Enabled|Accessibility Disabled|
 |---|---|
-|![MainScreen](https://github.com/danielminami/accessible_memory_game_shopify/blob/trunk/screenshots/Accessibility_enabled_main.png)|![MainScreen](https://github.com/danielminami/accessible_memory_game_shopify/blob/trunk/screenshots/Accessibility_disabled_main.png)|
-|![SettingsMain](https://github.com/danielminami/accessible_memory_game_shopify/blob/trunk/screenshots/Accessibility_enabled_settings_main.png)|![SettingsMain](https://github.com/danielminami/accessible_memory_game_shopify/blob/trunk/screenshots/Accessibility_disabled_settings_main.png)|
+|![MainScreen](https://github.com/danielminami/accessible_memory_game_shopify/blob/trunk/screenShots/Accessibility_enabled_main.png)|![MainScreen](https://github.com/danielminami/accessible_memory_game_shopify/blob/trunk/screenShots/Accessibility_disabled_main.png)|
+|![SettingsMain](https://github.com/danielminami/accessible_memory_game_shopify/blob/trunk/screenShots/Accessibility_enabled_settings_main.png)|![SettingsMain](https://github.com/danielminami/accessible_memory_game_shopify/blob/trunk/screenShots/Accessibility_disabled_settings_main.png)|
 
 
 ## Libraries
