@@ -24,7 +24,7 @@
     <string name="game_start">Game started</string>
     <string name="network_error">An error occurred. Please try again.</string>
 
-        <!-- Winner Dialog Fragment -->
+    <!-- Winner Dialog Fragment -->
     <string name="winner_header">Congratulations</string>
     <string name="winner_body_message">You won in %d seconds</string>
     <string name="winner_animation">Fireworks animation</string>
@@ -38,8 +38,8 @@
     <string name="title_activity_settings">Settings</string>
 
     <!-- Strings related to Settings -->
-        <string name="preference_block_game_settings_tile">Game Settings</string>
-        <string name="preference_block_accessibility_settings_tile">Accessibility Settings</string>
+    <string name="preference_block_game_settings_tile">Game Settings</string>
+    <string name="preference_block_accessibility_settings_tile">Accessibility Settings</string>
 
         <!-- Pairs to Match Tile -->
         <string name="preference_num_of_matches_per_game_dialog_title">Number of Pair to Match</string>

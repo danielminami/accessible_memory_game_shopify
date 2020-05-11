@@ -145,7 +145,6 @@ public class GameViewModel extends ViewModel {
                     previousCard.setShouldAnnounce(false);
                 }
                 updateObservableEnableClick(false);
-
                 mismatchHandler(memoryCard);
             }
             playerMoves.setValue(playerMoves.getValue() + 1);
@@ -203,7 +202,6 @@ public class GameViewModel extends ViewModel {
                 isGameStarted.setValue(true);
                 updateObservableEnableClick(false);
                 updateObservableAnnounceable(Announcements.TIME_TO_EXPLORE);
-
                 startGameHandler();
             }
 
