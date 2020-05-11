@@ -25,10 +25,10 @@ This game was passionately developed for Shopify for the Mobile Developer Intern
 
 Thanks for taking time to read this. Some important consideration about this project:
 
-1. I tried to show case my skills and passion for Android by going beyond the original scope.
+1. I tried to show case my skills and passion for Android by going above and beyond the original scope.
 2. I added a special flavour to this project by making it **Accessible**.
 3. I also included some other cool stuff such as automated tests and build, log Interceptor, and a Settings Screen.
-4. I tried to follow as much as I could the [Shopify POS](https://engineering.shopify.com/blogs/engineering/building-shopify-pos-android-using-mvvm) Architecture. The only thing I purposefully didn't add was the `Contracts` between the `View` and the `ViewModel`. Although I am familiar with this Design Pattern, as I have worked with MVP, I decided to consistently keep the `View` observing the `LiveData`.
+4. I tried to follow as much as I could the [Shopify POS](https://engineering.shopify.com/blogs/engineering/building-shopify-pos-android-using-mvvm) Architecture. The only thing I purposefully didn't add was the `Contracts` between the `View` and the `ViewModel`. Although I am familiar with this Design Pattern, as I have worked with MVP, I decided to use the `ViewModelProvider` make the `View` `observe` the `LiveData`.
 
 ## Build Status
 
@@ -85,20 +85,20 @@ List of items in section "Bonuses!"
 ---
 
 - [x] Accessibility focused game
-    * As stated at the [Shopify's Accessibility Guide Lines](https://polaris.shopify.com/foundations/accessibility#navigation) around 20% of the North Americans has some sort of disability. Accessible Memory Game was developed with special consideration to make it usable for everyone. Three main accessibility considerations are in place in this project: 
-        1. All UI elements have `Content Description` added to it. Content bound dynamically also includes appropriated content descriptions.
+    * As stated at the [Shopify's Accessibility Guide Lines](https://polaris.shopify.com/foundations/accessibility#navigation) around 20% of the North Americans has some sort of disability. Accessible Memory Game was developed with special consideration to make it usable for everyone. Four main accessibility considerations are in place in this project: 
+        1. All UI elements have `Content Description` added to it. Content dynamically bind also includes appropriate descriptions.
         2. `Focus Order` is consistent. UI was designed to allow the natural flow of the Screen Reader.
         3. More than one `Feedback Mechanism` was implemented to serve users with different kids of disability.
         4. `UI Colors` were chosen respecting the [Shopify's Color Guide Line](https://polaris.shopify.com/design/colors#navigation) having consideration about contrast and readability.
 
 - [x] Game configuration for impaired and non-impaired users
-    * At Settings Page, users can switch on/off `Accessibility Enabled`. Switch off accessibility will enable features such as slight animations and sounds.
+    * At Settings Page, users can switch Accessibility on/off. Switch off accessibility will enable features such as animations and sounds.
 
 - [x] Custom Retrofit Class
-    * `CustomRetrofit` implementation enhances code reusability and allows a smooth switch on/off network `Interceptors`.
+    * `CustomRetrofit` implementation enhances code reusability and allows modularized addition of network `Interceptors`.
 
 - [x] Automated tests and build
-    * Scheduled builds are ran at [Buildkite](http://www.buildkite.com) to ensure code passes the tests and compiles successfully. Tests were written in **Kotlin**.
+    * Scheduled builds ran at [Buildkite](http://www.buildkite.com) to ensure code passes tests and compiles successfully. Tests are written in **Kotlin**.
 
 - [x] Settings screen
     * Settings page allows users to change the difficulty level an also set the user experience for Accessibility.
@@ -119,7 +119,7 @@ List of items in section "Bonuses!"
 |![AccessibleMainScreen](https://github.com/danielminami/accessible_memory_game_shopify/blob/trunk/screenShots/Accessibility_enabled_main.png)|![MainScreen](https://github.com/danielminami/accessible_memory_game_shopify/blob/trunk/screenShots/Accessibility_disabled_main.png)|
 |![AccessibleSettingsMain](https://github.com/danielminami/accessible_memory_game_shopify/blob/trunk/screenShots/Accessibility_enabled_settings_main.png)|![SettingsMain](https://github.com/danielminami/accessible_memory_game_shopify/blob/trunk/screenShots/Accessibility_disabled_settings_main.png)|
 |![AccessibleSettingsNumOfPairs](https://github.com/danielminami/accessible_memory_game_shopify/blob/trunk/screenShots/Accessibility_enabled_settings_number_of_pairs.png)|![SettingsNumOfPairs](https://github.com/danielminami/accessible_memory_game_shopify/blob/trunk/screenShots/Accessibility_disabled_settings_number_of_pairs.png)|
-|![AccessibleGameTimeToExplore](https://github.com/danielminami/accessible_memory_game_shopify/blob/trunk/screenShots/Accessibility_enabled_game_time_revealed.png)|![GameTimeToExplore](https://github.com/danielminami/accessible_memory_game_shopify/blob/trunk/screenShots/Accessibility_disabled_game_time_revealed.png)|
+|![AccessibleGameTimeToExplore](https://github.com/danielminami/accessible_memory_game_shopify/blob/trunk/screenShots/Accessibility_enabled_game_time_revealed.png)|![GameTimeToExplore](https://github.com/danielminami/accessible_memory_game_shopify/blob/trunk/screenShots/Accessibility_disabled_game_cards_revealed.png)|
 |![AccessibleGameNoMatch](https://github.com/danielminami/accessible_memory_game_shopify/blob/trunk/screenShots/Accessibility_enabled_game_no_match.png)|![GameNoMatch](https://github.com/danielminami/accessible_memory_game_shopify/blob/trunk/screenShots/Accessibility_disabled_game_no_match.png)|
 |![AccessibleGameSomeMatches](https://github.com/danielminami/accessible_memory_game_shopify/blob/trunk/screenShots/Accessibility_enabled_game_some_matches.png)|![GameSomeMatches](https://github.com/danielminami/accessible_memory_game_shopify/blob/trunk/screenShots/Accessibility_disabled_game_some_matches.png)|
 |![AccessibleGameWinner](https://github.com/danielminami/accessible_memory_game_shopify/blob/trunk/screenShots/Accessibility_enabled_game_winner.png)|![GameWinner](https://github.com/danielminami/accessible_memory_game_shopify/blob/trunk/screenShots/Accessibility_disabled_game_winner.png)|
@@ -144,6 +144,7 @@ List of items in section "Bonuses!"
 |Butter Knife|To get layout resources and get rid of some boiler plate code|
 |Retrofit|To handle Service Calls|
 |Glide|To bind the images bind in the Custom `ImageView`|
+|Lottie|To play Animations|
 |Junit|To write some Unit Tests|
 |Roboeletric|For some kinda Instrumentation test, once the context is needed for some of them :-)|
 |GSON|To convert JSON into POJO|
