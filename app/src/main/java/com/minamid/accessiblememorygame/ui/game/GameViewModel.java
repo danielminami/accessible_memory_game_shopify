@@ -128,7 +128,6 @@ public class GameViewModel extends ViewModel {
                     isResetEnabled.setValue(true);
                     playerMoves.setValue(playerMoves.getValue() + 1);
                     remainingPairs.setValue(remainingPairs.getValue() - 1);
-                    this.isWinnerLiveData.postValue(false);
                     return;
                 }
 
