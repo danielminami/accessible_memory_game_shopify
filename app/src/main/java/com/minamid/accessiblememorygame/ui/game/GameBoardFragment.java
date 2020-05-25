@@ -5,6 +5,7 @@ import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
+import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -197,7 +198,7 @@ public class GameBoardFragment extends CustomFragment{
             public void onChanged(@Nullable Boolean winner) {
                 if (winner != null && winner) {
                     if (Config.getInstance().isAccessibilityEnabled()) {
-                        AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
+                        final AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
                         alert.setTitle(getString(R.string.winner_header));
                         alert.setMessage(getString(R.string.winner_body_message, mViewModel.getGameTimeInSeconds()));
                         alert.setPositiveButton(getString(R.string.winner_button_text), new DialogInterface.OnClickListener() {
@@ -374,41 +375,58 @@ public class GameBoardFragment extends CustomFragment{
     /**
      * Binds data in the MemoryCard Element. Notify's the Adapter about data changes.
      *
-     * @param memoryCard
+     * @param card
      */
-    public void bindImage(MemoryCard... memoryCard) {
-        // TODO: Think how can I make this better...
-        for (MemoryCard card : memoryCard) {
-            if (card != null) {
-                if (!card.isFound()) {
-                    if (card.isRevealed()) {
-                        Glide.with(getContext())
-                                .load(card.getSrc())
-                                .transition(GenericTransitionOptions.with(R.anim.slide_in_left))
-                                .into(card);
-                        card.setContentDescription(card.getDescription());
-                    } else {
-                        Glide.with(getContext())
-                                .load(R.drawable.ic_question_mark)
-                                .transition(GenericTransitionOptions.with(R.anim.slide_in_left))
-                                .into(card);
-                        card.setContentDescription(getString(R.string.card_faced_down));
-                    }
-                } else {
-                    if (Config.getInstance().isAccessibilityEnabled()) {
-                        Glide.with(getContext())
-                                .load(R.drawable.ic_match)
-                                .into(card);
-                        card.setContentDescription(getString(R.string.card_found, card.getDescription()));
-                    } else {
-                        card.setVisibility(View.GONE);
-                    }
-                    card.setEnabled(false);
-                }
+    public void bindImage(MemoryCard card) {
+        if (card == null) return;
+
+        if (!card.isFound()) {
+            if (card.isRevealed()) {
+                bindImageWithGlide(card, card.getSrc());
+                card.setContentDescription(card.getDescription());
+            } else {
+                bindImageWithGlide(card, R.drawable.ic_question_mark);
+                card.setContentDescription(getString(R.string.card_faced_down));
             }
+        } else {
+            if (Config.getInstance().isAccessibilityEnabled()) {
+                bindImageWithGlide(card, R.drawable.ic_match);
+                card.setContentDescription(getString(R.string.card_found, card.getDescription()));
+            } else {
+                card.setVisibility(View.GONE);
+            }
+            card.setEnabled(false);
         }
+
         synchronized (customAdapter) {
             customAdapter.notifyDataSetChanged();
         }
     }
+
+    /**
+     * Binds a String URL image with Glide
+     *
+     * @param card
+     * @param imgSrc URL containing image address
+     */
+    public void bindImageWithGlide(MemoryCard card, String imgSrc) {
+        Glide.with(getContext())
+                .load(imgSrc)
+                .transition(GenericTransitionOptions.with(R.anim.slide_in_left))
+                .into(card);
+    }
+
+    /**
+     * Binds a String URL image with Glide
+     *
+     * @param card
+     * @param imgSrc drawable int reference
+     */
+    public void bindImageWithGlide(MemoryCard card, int imgSrc) {
+        Glide.with(getContext())
+                .load(imgSrc)
+                .transition(GenericTransitionOptions.with(R.anim.slide_in_left))
+                .into(card);
+    }
+
 }
